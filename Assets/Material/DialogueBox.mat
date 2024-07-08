@@ -1,0 +1,152 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: DialogueBox
+  m_Shader: {fileID: 4800000, guid: 2a70a6c699b0260449577f2c6c6e1314, type: 3}
+  m_ValidKeywords:
+  - EnableEmission
+  - EnableEmissionMap
+  - EnableFresnel
+  - EnableSpecularMap
+  - EnableWindSway
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+      _EmissionMap:
+        m_Texture: {fileID: 2800000, guid: 8f558f4d687956a43a60e0d256cf0ae3, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+      _MainTex:
+        m_Texture: {fileID: 2800000, guid: 8f558f4d687956a43a60e0d256cf0ae3, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+      _ShadowOffsetMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+      _SpecularMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: {}
+    m_Floats:
+      _AlphaClip: 0
+      _BakedWindSwayData: 0
+      _Blend: 0
+      _BumpScale: 1
+      _CollectibleSheenTightness: 1
+      _Cull: 2
+      _Cutoff: 0.5
+      _DEPLOYABLE_PREVIEW: 0
+      _DISSOLVE_EFFECT: 0
+      _DISSOLVE_EFFECT_AXIS_Z: 0
+      _DisableMotionVectors: 0
+      _DisablePostProcess: 0
+      _DissolveOffsetY: 0
+      _DissoveAway: 0
+      _DstBlend: 0
+      _EnableCollectibleSheen: 0
+      _EnableCollectibleSheenUseLocalSpace: 0
+      _EnableCollectibleSheenUseVertexColor: 0
+      _EnableDebugVertexColors: 0
+      _EnableEmission: 1
+      _EnableEmissionMap: 1
+      _EnableExtraSelfLight: 0
+      _EnableExtraSelfLightUseLocalPos: 0
+      _EnableFresnel: 1
+      _EnableFresnelLightAtten: 0
+      _EnableLightMap: 0
+      _EnableNoiseDistortion: 0
+      _EnableObsidian: 0
+      _EnableShadowMask: 0
+      _EnableSpecular: 0
+      _EnableSpecularMap: 1
+      _EnableTopCover: 0
+      _EnableTopCoverVertexColorBlue: 0
+      _EnableVertexMaskColorTint: 0
+      _EnableWindSway: 1
+      _EnableWindSwayFreqVertexColorMask: 0
+      _EnvironmentReflections: 1
+      _FresnelAlbedoBlend: 0.6
+      _FresnelFalloff: 0.2
+      _FresnelTightness: 0.148
+      _GlossMapScale: 0
+      _Glossiness: 0
+      _GlossyReflections: 0
+      _IgnoreLighting: 0
+      _LIGHT_CAUSTICS: 0
+      _LightAbsorption: 0.02
+      _Metallic: 0
+      _ObsidianFresnelTightness: 0.6
+      _OcclusionStrength: 1
+      _QueueOffset: 0
+      _ReceiveShadows: 1
+      _SampleGI: 0
+      _ShadowMaskNoiseDistortion: 10
+      _Smoothness: 0.5
+      _SmoothnessTextureChannel: 0
+      _SpecularHighlights: 1
+      _SpecularNoise: 0.05
+      _SpecularSmoothness: 0.23
+      _SpecularStep: 0.5
+      _SrcBlend: 1
+      _StencilComp: 0
+      _StencilOpFail: 0
+      _StencilOpPass: 0
+      _StencilReadMask: 0
+      _SteppingStones: 0
+      _SubsurfaceStrength: 1
+      _Surface: 0
+      _TopCoverDistortionAmount: 0.1
+      _TopCoverThreshold: 0.5
+      _UV_SCROLL: 0
+      _WindSwayFrequency: 4.42
+      _WindSwaySpeed: 0.2
+      _WindSwayStrength: 0.025
+      _WorkflowMode: 1
+      _ZTest: 4
+      _ZWrite: 1
+    m_Colors:
+      _AlbedoTint: {r: 0, g: 0, b: 0, a: 1}
+      _BaseColor: {r: 0, g: 0.110413395, b: 0.46226418, a: 1}
+      _CollectibleSheenRim: {r: 1, g: 1, b: 1, a: 1}
+      _CollectibleSheenSweep: {r: 1, g: 1, b: 1, a: 1}
+      _Color: {r: 1, g: 1, b: 1, a: 1}
+      _DissolveColor0: {r: 2, g: 1.1, b: 1.1, a: 1}
+      _DissolveColor1: {r: 1.5, g: 0.5, b: 0, a: 1}
+      _DissolveColor2: {r: 1.25, g: 0.24999997, b: 0.14999998, a: 1}
+      _DissolveColor3: {r: 0.5, g: 0.01, b: 0.01, a: 1}
+      _EmissionColor: {r: 0.23093311, g: 0.23093311, b: 2.3313248, a: 1}
+      _ExtraSelfLightColor: {r: 1, g: 1, b: 1, a: 1}
+      _ExtraSelfLightData: {r: 0, g: 0, b: 0, a: 1}
+      _FresnelTint: {r: 0.3490566, g: 0.29794765, b: 0.17946778, a: 1}
+      _LightCausticCenterPosition: {r: 20, g: 10, b: 45, a: 12}
+      _LightCausticsColor: {r: 1, g: 1, b: 1, a: 1}
+      _LightCausticsNoiseSettings: {r: 0.1, g: 0.1, b: 2, a: 0.05}
+      _LightCausticsScrollSettings: {r: 0.125, g: 0.125, b: 0, a: 0.5}
+      _LightCausticsScrollSettings2: {r: 1, g: 1, b: 2, a: 1}
+      _ObsidianFresnelTint: {r: 1, g: 1, b: 1, a: 1}
+      _ShadowStepDistortionSettings: {r: 1, g: 0.1, b: 2, a: 1}
+      _ShadowStepSettings: {r: 0, g: 0.75, b: 1, a: 0.8}
+      _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
+      _SpecularTint: {r: 38.692093, g: 27.924011, b: 27.924011, a: 1}
+      _SteppingStoneHoverData: {r: 1, g: 1, b: 1, a: 1}
+      _TopCoverTint: {r: 1, g: 1, b: 1, a: 1}
+      _UVScrollSettings: {r: 0, g: 0, b: 0, a: 0}
+      _VertexMaskColorTintBlue: {r: 1, g: 1, b: 1, a: 0}
+      _VertexMaskColorTintGreen: {r: 1, g: 1, b: 1, a: 0}
+      _VertexMaskColorTintRed: {r: 1, g: 1, b: 1, a: 0}
+  m_BuildTextureStacks: []

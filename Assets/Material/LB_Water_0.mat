@@ -1,0 +1,114 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: LB_Water
+  m_Shader: {fileID: 4800000, guid: a9b710680067f5845b2559b09bc0dac3, type: 3}
+  m_ValidKeywords:
+  - EnableSpecular
+  - MAGIC_POOL_ON
+  m_InvalidKeywords:
+  - MAGIC_POOL
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 1
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+      _CausticTex:
+        m_Texture: {fileID: 2800000, guid: f9d4ba76d26f07c4e82b8a55ff11b8fb, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: {}
+    m_Floats:
+      MAGIC_POOL: 1
+      SHOW_VERT_COLORS: 0
+      VERTEX_WAVES: 0
+      _AlphaClip: 0
+      _Blend: 0
+      _BumpScale: 1
+      _ClearCoatMask: 0
+      _ClearCoatSmoothness: 0
+      _Cull: 2
+      _Cutoff: 0.5
+      _DepthMagnitude: 2
+      _DepthMagntude: 1
+      _DepthMax: -1
+      _DepthOffset: -1
+      _DetailAlbedoMapScale: 1
+      _DetailNormalMapScale: 1
+      _DisableMotionVectors: 0
+      _DstBlend: 0
+      _EnableDebugVertexColors: 0
+      _EnableShoreLine: 0
+      _EnableSpecular: 1
+      _EnvironmentReflections: 1
+      _GlossMapScale: 0
+      _Glossiness: 0
+      _GlossyReflections: 0
+      _IntensectionMagnitude: 1
+      _IntersectionMagnitude: 2
+      _IntersectionOffset: 0
+      _IntersectionTightness: 4
+      _LightingStrength: 1
+      _MAGIC_POOL: 1
+      _MagicPoolAbsorbingItem: 0
+      _MagicPoolFlowStep: 0
+      _MagicPoolRipplesAmount: 3.06
+      _MagicPoolRipplesFreq: 0.31
+      _Metallic: 0
+      _OcclusionStrength: 1
+      _Parallax: 0.005
+      _ParallaxMagnitude: 1
+      _QueueOffset: 0
+      _ReceiveShadows: 1
+      _ShareLineFreq: 3.32
+      _ShoreLineNoiseAmount: 0.266
+      _ShoreLineSpeed: 0.34
+      _Smoothness: 0.5
+      _SmoothnessTextureChannel: 0
+      _SpecularHighlights: 1
+      _SpecularIntensity: 2
+      _SpecularOffset: -0.1
+      _SpecularStrength: 1
+      _SpecularTightness: 1024
+      _SrcBlend: 1
+      _Surface: 0
+      _WaterNoiseFreq: 2.31
+      _WaterNoiseSpeed: 1.31
+      _WaterNoiseStrength: 0.051
+      _WaveScale: 1
+      _WaveScaleHeight: 1
+      _WaveSpeed: 1
+      _WorkflowMode: 1
+      _ZWrite: 1
+    m_Colors:
+      _AlbedoTint: {r: 0.19686721, g: 0.5180089, b: 0.5283019, a: 1}
+      _BaseColor: {r: 1.4980392, g: 1.4980392, b: 1.4980392, a: 1}
+      _Color: {r: 1, g: 1, b: 1, a: 1}
+      _Depth0Color: {r: 0, g: 0.9411764, b: 1, a: 1}
+      _Depth1Color: {r: 0, g: 0.034175828, b: 0.03773582, a: 1}
+      _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+      _IntersectionColor: {r: 0, g: 15.329845, b: 12.657368, a: 1}
+      _Layer0Color: {r: 0.08018869, g: 0.7907881, b: 1, a: 1}
+      _Layer1Color: {r: 0.128649, g: 0.44015363, b: 0.5566038, a: 1}
+      _MagicPoolAbsorbingItemColor: {r: 2.7235656, g: 8.473314, b: 8.574187, a: 1}
+      _MagicPoolColorInner: {r: 0, g: 1, b: 0.9394505, a: 1}
+      _MagicPoolColorOuter: {r: 0.49411765, g: 0.7747857, b: 0.78039217, a: 1}
+      _ShoreLineColor: {r: 1, g: 1, b: 1, a: 1}
+      _ShoreLineThresholds: {r: 0.4, g: 1, b: 0.8, a: 0}
+      _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
+      _SpecularTint: {r: 1, g: 1, b: 1, a: 1}
+      _Wave0: {r: 1, g: 1, b: 1, a: 1}
+      _Wave1: {r: 1, g: 1, b: 1, a: 1}
+      _Wave2: {r: 1, g: 1, b: 1, a: 1}
+      _Wave3: {r: 1, g: 1, b: 1, a: 1}
+  m_BuildTextureStacks: []

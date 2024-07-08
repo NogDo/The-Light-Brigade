@@ -1,0 +1,119 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: FireExplosionGreen
+  m_Shader: {fileID: 4800000, guid: 88a1796f26083a249bf667951e8f0aa9, type: 3}
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 1
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+      _NoiseTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 5, y: 5}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: {}
+    m_Floats:
+      _BumpScale: 1
+      _Cull: 2
+      _Cutoff: 0.5
+      _DetailNormalMapScale: 1
+      _DisableMotionVectors: 0
+      _DstBlend: 0
+      _EnableDebugVertexColors: 0
+      _EnableEmission: 0
+      _EnableEmissionMap: 0
+      _EnableExtraSelfLight: 0
+      _EnableFresnel: 0
+      _EnableFresnelLightAtten: 0
+      _EnableImpossibleColor: 0
+      _EnableLightMap: 0
+      _EnableNoiseDistortion: 0
+      _EnableObsidian: 0
+      _EnableShadowMask: 0
+      _EnableSpecular: 0
+      _EnableSpecularMap: 0
+      _EnableTopCover: 0
+      _EnableTopCoverVertexColorBlue: 0
+      _EnableWindSway: 0
+      _EnableWindSwayFreqVertexColorMask: 0
+      _FadeCurveInner: 0.753
+      _FadeCurveOuter: 0.864
+      _FireMovementDistanceHorizontal: 0.7
+      _FireMovementDistanceHorizontalInner: 0
+      _FireMovementDistanceHorizontalOuter: 1
+      _FireMovementDistanceVertical: 0.5
+      _FireMovementDistanceVerticalInner: 0
+      _FireMovementDistanceVerticalOuter: 0.86
+      _FresnelInnerTightness: 1
+      _FresnelOuterTightness: 1
+      _FresnelTightness: 0.6
+      _GlossMapScale: 1
+      _Glossiness: 0.5
+      _GlossyReflections: 1
+      _IgnoreLighting: 0
+      _ImpossibleColorOffsetRadians: 1
+      _InnerScale: 0
+      _InnerThreshold: 0
+      _LightAbsorption: 1
+      _Metallic: 0
+      _Mode: 0
+      _Noise0Freq: 0.28
+      _Noise0Speed: 0.6
+      _Noise1Freq: 5
+      _Noise1Speed: 1
+      _ObsidianFresnelTightness: 0.6
+      _OcclusionStrength: 1
+      _OuterScale: 1
+      _Parallax: 0.02
+      _ShadowMaskNoiseDistortion: 10
+      _SmoothnessTextureChannel: 0
+      _SpecularHighlights: 1
+      _SpecularNoise: 0
+      _SpecularSmoothness: 0.9
+      _SrcBlend: 1
+      _StencilComp: 0
+      _StencilOpFail: 0
+      _StencilOpPass: 0
+      _StencilReadMask: 0
+      _SubsurfaceStrength: 1
+      _TopCoverDistortionAmount: 0.1
+      _TopCoverThreshold: 0.5
+      _UVSec: 0
+      _WindSwayFrequency: 0
+      _WindSwayHeightDistance: 1
+      _WindSwaySpeed: 0
+      _WindSwayStrength: 0
+      _ZTest: 4
+      _ZWrite: 1
+    m_Colors:
+      _AlbedoTint: {r: 1, g: 1, b: 1, a: 1}
+      _Color: {r: 1, g: 1, b: 1, a: 1}
+      _ColorInnerBottom: {r: 115.12371, g: 117.13918, b: 0, a: 1}
+      _ColorInnerUp: {r: 2.0080197, g: 3.2452831, b: 0, a: 0}
+      _ColorOuterBottom: {r: 0, g: 0.8069986, b: 0.0135988835, a: 0}
+      _ColorOuterUp: {r: 0.31478116, g: 2.9960785, b: 0, a: 0}
+      _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+      _ExtraSelfLightColor: {r: 1, g: 1, b: 1, a: 1}
+      _ExtraSelfLightData: {r: 0, g: 0, b: 0, a: 1}
+      _FresnelInnerColor: {r: 0, g: 0, b: 0, a: 1}
+      _FresnelOuterColor: {r: 0, g: 0, b: 0, a: 1}
+      _FresnelTint: {r: 1, g: 1, b: 1, a: 1}
+      _ObsidianFresnelTint: {r: 1, g: 1, b: 1, a: 1}
+      _ShadowStepDistortionSettings: {r: 1, g: 0.1, b: 2, a: 0.1}
+      _ShadowStepSettings: {r: 0, g: 0.75, b: 1, a: 0.8}
+      _SpecularTint: {r: 1, g: 1, b: 1, a: 1}
+      _TopCoverTint: {r: 1, g: 1, b: 1, a: 1}
+  m_BuildTextureStacks: []

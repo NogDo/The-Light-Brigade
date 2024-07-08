@@ -1,0 +1,132 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Boss2GhostPrepass
+  m_Shader: {fileID: 4800000, guid: 5236edce23b575e4c958f26f6864f308, type: 3}
+  m_ValidKeywords: []
+  m_InvalidKeywords:
+  - EnableFresnel
+  - EnableSpecular
+  - EnableSpecularMap
+  - EnableWindSway
+  - EnableWindSwayFreqVertexColorMask
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 1
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+      _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 2, y: 2}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: {}
+    m_Floats:
+      _BumpScale: 1
+      _CollectibleSheenTightness: 0.55
+      _Cull: 2
+      _Cutoff: 0.5
+      _DEPLOYABLE_PREVIEW: 0
+      _DISSOLVE_EFFECT: 0
+      _DISSOLVE_EFFECT_AXIS_Z: 0
+      _DetailNormalMapScale: 1
+      _DisablePostProcess: 0
+      _DissolveOffsetY: 0
+      _DissoveAway: 0
+      _DstBlend: 10
+      _EnableCollectibleSheen: 0
+      _EnableCollectibleSheenUseLocalSpace: 0
+      _EnableCollectibleSheenUseVertexColor: 0
+      _EnableDebugVertexColors: 0
+      _EnableEmission: 0
+      _EnableEmissionMap: 0
+      _EnableExtraSelfLight: 0
+      _EnableFresnel: 1
+      _EnableFresnelLightAtten: 0
+      _EnableLightMap: 0
+      _EnableNoiseDistortion: 0
+      _EnableObsidian: 0
+      _EnableShadowMask: 0
+      _EnableSpecular: 1
+      _EnableSpecularMap: 1
+      _EnableTopCover: 0
+      _EnableTopCoverVertexColorBlue: 0
+      _EnableVertexMaskColorTint: 0
+      _EnableWindSway: 1
+      _EnableWindSwayFreqVertexColorMask: 1
+      _FadeInAnim: 1
+      _FadeOutAnim: 0
+      _FeetY: 0.7
+      _FresnelAlbedoBlend: 0.5
+      _FresnelFalloff: 0.1
+      _FresnelScalar: 1
+      _FresnelSharpness: 2
+      _FresnelTightness: 0.33
+      _GlossMapScale: 1
+      _Glossiness: 0
+      _GlossyReflections: 1
+      _HeartFadeAtten: 0.9
+      _HeartY: 1.37
+      _IgnoreLighting: 0
+      _LightAbsorption: 1
+      _Metallic: 0
+      _Mode: 0
+      _ObsidianFresnelTightness: 1
+      _OcclusionStrength: 1
+      _Parallax: 1.5
+      _PrayerCharge: 0
+      _ShadowMaskNoiseDistortion: 10
+      _ShadowStepDistortionAmount: 0
+      _ShadowStepDistortionBinormalStrength: 0
+      _ShadowStepDistortionFreq: 0
+      _SmoothnessTextureChannel: 0
+      _SpecularHighlights: 1
+      _SpecularNoise: 0
+      _SpecularSmoothness: 0.808
+      _SpecularTightness: 0.844
+      _SrcBlend: 5
+      _SubsurfaceStrength: 1
+      _SwayDist: 0.25
+      _TopCoverDistortionAmount: 0.1
+      _TopCoverThreshold: 0.5
+      _UVSec: 0
+      _WindSwayFrequency: 1
+      _WindSwaySpeed: 0.1
+      _WindSwayStrength: 0.125
+      _ZTest: 4
+      _ZWrite: 1
+    m_Colors:
+      _AlbedoTint: {r: 0, g: 0, b: 0, a: 0.2509804}
+      _CausticTint: {r: 1, g: 1, b: 1, a: 1}
+      _CollectibleSheenRim: {r: 1, g: 1, b: 1, a: 1}
+      _CollectibleSheenSweep: {r: 1, g: 1, b: 1, a: 1}
+      _Color: {r: 1, g: 1, b: 1, a: 1}
+      _DissolveColor0: {r: 2, g: 1.1, b: 1.1, a: 1}
+      _DissolveColor1: {r: 1.5, g: 0.5, b: 0, a: 1}
+      _DissolveColor2: {r: 1.25, g: 0.24999997, b: 0.14999998, a: 1}
+      _DissolveColor3: {r: 0.5, g: 0.01, b: 0.01, a: 1}
+      _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+      _ExtraSelfLightColor: {r: 1, g: 1, b: 1, a: 1}
+      _ExtraSelfLightData: {r: 0, g: 1, b: 0, a: 1}
+      _FresnelColor: {r: 0.13114755, g: 0.13114755, b: 0.2, a: 1}
+      _FresnelTint: {r: 0.6228242, g: 1, b: 0.5803922, a: 1}
+      _FresnelTintInner: {r: 1, g: 1, b: 1, a: 1}
+      _HeartTint: {r: 1, g: 1, b: 0, a: 1}
+      _ObsidianFresnelTint: {r: 1, g: 1, b: 1, a: 1}
+      _ShadowStepDistortionSettings: {r: 0.2, g: 0.1, b: 1, a: 1}
+      _ShadowStepSettings: {r: 0.7, g: 0.44, b: 1, a: 0.8}
+      _SpecularTint: {r: 1, g: 1, b: 1, a: 1}
+      _TopCoverTint: {r: 1, g: 1, b: 1, a: 1}
+      _VertexMaskColorTintBlue: {r: 1, g: 1, b: 1, a: 0}
+      _VertexMaskColorTintGreen: {r: 1, g: 1, b: 1, a: 0}
+      _VertexMaskColorTintRed: {r: 1, g: 1, b: 1, a: 0}
+  m_BuildTextureStacks: []

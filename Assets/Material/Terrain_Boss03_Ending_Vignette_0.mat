@@ -1,0 +1,145 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Terrain_Boss03_Ending_Vignette
+  m_Shader: {fileID: 4800000, guid: 0477bb868f35aca4a9ab44851ccebb8a, type: 3}
+  m_ValidKeywords:
+  - EnableSpecular
+  - EnableSpecularTexture
+  m_InvalidKeywords:
+  - EnableEmissionMap
+  - EnableFresnel
+  - EnableFresnelLightAtten
+  - EnableNoiseDistortion
+  - EnableSpecularMap
+  - EnableTopCover
+  - _METALLICGLOSSMAP
+  - _METALLICSPECGLOSSMAP
+  - _NORMALMAP
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+      _ShadowOffsetMap:
+        m_Texture: {fileID: 2800000, guid: 183930995a6e3d147a730724cccc4888, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+      _WaterDamageMap:
+        m_Texture: {fileID: 2800000, guid: 984fe59845962524aa29ea7b49566a67, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: {}
+    m_Floats:
+      _AlphaClip: 0
+      _Blend: 0
+      _BumpScale: 1
+      _Cull: 2
+      _Cutoff: 0.5
+      _DetailNormalMapScale: 1
+      _DisableMotionVectors: 0
+      _DisablePostProcess: 0
+      _DstBlend: 0
+      _EnableDebugVertexColors: 0
+      _EnableEffectTopCover: 0
+      _EnableEmission: 0
+      _EnableEmissionMap: 1
+      _EnableExtraSelfLight: 0
+      _EnableFresnel: 1
+      _EnableFresnelLightAtten: 1
+      _EnableFresnelVertexColorMask: 0
+      _EnableLightMap: 0
+      _EnableNoiseDistortion: 1
+      _EnableObsidian: 0
+      _EnableShadowMask: 0
+      _EnableShadowMaskDebug: 0
+      _EnableShinySparkles: 0
+      _EnableSpecular: 1
+      _EnableSpecularMap: 1
+      _EnableSpecularTexture: 1
+      _EnableTopCover: 1
+      _EnableTopCoverVertexColorBlue: 0
+      _EnableWindSway: 0
+      _EnableWindSwayFreqVertexColorMask: 0
+      _EnvironmentReflections: 1
+      _FresnelAlbedoBlend: 0
+      _FresnelTightness: 6.53
+      _GlossMapScale: 1
+      _Glossiness: 0.5
+      _GlossyReflections: 1
+      _IgnoreLighting: 0
+      _LightAbsorption: 0.05
+      _LightMapStrength: 1
+      _Metallic: 0
+      _Mode: 0
+      _ObsidianFresnelTightness: 0.6
+      _OcclusionStrength: 1
+      _Parallax: 0.02
+      _PrimaryFresnelStrength: 0.066
+      _PrimarySpecularStrength: 1
+      _QueueOffset: 0
+      _ReceiveShadows: 1
+      _SecondaryFresnelStrength: 0.2
+      _SecondarySpecularStrength: 0.2
+      _ShadowMaskNoiseDistortion: 10
+      _ShadowStepDistortionAmount: 0
+      _ShadowStepDistortionBinormalStrength: 0
+      _ShadowStepDistortionFreq: 68.3
+      _ShadowStrength: 0.832
+      _Smoothness: 1
+      _SmoothnessTextureChannel: 0
+      _SnowShiniesSpeed: 0.1
+      _SnowShiniesStrength: 1000
+      _SpecularHighlights: 1
+      _SpecularNoise: 0.36
+      _SpecularSmoothness: 0.083
+      _SpecularStep: 0.045
+      _SpecularTightness: 2.54
+      _SrcBlend: 1
+      _SubsurfaceStrength: 0
+      _Surface: 0
+      _TopCoverDistortionAmount: 0.448
+      _TopCoverThreshold: 0.892
+      _UVSec: 0
+      _VertexNoiseFreq: 6.44
+      _WaterDamageFade: 1
+      _WaterDamageFreq: 0.17
+      _WindSwayFrequency: 1
+      _WindSwaySpeed: 1
+      _WindSwayStrength: 1
+      _WorkflowMode: 1
+      _ZTest: 4
+      _ZWrite: 1
+    m_Colors:
+      _AlbedoTint: {r: 1, g: 1, b: 1, a: 1}
+      _BaseColor: {r: 1, g: 1, b: 1, a: 1}
+      _Color: {r: 1, g: 1, b: 1, a: 1}
+      _EmissionColor: {r: 1, g: 0.7529935, b: 0, a: 1}
+      _ExtraSelfLightColor: {r: 1, g: 1, b: 1, a: 1}
+      _ExtraSelfLightData: {r: 0.16, g: 0.02, b: 0.01, a: 0.015}
+      _FresnelTint: {r: 0.06132078, g: 0.90701437, b: 1, a: 1}
+      _ObsidianFresnelTint: {r: 1, g: 1, b: 1, a: 1}
+      _PrimaryTint0: {r: 0.0754717, g: 0.07150486, b: 0.07084372, a: 1}
+      _PrimaryTint1: {r: 0.03773582, g: 0.011961543, b: 0.005517973, a: 1}
+      _SecondaryNoiseSettings: {r: 0.76, g: 0.56, b: 0.4, a: -2.32}
+      _SecondaryTint0: {r: 0.03773582, g: 0.005517973, b: 0.01076586, a: 1}
+      _SecondaryTint1: {r: 0.16037738, g: 0.012860453, b: 0.090856574, a: 1}
+      _ShadowMaskSettings: {r: 0.4, g: 0.5, b: 1, a: 1}
+      _ShadowStepDistortionSettings: {r: 0.15, g: 0.75, b: 1, a: 0.1}
+      _ShadowStepSettings: {r: 0, g: 0.75, b: 1.5, a: 1.57}
+      _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
+      _SpecularColor: {r: 1, g: 1, b: 1, a: 1}
+      _SpecularTint: {r: 0, g: 0.08487484, b: 3.2111173, a: 1}
+      _TopCoverTint: {r: 1, g: 1, b: 1, a: 1}
+      _VertexNoiseStrength: {r: 0.22, g: 0.04, b: -0.15, a: 0.22}
+  m_BuildTextureStacks: []

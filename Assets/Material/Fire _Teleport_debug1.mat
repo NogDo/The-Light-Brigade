@@ -1,0 +1,86 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Fire [Teleport]debug1
+  m_Shader: {fileID: 4800000, guid: 5f47268a64ebe614392d7c6bd906fc18, type: 3}
+  m_ValidKeywords: []
+  m_InvalidKeywords:
+  - EnableWindSway
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 1
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: 2011
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+      _NoiseTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: {}
+    m_Floats:
+      _BumpScale: 1
+      _Cull: 2
+      _Cutoff: 0.5
+      _DetailNormalMapScale: 1
+      _DisableMotionVectors: 0
+      _DstBlend: 0
+      _EnableImpossibleColor: 0
+      _EnableWindSway: 1
+      _FadeCurveInner: 0.639
+      _FadeCurveOuter: 0.617
+      _FireMovementDistanceHorizontal: 0.7
+      _FireMovementDistanceHorizontalInner: 0.305
+      _FireMovementDistanceHorizontalOuter: 0.7
+      _FireMovementDistanceVertical: 0.5
+      _FireMovementDistanceVerticalInner: 1.13
+      _FireMovementDistanceVerticalOuter: 1.47
+      _FresnelInnerTightness: 1
+      _FresnelOuterTightness: 8
+      _GlossMapScale: 1
+      _Glossiness: 0.5
+      _GlossyReflections: 1
+      _ImpossibleColorOffsetRadians: 1
+      _InnerScale: 0.243
+      _InnerThreshold: 0
+      _Metallic: 0
+      _Mode: 0
+      _Noise0Freq: 1.25
+      _Noise0Speed: -1
+      _Noise1Freq: -1
+      _Noise1Speed: -0.55
+      _OcclusionStrength: 1
+      _OuterScale: 1
+      _Parallax: 0.02
+      _SmoothnessTextureChannel: 0
+      _SpecularHighlights: 1
+      _SrcBlend: 1
+      _StencilComp: 0
+      _StencilOpFail: 0
+      _StencilOpPass: 0
+      _StencilReadMask: 0
+      _UVSec: 0
+      _WindSwayFrequency: 10
+      _WindSwayHeightDistance: 10
+      _WindSwaySpeed: 0.75
+      _WindSwayStrength: 0.015
+      _ZTest: 0
+      _ZWrite: 1
+    m_Colors:
+      _Color: {r: 1, g: 1, b: 1, a: 1}
+      _ColorInnerBottom: {r: 0.7735849, g: 0, b: 0, a: 0}
+      _ColorInnerUp: {r: 0.7735849, g: 0, b: 0, a: 0}
+      _ColorOuterBottom: {r: 1, g: 0, b: 0, a: 0}
+      _ColorOuterUp: {r: 1, g: 0.14999998, b: 0.14999998, a: 0}
+      _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+      _FresnelInnerColor: {r: 0, g: 0, b: 0, a: 1}
+      _FresnelOuterColor: {r: 1, g: 1, b: 1, a: 1}
+  m_BuildTextureStacks: []

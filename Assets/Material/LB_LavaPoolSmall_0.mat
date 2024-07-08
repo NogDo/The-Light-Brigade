@@ -1,0 +1,118 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: LB_LavaPoolSmall
+  m_Shader: {fileID: 4800000, guid: 0ec0421233caad547890af97f6a3106e, type: 3}
+  m_ValidKeywords:
+  - EnableSpecular
+  - _CAUSTICSCROLLDIRECTION_XZ
+  m_InvalidKeywords:
+  - _CAUSTICSCROLLDIRECTION_CAUSTIC_SCROLL_XZ
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 1
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+      _CausticTex:
+        m_Texture: {fileID: 2800000, guid: 922536d84d659bc4e9eb8482ceda6b12, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: {}
+    m_Floats:
+      MAGIC_POOL: 0
+      SHOW_VERT_COLORS: 0
+      VERTEX_WAVES: 0
+      _AlphaClip: 0
+      _Blend: 0
+      _BumpScale: 1
+      _CausticScrollDirection: 0
+      _CausticTexScale: 0.025
+      _ClearCoatMask: 0
+      _ClearCoatSmoothness: 0
+      _Cull: 2
+      _Cutoff: 0.5
+      _DepthMagnitude: 2
+      _DepthMagntude: 1
+      _DepthMax: -1
+      _DepthOffset: -1
+      _DetailAlbedoMapScale: 1
+      _DetailNormalMapScale: 1
+      _DisableMotionVectors: 0
+      _DstBlend: 0
+      _EnableDebugVertexColors: 0
+      _EnableShoreLine: 0
+      _EnableSpecular: 1
+      _EnvironmentReflections: 1
+      _GlossMapScale: 0
+      _Glossiness: 0
+      _GlossyReflections: 0
+      _IntensectionMagnitude: 1
+      _IntersectionMagnitude: 2
+      _IntersectionOffset: 0
+      _IntersectionTightness: 4
+      _LightingStrength: 1
+      _MAGIC_POOL: 1
+      _MagicPoolAbsorbingItem: 0
+      _MagicPoolFlowStep: 0
+      _MagicPoolRipplesAmount: 10
+      _MagicPoolRipplesFreq: 10
+      _Metallic: 0
+      _NoiseInfluenceScale: 0.03
+      _OcclusionStrength: 1
+      _Parallax: 0.005
+      _ParallaxMagnitude: 1
+      _QueueOffset: 0
+      _ReceiveShadows: 1
+      _ShareLineFreq: 10
+      _ShoreLineNoiseAmount: 1
+      _ShoreLineSpeed: 0
+      _Smoothness: 0.5
+      _SmoothnessTextureChannel: 0
+      _SpecularHighlights: 1
+      _SpecularIntensity: 2
+      _SpecularOffset: -0.1
+      _SpecularStrength: 1
+      _SpecularTightness: 6.4
+      _SrcBlend: 1
+      _Surface: 0
+      _WaterNoiseFreq: 2
+      _WaterNoiseSpeed: 0.2
+      _WaterNoiseStrength: 0
+      _WaveScale: 1
+      _WaveScaleHeight: 1
+      _WaveSpeed: 1
+      _WorkflowMode: 1
+      _ZWrite: 1
+    m_Colors:
+      _AlbedoTint: {r: 1, g: 0.5882353, b: 0, a: 1}
+      _BaseColor: {r: 1.4980392, g: 1.4980392, b: 1.4980392, a: 1}
+      _CausticScrollSpeed: {r: 0, g: 0.05, b: 0, a: 0}
+      _Color: {r: 1, g: 1, b: 1, a: 1}
+      _Depth0Color: {r: 0, g: 0.9411764, b: 1, a: 1}
+      _Depth1Color: {r: 0, g: 0.034175828, b: 0.03773582, a: 1}
+      _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+      _IntersectionColor: {r: 0, g: 15.329845, b: 12.657368, a: 1}
+      _Layer0Color: {r: 0.08018869, g: 0.7907881, b: 1, a: 1}
+      _Layer1Color: {r: 0.128649, g: 0.44015363, b: 0.5566038, a: 1}
+      _MagicPoolAbsorbingItemColor: {r: 6.8035316, g: 0.28882906, b: 0.42048672, a: 1}
+      _MagicPoolColorInner: {r: 0.16055536, g: 0, b: 0.20754719, a: 1}
+      _MagicPoolColorOuter: {r: 1, g: 1, b: 1, a: 1}
+      _ShoreLineColor: {r: 1, g: 1, b: 1, a: 1}
+      _ShoreLineThresholds: {r: 1.08, g: 1.04, b: 0.89, a: -0.62}
+      _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
+      _SpecularTint: {r: 47.937256, g: 10.541177, b: 0, a: 1}
+      _Wave0: {r: 1, g: 1, b: 1, a: 1}
+      _Wave1: {r: 1, g: 1, b: 1, a: 1}
+      _Wave2: {r: 1, g: 1, b: 1, a: 1}
+      _Wave3: {r: 1, g: 1, b: 1, a: 1}
+  m_BuildTextureStacks: []

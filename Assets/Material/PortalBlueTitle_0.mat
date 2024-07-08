@@ -1,0 +1,199 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: PortalBlueTitle
+  m_Shader: {fileID: 4800000, guid: a9b710680067f5845b2559b09bc0dac3, type: 3}
+  m_ValidKeywords:
+  - EnableShoreLine
+  m_InvalidKeywords:
+  - EnableCaustic
+  - EnableFog
+  - EnableFresnel
+  - EnableLayer0
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+      _CausticTex:
+        m_Texture: {fileID: 2800000, guid: f9d4ba76d26f07c4e82b8a55ff11b8fb, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: {}
+    m_Floats:
+      MAGIC_POOL: 0
+      _AlphaClip: 0
+      _Blend: 0
+      _Blur: 0.286
+      _BoxProjection: 1
+      _BumpScale: 1
+      _CausticSpeed: 1
+      _CausticSpeed2: 2
+      _ClearCoatMask: 0
+      _ClearCoatSmoothness: 0
+      _Cull: 2
+      _Cutoff: 0.5
+      _DISSOLVE_EFFECT: 0
+      _DISSOLVE_EFFECT_AXIS_Z: 0
+      _DetailAlbedoMapScale: 1
+      _DetailNormalMapScale: 1
+      _DisableMotionVectors: 0
+      _DissolveOffsetY: 0.25
+      _DissoveAway: 0
+      _DstBlend: 0
+      _EnableDebugVertexColors: 0
+      _EnableExtraSelfLight: 0
+      _EnableImpossibleColor: 0
+      _EnableInnerLight: 0
+      _EnableLayer0: 1
+      _EnableLayer1: 0
+      _EnableNoiseDistortion: 0
+      _EnableSecondLayer: 0
+      _EnableShoreLine: 1
+      _EnableSpecular: 0
+      _EnableTopCover: 0
+      _EnableTopCoverVertexColorBlue: 0
+      _EnableWindSway: 0
+      _EnvironmentReflections: 1
+      _FadeCurveInner: 0.5
+      _FadeCurveOuter: 0.5
+      _FireMovementDistanceHorizontalInner: 0.7
+      _FireMovementDistanceHorizontalOuter: 0.7
+      _FireMovementDistanceVerticalInner: 0.5
+      _FireMovementDistanceVerticalOuter: 0.5
+      _Flash: 0
+      _FresnelInnerTightness: 1
+      _FresnelOuterTightness: 1
+      _FresnelTightness: 3.1
+      _GlossMapScale: 0
+      _Glossiness: 0
+      _GlossyReflections: 0
+      _ImpossibleColorOffsetRadians: 1
+      _InnerFresnelTightness: 0
+      _InnerScale: 1
+      _InsideFresnelDance: 1
+      _Intensity: 1
+      _LBSubSurface: 0
+      _MagicPoolAbsorbingItem: 0
+      _MagicPoolRipplesAmount: 8.44
+      _MagicPoolRipplesFreq: 3.66
+      _MarbleHeightScale: 0.218
+      _Metallic: 0
+      _Noise0Freq: 0.5
+      _Noise0Speed: 0.5
+      _Noise1Freq: 0.5
+      _Noise1Speed: 0.5
+      _OcclusionStrength: 1
+      _Parallax: -0.5
+      _Parallax2: -0.5
+      _ParallaxInside: 0
+      _QueueOffset: 0
+      _ReceiveShadows: 1
+      _RippleFalloff: 0.7
+      _RippleFreq: 3
+      _RippleHeight: 0.14
+      _RippleSpeed: 1.5
+      _RippleSwirlFreq: 1
+      _ShareLineFreq: 4.57
+      _ShinyParallax: 0.28
+      _ShoreLineNoiseAmount: 0.156
+      _ShoreLineSpeed: -0.12
+      _Smoothness: 0.5
+      _SmoothnessTextureChannel: 0
+      _SpecularBrightness: 0.884
+      _SpecularHighlights: 1
+      _SpecularTightness: 3.2
+      _SrcBlend: 1
+      _StencilComp: 3
+      _StencilMask: 2
+      _StencilReadMask: 2
+      _Surface: 0
+      _SwayFreqOutside: 0
+      _SwayRainbow: -5
+      _SwaySpeedOutside: 0
+      _SwirlFreq: 0.4
+      _SwirlFreq2: 0
+      _SwirlSpeed: -0.3
+      _SwirlSpeed2: 0
+      _TopCoverDistortionAmount: 0.1
+      _TopCoverThreshold: 0.5
+      _WaterNoiseFreq: 0.26
+      _WaterNoiseSpeed: 0.41
+      _WaterNoiseStrength: 0.135
+      _WindSwayFrequency: 1
+      _WindSwayHeightDistance: 1
+      _WindSwaySpeed: 1
+      _WindSwayStrength: 1
+      _Wobble: 1
+      _WorkflowMode: 1
+      _ZTest: 4
+      _ZWrite: 1
+    m_Colors:
+      _AbledoBot: {r: 1, g: 1, b: 1, a: 1}
+      _AbledoTop: {r: 1, g: 1, b: 1, a: 1}
+      _Albedo: {r: 1, g: 1, b: 1, a: 1}
+      _AlbedoCenter: {r: 0.254717, g: 0.1546496, b: 0.06367925, a: 1}
+      _AlbedoEdge: {r: 0, g: 0, b: 0, a: 1}
+      _AlbedoTint: {r: 0.36405307, g: 0.7541485, b: 0.764151, a: 1}
+      _BaseColor: {r: 1, g: 1, b: 1, a: 1}
+      _BorderColor: {r: 12.176996, g: 22.363522, b: 17.562975, a: 1}
+      _BoxProjOffset: {r: 3, g: 0, b: 0, a: 0}
+      _BoxProjSize: {r: 10, g: 10, b: 10, a: 0}
+      _CausticTint: {r: 1, g: 0.5192307, b: 0, a: 1}
+      _CausticTint2: {r: 1, g: 1, b: 1, a: 1}
+      _CausticTintInside: {r: 1, g: 1, b: 1, a: 1}
+      _CausticTintOutside: {r: 1, g: 1, b: 1, a: 1}
+      _Color: {r: 0.05304379, g: 0.06425774, b: 0.0754717, a: 1}
+      _ColorInnerBottom: {r: 1, g: 1, b: 1, a: 1}
+      _ColorInnerUp: {r: 1, g: 1, b: 1, a: 1}
+      _ColorOuterBottom: {r: 1, g: 1, b: 1, a: 1}
+      _ColorOuterUp: {r: 1, g: 1, b: 1, a: 1}
+      _DissolveColor0: {r: 2, g: 1.1, b: 1.1, a: 1}
+      _DissolveColor1: {r: 1.5, g: 0.5, b: 0, a: 1}
+      _DissolveColor2: {r: 1.25, g: 0.24999994, b: 0.14999995, a: 1}
+      _DissolveColor3: {r: 0.5, g: 0.01, b: 0.01, a: 1}
+      _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+      _ExtraSelfLightColor: {r: 1, g: 1, b: 1, a: 1}
+      _ExtraSelfLightData: {r: 0, g: 0, b: 0, a: 1}
+      _FresnelColorOutside: {r: 0.21865185, g: 0, b: 0.3679245, a: 1}
+      _FresnelInnerColor: {r: 0, g: 0, b: 0, a: 1}
+      _FresnelOuterColor: {r: 0, g: 0, b: 0, a: 1}
+      _FresnelTint: {r: 1, g: 1, b: 1, a: 1}
+      _FresnelTintBot: {r: 1, g: 1, b: 1, a: 1}
+      _Inner: {r: 0, g: 0, b: 0, a: 1}
+      _InnerEdge: {r: 1, g: 1, b: 1, a: 1}
+      _InnerLightColorInside: {r: 1, g: 1, b: 1, a: 1}
+      _InnerLightColorOutside: {r: 0.47794116, g: 0.47794116, b: 0.47794116, a: 1}
+      _InnerLightData: {r: 1, g: 1, b: 0, a: 0}
+      _Layer0Data: {r: 0, g: 0, b: 0.1, a: 0}
+      _Layer0Tex_ST: {r: 1, g: 1, b: 0, a: 0}
+      _Layer0Tint: {r: 1, g: 0, b: 0, a: 1}
+      _Layer1Data: {r: 0, g: 0, b: 0.1, a: 0}
+      _Layer1Tex_ST: {r: 1, g: 1, b: 0, a: 0}
+      _Layer1Tint: {r: 1, g: 1, b: 1, a: 1}
+      _MagicPoolAbsorbingItemColor: {r: 1, g: 1, b: 1, a: 1}
+      _MagicPoolColorInner: {r: 1, g: 1, b: 1, a: 1}
+      _MagicPoolColorOuter: {r: 1, g: 1, b: 1, a: 1}
+      _RippleTint: {r: 0.3679245, g: 0.21098311, b: 0.08503916, a: 1}
+      _ShadowStepDistortionSettings: {r: 1, g: 0.1, b: 2, a: 0.1}
+      _ShinySparklesTint: {r: 1, g: 0.70914626, b: 0.06132078, a: 1}
+      _ShoreLineColor: {r: 0.5333333, g: 1, b: 0.8573323, a: 1}
+      _ShoreLineThresholds: {r: 0.08, g: 1.09, b: -0.21, a: 0}
+      _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
+      _SpecularTint: {r: 1, g: 1, b: 1, a: 1}
+      _SwayAmpOutside: {r: 1, g: 1, b: 1, a: 0}
+      _TextureDataInside: {r: 1, g: 1, b: 0, a: 0}
+      _TextureDataOutside: {r: 1, g: 1, b: 0, a: 0}
+      _TopCoverTint: {r: 1, g: 1, b: 1, a: 1}
+      _WorldCenter: {r: 20, g: 10, b: 47, a: 0}
+  m_BuildTextureStacks: []

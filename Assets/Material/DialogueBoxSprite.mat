@@ -1,0 +1,102 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: DialogueBoxSprite
+  m_Shader: {fileID: 4800000, guid: b57914d86471377418f6fa3088a8c60a, type: 3}
+  m_ValidKeywords:
+  - ETC1_EXTERNAL_ALPHA
+  m_InvalidKeywords:
+  - EnableEmission
+  - EnableEmissionMap
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+      _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: {}
+    m_Floats:
+      _AlphaClip: 0
+      _Blend: 0
+      _BumpScale: 1
+      _Cull: 2
+      _Cutoff: 0.5
+      _DisableMotionVectors: 0
+      _DstBlend: 0
+      _EnableDebugVertexColors: 0
+      _EnableEmission: 1
+      _EnableEmissionMap: 1
+      _EnableExternalAlpha: 0
+      _EnableExtraSelfLight: 0
+      _EnableFresnel: 0
+      _EnableFresnelLightAtten: 0
+      _EnableLightMap: 0
+      _EnableNoiseDistortion: 0
+      _EnableObsidian: 0
+      _EnableShadowMask: 0
+      _EnableSpecular: 0
+      _EnableSpecularMap: 0
+      _EnableTopCover: 0
+      _EnableTopCoverVertexColorBlue: 0
+      _EnableWindSway: 0
+      _EnableWindSwayFreqVertexColorMask: 0
+      _EnvironmentReflections: 1
+      _FogPassThru: 0
+      _FresnelTightness: 0.067
+      _GlossMapScale: 0
+      _Glossiness: 0
+      _GlossyReflections: 0
+      _LightAbsorption: 1
+      _Metallic: 0
+      _ObsidianFresnelTightness: 0.6
+      _OcclusionStrength: 1
+      _QueueOffset: 0
+      _ReceiveShadows: 1
+      _SampleGI: 0
+      _ShadowMaskNoiseDistortion: 10
+      _Smoothness: 0.5
+      _SmoothnessTextureChannel: 0
+      _SpecularHighlights: 1
+      _SpecularNoise: 0
+      _SpecularSmoothness: 0.554
+      _SrcBlend: 1
+      _SubsurfaceStrength: 1
+      _Surface: 0
+      _TopCoverDistortionAmount: 0.1
+      _TopCoverThreshold: 0.5
+      _WindSwayFrequency: 4.42
+      _WindSwaySpeed: 0.1
+      _WindSwayStrength: 0.035
+      _WorkflowMode: 1
+      _ZTest: 4
+      _ZWrite: 0
+    m_Colors:
+      _AlbedoTint: {r: 0, g: 0, b: 0, a: 1}
+      _BaseColor: {r: 0.4811321, g: 0.4811321, b: 0.4811321, a: 1}
+      _Color: {r: 1, g: 1, b: 1, a: 1}
+      _EmissionColor: {r: 2.670157, g: 2.670157, b: 2.670157, a: 1}
+      _ExtraSelfLightColor: {r: 1, g: 1, b: 1, a: 1}
+      _ExtraSelfLightData: {r: 0, g: 0, b: 0, a: 1}
+      _Flip: {r: 1, g: 1, b: 1, a: 1}
+      _FresnelTint: {r: 1.0954404, g: 0.9825576, b: 0.72857124, a: 1}
+      _ObsidianFresnelTint: {r: 1, g: 1, b: 1, a: 1}
+      _RendererColor: {r: 1, g: 1, b: 1, a: 1}
+      _ShadowStepDistortionSettings: {r: 1, g: 0.1, b: 2, a: 1}
+      _ShadowStepSettings: {r: 0, g: 0.75, b: 1, a: 0.8}
+      _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
+      _SpecularTint: {r: 1024, g: 1024, b: 1024, a: 1}
+      _TopCoverTint: {r: 1, g: 1, b: 1, a: 1}
+  m_BuildTextureStacks: []

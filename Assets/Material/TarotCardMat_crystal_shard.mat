@@ -1,0 +1,114 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: TarotCardMat_crystal_shard
+  m_Shader: {fileID: 4800000, guid: b2d20688a6778f840a1e74f92262528b, type: 3}
+  m_ValidKeywords: []
+  m_InvalidKeywords:
+  - EnableEmission
+  - EnableEmissionMap
+  - EnableFresnel
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+      _EffectsMasks:
+        m_Texture: {fileID: 2800000, guid: c964d7f9476811e4689427daa808fe0d, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+      _MainTex:
+        m_Texture: {fileID: 2800000, guid: e8b9db033ec96d24aa45e61cc4f23273, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+      _PortraitTex:
+        m_Texture: {fileID: 2800000, guid: f3e1e55fc3d927543b8a91b988d67f22, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: {}
+    m_Floats:
+      _AlphaClip: 0
+      _Blend: 0
+      _BumpScale: 1
+      _Cull: 2
+      _Cutoff: 0.5
+      _DisablePostProcess: 0
+      _DstBlend: 0
+      _EnableDebugVertexColors: 0
+      _EnableEmission: 1
+      _EnableEmissionMap: 1
+      _EnableExtraSelfLight: 0
+      _EnableFresnel: 1
+      _EnableFresnelLightAtten: 0
+      _EnableLightMap: 0
+      _EnableNoiseDistortion: 0
+      _EnableObsidian: 0
+      _EnableShadowMask: 0
+      _EnableSpecular: 0
+      _EnableSpecularMap: 0
+      _EnableTopCover: 0
+      _EnableTopCoverVertexColorBlue: 0
+      _EnableWindSway: 0
+      _EnableWindSwayFreqVertexColorMask: 0
+      _EnvironmentReflections: 1
+      _Flash: 0
+      _FogOffset: 0.5
+      _FresnelTightness: 2.5
+      _GlossMapScale: 0
+      _Glossiness: 0
+      _GlossyReflections: 0
+      _IgnoreLighting: 0
+      _IrridescentTightness: 0.45
+      _LightAbsorption: -2
+      _Metallic: 0
+      _ObsidianFresnelTightness: 0.6
+      _OcclusionStrength: 1
+      _PortraitBGHeight: 0.1
+      _PortraitCharacterHeight: 0.1
+      _PortraitFGHeight: 0
+      _QueueOffset: 0
+      _ReceiveShadows: 1
+      _ShadowMaskNoiseDistortion: 10
+      _Smoothness: 0.5
+      _SmoothnessTextureChannel: 0
+      _SpecularHighlights: 1
+      _SpecularNoise: 0
+      _SpecularSmoothness: 0.131
+      _SrcBlend: 1
+      _SubsurfaceStrength: 0
+      _Surface: 0
+      _TopCoverDistortionAmount: 0.1
+      _TopCoverThreshold: 0.5
+      _WindSwayFrequency: 1
+      _WindSwaySpeed: 0.1
+      _WindSwayStrength: 0.5
+      _WorkflowMode: 1
+      _ZTest: 4
+      _ZWrite: 1
+    m_Colors:
+      _AlbedoTint: {r: 1, g: 1, b: 1, a: 1}
+      _AspectColor: {r: 1, g: 1, b: 1, a: 1}
+      _BaseColor: {r: 1, g: 1, b: 1, a: 1}
+      _Color: {r: 1, g: 1, b: 1, a: 1}
+      _EmissionColor: {r: 19.468573, g: 19.468573, b: 19.468573, a: 1}
+      _ExtraSelfLightColor: {r: 1, g: 1, b: 1, a: 1}
+      _ExtraSelfLightData: {r: 0, g: 0, b: 0, a: 1}
+      _FresnelColor: {r: 0.49056602, g: 0.49056602, b: 0.49056602, a: 1}
+      _FresnelTint: {r: 0, g: 0.7249274, b: 1, a: 1}
+      _ObsidianFresnelTint: {r: 1, g: 1, b: 1, a: 1}
+      _ShadowStepDistortionSettings: {r: 1, g: 0.1, b: 2, a: 0.1}
+      _ShadowStepSettings: {r: 0, g: 0.75, b: 1, a: 0.8}
+      _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
+      _SpecularTint: {r: 0, g: 0.8008375, b: 1, a: 1}
+      _TopCoverTint: {r: 1, g: 1, b: 1, a: 1}
+  m_BuildTextureStacks: []

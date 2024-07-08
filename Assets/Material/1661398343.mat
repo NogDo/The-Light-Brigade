@@ -1,0 +1,161 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 1661398343
+  m_Shader: {fileID: 4800000, guid: 6995bb842a0058243b2ffb1da92048ee, type: 3}
+  m_ValidKeywords: []
+  m_InvalidKeywords:
+  - EnableShoreLine
+  - EnableSpecular
+  - _BakedPlantField
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 1
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+      _MainTex:
+        m_Texture: {fileID: 2800000, guid: 348d8efce84fe7040932c0003489a807, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+      _ParticleTex:
+        m_Texture: {fileID: 2800000, guid: 6f58309505eb3044cba67a26d1bf1beb, type: 3}
+        m_Scale: {x: 3, y: 3}
+        m_Offset: {x: 0, y: 0}
+      _SecondaryTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: {}
+    m_Floats:
+      MAGIC_POOL: 0
+      SHOW_UVS: 0
+      SHOW_VERT_COLORS: 0
+      USE_MAINLIGHT_COLOR: 0
+      VERTEX_WAVES: 1
+      WAVES_IN_FRAGMENT: 1
+      _AlphaClip: 0
+      _Blend: 0
+      _BumpScale: 1
+      _CausticSpeed: 1
+      _CausticSpeed2: 2
+      _ClearCoatMask: 0
+      _ClearCoatSmoothness: 0
+      _Cull: 2
+      _Cutoff: 0.5
+      _DepthMagnitude: -1
+      _DepthMagntude: 1
+      _DepthMax: -1.25
+      _DepthOffset: 0.25
+      _DetailAlbedoMapScale: 1
+      _DetailNormalMapScale: 1
+      _DisableMotionVectors: 0
+      _DstBlend: 0
+      _EnableDebugVertexColors: 0
+      _EnableSecondLayer: 0
+      _EnableShoreLine: 1
+      _EnableSpecular: 1
+      _EnvironmentReflections: 1
+      _Flash: 0
+      _GlossMapScale: 0
+      _Glossiness: 0
+      _GlossyReflections: 0
+      _IntensectionMagnitude: 1
+      _IntersectionMagnitude: 0.32
+      _IntersectionNoise: 0.65
+      _IntersectionOffset: 0
+      _IntersectionTightness: 4
+      _LightingStrength: 5
+      _MAGIC_POOL: 1
+      _MagicPoolAbsorbingItem: 0
+      _MagicPoolFlowStep: 0
+      _MagicPoolRipplesAmount: 10
+      _MagicPoolRipplesFreq: 2
+      _Metallic: 0
+      _OcclusionStrength: 1
+      _Parallax: -0.5
+      _Parallax2: -0.5
+      _ParallaxMagnitude: 0.25
+      _PrayerCharge: 0
+      _QueueOffset: 0
+      _ReceiveShadows: 1
+      _RippleFalloff: 0.7
+      _RippleFreq: 3
+      _RippleHeight: 0.14
+      _RippleSpeed: 1.5
+      _RippleSwirlFreq: 1
+      _ShareLineFreq: 2
+      _ShinyParallax: 0.28
+      _ShoreLineNoiseAmount: 0.025
+      _ShoreLineScaleX: 0.215
+      _ShoreLineScaleY: 0.416
+      _ShoreLineSpeed: -0.6
+      _Smoothness: 0.5
+      _SmoothnessTextureChannel: 0
+      _SpecularHighlights: 1
+      _SpecularIntensity: 1
+      _SpecularOffset: -0.1
+      _SpecularSmoothness: 10
+      _SpecularStrength: 1
+      _SpecularTightness: 50
+      _SrcBlend: 1
+      _Surface: 0
+      _SwirlFreq: 0.5
+      _SwirlFreq2: 0
+      _SwirlSpeed: -0.15
+      _SwirlSpeed2: 0
+      _WaterNoiseFreq: 0.4
+      _WaterNoiseSpeed: 0.3
+      _WaterNoiseStrength: 0.8
+      _WaveNormalsScale: 1.5
+      _WaveScale: 0.25
+      _WaveScaleHeight: 0.03
+      _WaveSpeed: 0.125
+      _WorkflowMode: 1
+      _ZWrite: 1
+    m_Colors:
+      _AbledoBot: {r: 0.3301887, g: 0.27486622, b: 0.14796191, a: 1}
+      _AbledoTop: {r: 0, g: 0, b: 0, a: 1}
+      _AlbedoCenter: {r: 0.254717, g: 0.1546496, b: 0.06367925, a: 1}
+      _AlbedoEdge: {r: 0, g: 0, b: 0, a: 1}
+      _AlbedoTint: {r: 0, g: 0, b: 0, a: 1}
+      _BaseColor: {r: 1.4980392, g: 1.4980392, b: 1.4980392, a: 1}
+      _CausticTint: {r: 1, g: 0.5192307, b: 0, a: 1}
+      _CausticTint2: {r: 1, g: 1, b: 1, a: 1}
+      _Color: {r: 1, g: 1, b: 1, a: 1}
+      _Depth0Color: {r: 0.378471, g: 0.8935392, b: 0.990566, a: 1}
+      _Depth1Color: {r: 0, g: 0.017302271, b: 0.039215688, a: 1}
+      _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+      _FresnelColor: {r: 0.45490196, g: 0.54901963, b: 0.8784314, a: 1}
+      _Inner: {r: 4.237095, g: 2.7064166, b: 1.1535546, a: 1}
+      _InnerEdge: {r: 0.764151, g: 0.66028523, b: 0.16220188, a: 1}
+      _IntersectionColor: {r: 0, g: 20.466549, b: 16.930445, a: 1}
+      _Layer0Color: {r: 0.41037738, g: 0.96045375, b: 1, a: 1}
+      _Layer1Color: {r: 0.22739409, g: 0.5412076, b: 0.6603774, a: 1}
+      _MagicPoolAbsorbingItemColor: {r: 4.4367485, g: 4.4367485, b: 4.4367485, a: 1}
+      _MagicPoolColorInner: {r: 1, g: 0.90243906, b: 0, a: 1}
+      _MagicPoolColorOuter: {r: 1, g: 0, b: 0, a: 1}
+      _RippleTint: {r: 0.3679245, g: 0.21098311, b: 0.08503916, a: 1}
+      _ShinySparklesTint: {r: 1, g: 0.70914626, b: 0.06132078, a: 1}
+      _ShoreLineColor: {r: 1, g: 0.9539596, b: 0.5330188, a: 1}
+      _ShoreLineThresholds: {r: 0.2, g: -1.1, b: -0.4, a: 0}
+      _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
+      _SpecularColor: {r: 1, g: 1, b: 1, a: 1}
+      _SpecularTint: {r: 3.9999995, g: 3.6453786, b: 1.1099473, a: 1}
+      _TextureScaleOffsetSettings: {r: 1, g: 1, b: 0, a: 0}
+      _WaterRaisedTint: {r: 0.1981132, g: 0.047659304, b: 0.08527278, a: 1}
+      _Wave0: {r: 0.5, g: 1, b: 20, a: 1}
+      _Wave1: {r: 0.3, g: 1, b: 10, a: 0.4}
+      _Wave2: {r: 0.2, g: -1, b: -5, a: 0.1}
+      _Wave3: {r: 0.1, g: -1, b: -2.5, a: 0.05}
+      _WorldCenter: {r: 20, g: 10, b: 47, a: 0}
+  m_BuildTextureStacks: []

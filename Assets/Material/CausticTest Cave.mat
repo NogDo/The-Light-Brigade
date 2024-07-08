@@ -1,0 +1,89 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: CausticTest Cave
+  m_Shader: {fileID: 4800000, guid: a53e97d28b6afa74f8cc5bec65a575de, type: 3}
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+      Texture2D_4efc87027dd2408284905cc802192e94:
+        m_Texture: {fileID: 2800000, guid: 095e36604e219e946b1f9f670334ec08, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+      Texture2D_c7d8f5dbfa25435aabc9b198ce522629:
+        m_Texture: {fileID: 2800000, guid: 890c522a1a5105c4abbb94b3e8fac4c2, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+      unity_Lightmaps:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+      unity_LightmapsInd:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+      unity_ShadowMasks:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: {}
+    m_Floats:
+      Vector1_223fbccfbcf44c88b751ddcfd60a4220: 0.02
+      Vector1_2fb6b1eacdf14e0d91b8382f300411e8: 10
+      Vector1_4dfd0de020fe40b989351a31a9bdb579: 1.14
+      Vector1_51ccdede2bde4ab7bcb7fbe097982559: 3
+      Vector1_a208cf70f86e48b38d4f1c3d0858feed: 3.81
+      Vector1_c100fbe7e4b844e19831fc762cc3031c: 0.03
+      Vector1_c5b3103778a74a77a497b64088890d98: 0.5
+      Vector1_dcd153365d0341e2be63cfef7abd0e2d: 0.75
+      Vector1_dee412765d4f4d989b3fc2e99abaa17c: 1.5
+      _AlphaClip: 0
+      _Blend: 0
+      _BumpScale: 1
+      _ClearCoatMask: 0
+      _ClearCoatSmoothness: 0
+      _Cull: 2
+      _Cutoff: 0.5
+      _DetailAlbedoMapScale: 1
+      _DetailNormalMapScale: 1
+      _DstBlend: 0
+      _EnvironmentReflections: 1
+      _GlossMapScale: 0
+      _Glossiness: 0
+      _GlossyReflections: 0
+      _Metallic: 0
+      _OcclusionStrength: 1
+      _Parallax: 0.005
+      _QueueControl: 0
+      _QueueOffset: 0
+      _ReceiveShadows: 1
+      _Smoothness: 0.5
+      _SmoothnessTextureChannel: 0
+      _SpecularHighlights: 1
+      _SrcBlend: 1
+      _Surface: 0
+      _WorkflowMode: 1
+      _ZWrite: 1
+    m_Colors:
+      Color_0a408783ca4643af8c716d10f4d5751d: {r: 0.007843138, g: 0.03137255, b: 0.028262574, a: 1}
+      Color_2f46d36e89c14c95b303bcba7a393c44: {r: 0.38679248, g: 0.38679248, b: 0.38679248, a: 1}
+      Vector2_166297c371d54049853492ab3632966d: {r: 1, g: 1, b: 0, a: 0}
+      _BaseColor: {r: 1, g: 1, b: 1, a: 1}
+      _Color: {r: 1, g: 1, b: 1, a: 1}
+      _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+      _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
+  m_BuildTextureStacks: []

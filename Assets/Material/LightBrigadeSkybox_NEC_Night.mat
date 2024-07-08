@@ -1,0 +1,77 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: LightBrigadeSkybox_NEC_Night
+  m_Shader: {fileID: 4800000, guid: a7d3333557318c24ebab0241d8d8e9d5, type: 3}
+  m_ValidKeywords:
+  - EnableSkyboxRotation
+  - EnableSkyboxTexture
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 1
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: 2001
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+      _MainTex:
+        m_Texture: {fileID: 8900000, guid: 89f511a8e50061e488141d550c2017b1, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: {}
+    m_Floats:
+      _AlphaClip: 0
+      _AtmosphereThickness: 0.54
+      _Blend: 0
+      _BumpScale: 1
+      _Cull: 2
+      _Cutoff: 0.5
+      _DstBlend: 0
+      _EnableMirrorBehavior: 0
+      _EnablePortalChanges: 0
+      _EnableSkyboxRotation: 1
+      _EnableSkyboxTexture: 1
+      _Exposure: 0.015
+      _GlossMapScale: 1
+      _Glossiness: 0.5
+      _GlossyReflections: 1
+      _Metallic: 0
+      _MirrorRotationY: 0
+      _OcclusionStrength: 1
+      _ReceiveShadows: 1
+      _Rotation: 317
+      _RotationSpeed: 0
+      _SkyboxBottomOffset: 0.248
+      _SkyboxBottomTightness: 0.88
+      _SkyboxFogAlpha: 1
+      _SkyboxFogHeight: 1
+      _SmoothnessTextureChannel: 0
+      _SpecularHighlights: 1
+      _SrcBlend: 1
+      _StencilComp: 0
+      _StencilOpFail: 0
+      _StencilOpPass: 0
+      _StencilReadMask: 0
+      _SunDisk: 2
+      _SunSize: 0
+      _SunSizeConvergence: 6.34
+      _Surface: 0
+      _WorkflowMode: 1
+      _ZWrite: 1
+    m_Colors:
+      _BottomColor: {r: 0.6698113, g: 0.5651455, b: 0.32542717, a: 1}
+      _Color: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+      _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+      _GroundColor: {r: 0.881694, g: 0.8745098, b: 1, a: 1}
+      _SkyTint: {r: 0.97292334, g: 0.740566, b: 1, a: 1}
+      _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
+      _Tint: {r: 0.4245283, g: 0.34147257, b: 0.29036134, a: 1}
+  m_BuildTextureStacks: []

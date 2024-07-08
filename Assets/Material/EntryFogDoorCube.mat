@@ -1,0 +1,179 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: EntryFogDoorCube
+  m_Shader: {fileID: 4800000, guid: 61e795bcdaead814f9317de3851a7cc7, type: 3}
+  m_ValidKeywords:
+  - EnableSpecularMap
+  - _LIGHT_CAUSTICS_ON
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 1
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+      _EmissionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+      _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+      _ShadowOffsetMap:
+        m_Texture: {fileID: 2800000, guid: 76ced569e9457d64f8a1f2cf3c79bf19, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+      _SpecularMap:
+        m_Texture: {fileID: 2800000, guid: f9d4ba76d26f07c4e82b8a55ff11b8fb, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: {}
+    m_Floats:
+      Vector1_223fbccfbcf44c88b751ddcfd60a4220: 0.1
+      Vector1_2fb6b1eacdf14e0d91b8382f300411e8: 4.76
+      Vector1_51ccdede2bde4ab7bcb7fbe097982559: 3.47
+      Vector1_c100fbe7e4b844e19831fc762cc3031c: 0
+      Vector1_c5b3103778a74a77a497b64088890d98: 0.5
+      Vector1_dcd153365d0341e2be63cfef7abd0e2d: 0
+      Vector1_dee412765d4f4d989b3fc2e99abaa17c: 0
+      _AlphaClip: 0
+      _BakedWindSwayData: 0
+      _Blend: 0
+      _BlendOp: 0
+      _BumpScale: 1
+      _CameraFadingEnabled: 0
+      _CameraFarFadeDistance: 2
+      _CameraNearFadeDistance: 1
+      _CollectibleSheenTightness: 1
+      _ColorMode: 0
+      _Cull: 2
+      _Cutoff: 0.5
+      _DEPLOYABLE_PREVIEW: 0
+      _DISSOLVE_EFFECT: 0
+      _DISSOLVE_EFFECT_AXIS_Z: 0
+      _DisableMotionVectors: 0
+      _DisablePostProcess: 0
+      _DissolveOffsetY: 0
+      _DissoveAway: 0
+      _DistortionBlend: 0.5
+      _DistortionEnabled: 0
+      _DistortionStrength: 1
+      _DistortionStrengthScaled: 0.1
+      _DstBlend: 0
+      _EnableCollectibleSheen: 0
+      _EnableCollectibleSheenUseLocalSpace: 0
+      _EnableCollectibleSheenUseVertexColor: 0
+      _EnableDebugVertexColors: 0
+      _EnableEmission: 0
+      _EnableEmissionMap: 0
+      _EnableExtraSelfLight: 0
+      _EnableExtraSelfLightUseLocalPos: 0
+      _EnableFresnel: 0
+      _EnableFresnelLightAtten: 0
+      _EnableLightMap: 0
+      _EnableNoiseDistortion: 0
+      _EnableObsidian: 0
+      _EnableShadowMask: 0
+      _EnableSpecular: 0
+      _EnableSpecularMap: 1
+      _EnableTopCover: 0
+      _EnableTopCoverVertexColorBlue: 0
+      _EnableVertexMaskColorTint: 0
+      _EnableWindSway: 0
+      _EnableWindSwayFreqVertexColorMask: 0
+      _EnvironmentReflections: 1
+      _FlipbookBlending: 0
+      _FlipbookMode: 0
+      _FresnelAlbedoBlend: 0.6
+      _FresnelFalloff: 0.2
+      _FresnelTightness: 0.6
+      _GlossMapScale: 0
+      _Glossiness: 0
+      _GlossyReflections: 0
+      _IgnoreLighting: 1
+      _LIGHT_CAUSTICS: 1
+      _LightAbsorption: 1
+      _Metallic: 0
+      _Mode: 0
+      _ObsidianFresnelTightness: 0.6
+      _OcclusionStrength: 1
+      _QueueControl: 0
+      _QueueOffset: 0
+      _ReceiveShadows: 1
+      _ShadowMaskNoiseDistortion: 10
+      _ShadowStepDistortionBinormalStrength: 0
+      _ShadowStepDistortionFreq: 15
+      _Smoothness: 0.5
+      _SmoothnessTextureChannel: 0
+      _SoftParticlesEnabled: 0
+      _SoftParticlesFarFadeDistance: 1
+      _SoftParticlesNearFadeDistance: 0
+      _SpecularHighlights: 1
+      _SpecularNoise: 0
+      _SpecularSmoothness: 0.9
+      _SpecularStep: 0.5
+      _SrcBlend: 1
+      _StencilComp: 0
+      _StencilOpFail: 0
+      _StencilOpPass: 0
+      _StencilReadMask: 0
+      _SteppingStones: 0
+      _SubsurfaceStrength: 1
+      _Surface: 0
+      _TopCoverDistortionAmount: 0.1
+      _TopCoverThreshold: 0.5
+      _UV_SCROLL: 0
+      _WindSwayFrequency: 1
+      _WindSwaySpeed: 1
+      _WindSwayStrength: 1
+      _WorkflowMode: 1
+      _ZTest: 4
+      _ZWrite: 1
+    m_Colors:
+      Color_0a408783ca4643af8c716d10f4d5751d: {r: 0.047258824, g: 0.049624708, b: 0.05660379, a: 0}
+      Color_2f46d36e89c14c95b303bcba7a393c44: {r: 0.6247775, g: 0.7449419, b: 0.9811321, a: 1}
+      Vector2_166297c371d54049853492ab3632966d: {r: 1, g: 1, b: 0, a: 0}
+      _AlbedoTint: {r: 0, g: 0, b: 0, a: 1}
+      _BaseColor: {r: 1, g: 1, b: 1, a: 1}
+      _BaseColorAddSubDiff: {r: 0, g: 0, b: 0, a: 0}
+      _CameraFadeParams: {r: 0, g: 0, b: 0, a: 0}
+      _CollectibleSheenRim: {r: 1, g: 1, b: 1, a: 1}
+      _CollectibleSheenSweep: {r: 1, g: 1, b: 1, a: 1}
+      _Color: {r: 1, g: 1, b: 1, a: 1}
+      _DissolveColor0: {r: 2, g: 1.1, b: 1.1, a: 1}
+      _DissolveColor1: {r: 1.5, g: 0.5, b: 0, a: 1}
+      _DissolveColor2: {r: 1.25, g: 0.24999997, b: 0.14999998, a: 1}
+      _DissolveColor3: {r: 0.5, g: 0.01, b: 0.01, a: 1}
+      _EmissionColor: {r: 0.3042453, g: 0.44218695, b: 0.5, a: 1}
+      _ExtraSelfLightColor: {r: 1, g: 1, b: 1, a: 1}
+      _ExtraSelfLightData: {r: 1, g: 0, b: 0, a: 1}
+      _FresnelTint: {r: 1, g: 1, b: 1, a: 1}
+      _LightCausticCenterPosition: {r: 0, g: 0, b: 0, a: 99999}
+      _LightCausticsColor: {r: 1.036081, g: 1.5856544, b: 1.7207954, a: 1}
+      _LightCausticsNoiseSettings: {r: 0, g: 0, b: 2.5, a: 0.1}
+      _LightCausticsScrollSettings: {r: 0.05, g: 0.05, b: 0, a: 1.5}
+      _LightCausticsScrollSettings2: {r: 1, g: 0.04, b: 1, a: 1}
+      _ObsidianFresnelTint: {r: 1, g: 1, b: 1, a: 1}
+      _ShadowStepDistortionSettings: {r: 0.2, g: -0.34, b: 1, a: 1}
+      _ShadowStepSettings: {r: 0, g: 0.75, b: 1, a: 0.8}
+      _SoftParticleFadeParams: {r: 0, g: 0, b: 0, a: 0}
+      _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
+      _SpecularTint: {r: 1, g: 1, b: 1, a: 1}
+      _SteppingStoneHoverData: {r: 1, g: 1, b: 1, a: 1}
+      _TopCoverTint: {r: 1, g: 1, b: 1, a: 1}
+      _UVScrollSettings: {r: 0.1, g: 0.1, b: 0, a: 0}
+      _VertexMaskColorTintBlue: {r: 1, g: 1, b: 1, a: 0}
+      _VertexMaskColorTintGreen: {r: 1, g: 1, b: 1, a: 0}
+      _VertexMaskColorTintRed: {r: 1, g: 1, b: 1, a: 0}
+  m_BuildTextureStacks: []

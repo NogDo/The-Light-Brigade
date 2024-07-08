@@ -1,0 +1,101 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: LootSilver
+  m_Shader: {fileID: 4800000, guid: 7636e3f21a1638c418e0f9441d426df3, type: 3}
+  m_ValidKeywords: []
+  m_InvalidKeywords:
+  - EnableWindSway
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 1
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+      _MainTex:
+        m_Texture: {fileID: 2800000, guid: ccdb0b30ea8a7fe4f82b73fb414c3af8, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: {}
+    m_Floats:
+      _BumpScale: 1
+      _Cull: 2
+      _Cutoff: 0.5
+      _DetailNormalMapScale: 1
+      _DisableMotionVectors: 0
+      _DstBlend: 0
+      _EnableDebugVertexColors: 0
+      _EnableImpossibleColor: 0
+      _EnableWindSway: 1
+      _FadeCurveInner: 1
+      _FadeCurveOuter: 0.84
+      _FireMovementDistanceHorizontal: 0.7
+      _FireMovementDistanceHorizontalInner: 0.05
+      _FireMovementDistanceHorizontalOuter: 0.02
+      _FireMovementDistanceVertical: 0.5
+      _FireMovementDistanceVerticalInner: 0.07
+      _FireMovementDistanceVerticalOuter: 0.3
+      _Flash: 0
+      _FresnelInnerTightness: 1
+      _FresnelOuterTightness: 1
+      _GlossMapScale: 1
+      _Glossiness: 0.5
+      _GlossyReflections: 1
+      _ImpossibleColorOffsetRadians: 1
+      _InnerFresnelTightness: 0.33
+      _InnerScale: 0.02
+      _InnerThreshold: 0
+      _InsideFresnelDance: 0.3
+      _Metallic: 0
+      _Mode: 0
+      _Noise0Freq: -0.7
+      _Noise0Speed: -0
+      _Noise1Freq: 0.7
+      _Noise1Speed: 0.2
+      _OcclusionStrength: 1
+      _OuterScale: 1
+      _Parallax: 0.02
+      _ParallaxInside: 0
+      _SmoothnessTextureChannel: 0
+      _SpecularHighlights: 1
+      _SrcBlend: 1
+      _SwayFreqOutside: 0.54
+      _SwayRainbow: 0
+      _SwaySpeedOutside: 0.464
+      _UVSec: 0
+      _WindSwayFrequency: 10
+      _WindSwayHeightDistance: 1
+      _WindSwaySpeed: 1.5
+      _WindSwayStrength: 0.005
+      _ZTest: 4
+      _ZWrite: 1
+    m_Colors:
+      _AbledoBot: {r: 0, g: 0, b: 0, a: 1}
+      _AbledoTop: {r: 0.4716981, g: 0.4716981, b: 0.4716981, a: 1}
+      _CausticTintInside: {r: 11.984314, g: 11.984314, b: 11.984314, a: 1}
+      _CausticTintOutside: {r: 18.539955, g: 18.539955, b: 18.539955, a: 1}
+      _Color: {r: 1, g: 1, b: 1, a: 1}
+      _ColorInnerBottom: {r: 1.0916257, g: 1.2402734, b: 1.5326135, a: 0}
+      _ColorInnerUp: {r: 15.813397, g: 15.813397, b: 15.813397, a: 0}
+      _ColorOuterBottom: {r: 28.42737, g: 28.42737, b: 28.42737, a: 0}
+      _ColorOuterUp: {r: 2.009689, g: 2.8002973, b: 2.8215501, a: 0}
+      _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+      _FresnelInnerColor: {r: 0, g: 0, b: 0, a: 1}
+      _FresnelOuterColor: {r: 0, g: 0, b: 0, a: 1}
+      _FresnelTint: {r: 5.5908804, g: 5.5908804, b: 5.5908804, a: 1}
+      _FresnelTintBot: {r: 3.6886053, g: 3.6886053, b: 3.6886053, a: 1}
+      _Inner: {r: 2.9832702, g: 2.1115015, b: 4.919102, a: 1}
+      _InnerEdge: {r: 0.9076644, g: 0.93065953, b: 0.9386579, a: 1}
+      _SwayAmpOutside: {r: 0.001, g: 0.03, b: 0.001, a: 0}
+      _TextureDataInside: {r: 1, g: 1, b: 0.21, a: 5}
+      _TextureDataOutside: {r: 1, g: 1, b: 0.5, a: -4}
+  m_BuildTextureStacks: []

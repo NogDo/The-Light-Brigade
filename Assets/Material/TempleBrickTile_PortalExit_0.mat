@@ -1,0 +1,199 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: TempleBrickTile_PortalExit
+  m_Shader: {fileID: 4800000, guid: 9433cd97262bf1242a6ecfd3e92708a4, type: 3}
+  m_ValidKeywords:
+  - EnableFresnel
+  - EnableNoiseDistortion
+  - EnableSpecular
+  - EnableSpecularMap
+  - EnableTopCover
+  - EnableTopCoverVertexColorBlue
+  - EnableWindSwayFreqVertexColorMask
+  m_InvalidKeywords:
+  - EnableFresnelLightAtten
+  - EnableMotionVectors
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 1
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+      _EmissionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+      _MainTex:
+        m_Texture: {fileID: 2800000, guid: c64c6144b97fb774bad34c236219822b, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+      _ShadowOffsetMap:
+        m_Texture: {fileID: 2800000, guid: 1c1f05855509eb7489cea876341c2c0a, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+      _SpecularMap:
+        m_Texture: {fileID: 2800000, guid: c80950769a14fe945b59e711465f5211, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: {}
+    m_Floats:
+      _ASEOutlineWidth: 0.0075
+      _AttenuationNormalIntensity: 0.291
+      _AttenuationOffset: -0.229
+      _AttenuationSharpness: 0.01
+      _BakedWindSwayData: 0
+      _BaseCellOffset: 0
+      _BaseCellOffset1: 0
+      _BaseCellSharpness: 0.01
+      _BaseCellSharpness1: 0.01
+      _BumpScale: 1
+      _CollectibleSheenTightness: 1
+      _Cull: 2
+      _Cutoff: 0.5
+      _DEPLOYABLE_PREVIEW: 0
+      _DISSOLVE_EFFECT: 0
+      _DISSOLVE_EFFECT_AXIS_Z: 0
+      _DetailNormalMapScale: 1
+      _DisableMotionVectors: 0
+      _DisablePostProcess: 0
+      _DissolveOffsetY: 0
+      _DissoveAway: 0
+      _DstBlend: 0
+      _EnableCollectibleSheen: 0
+      _EnableCollectibleSheenUseLocalSpace: 0
+      _EnableCollectibleSheenUseVertexColor: 0
+      _EnableDebugVertexColors: 0
+      _EnableEmission: 0
+      _EnableEmissionMap: 0
+      _EnableExtraSelfLight: 0
+      _EnableExtraSelfLightUseLocalPos: 0
+      _EnableFresnel: 1
+      _EnableFresnelLightAtten: 1
+      _EnableLightMap: 0
+      _EnableMotionVectors: 1
+      _EnableNoiseDistortion: 1
+      _EnableObsidian: 0
+      _EnableShadowMask: 0
+      _EnableSpecular: 1
+      _EnableSpecularMap: 1
+      _EnableTopCover: 1
+      _EnableTopCoverVertexColorBlue: 1
+      _EnableVertexMaskColorTint: 0
+      _EnableWindSway: 0
+      _EnableWindSwayFreqVertexColorMask: 1
+      _FresnelAlbedoBlend: 0.5
+      _FresnelFalloff: 0.6
+      _FresnelTightness: 0.35
+      _GlossMapScale: 1
+      _Glossiness: 0.5
+      _GlossyReflections: 1
+      _HighlightCellOffset: -0.711
+      _HighlightCellOffset1: -0.95
+      _HighlightCellSharpness: 0.197
+      _HighlightCellSharpness1: 0.01
+      _IgnoreLighting: 0.05
+      _IndirectDiffuseContribution: 1
+      _IndirectDiffuseContribution1: 0
+      _IndirectSpecularContribution: 1
+      _IndirectSpecularContribution1: 1
+      _LIGHT_CAUSTICS: 0
+      _LightAbsorption: 2
+      _LightMapStrength: 1
+      _Metallic: 0
+      _Mode: 0
+      _NormalIntensity: 0.35
+      _NormalScale: 0.325
+      _NormalScale1: 1
+      _ObsidianFresnelTightness: 0
+      _OcclusionStrength: 1
+      _OutlineWidth: 0.005
+      _Parallax: 0.02
+      _RimOffset: 0.6
+      _RimOffset1: 0.24
+      _RimPower: 1
+      _RimPower1: 0.5
+      _ShadowContribution: 1
+      _ShadowContribution1: 1
+      _ShadowMaskNoiseDistortion: 10
+      _ShadowStepDistortionAmount: 0.081
+      _ShadowStepDistortionBinormalStrength: 25
+      _ShadowStepDistortionFreq: 10
+      _SmoothnessTextureChannel: 0
+      _SpecularHighlights: 1
+      _SpecularNoise: 0.5
+      _SpecularSmoothness: 0.4
+      _SpecularStep: 0.5
+      _SpecularTightness: 0.733
+      _SrcBlend: 1
+      _StaticHighLights: 0
+      _StaticHighLights1: 0
+      _StencilComp: 3
+      _StencilOp: 0
+      _StencilOpFail: 0
+      _StencilOpPass: 0
+      _StencilReadMask: 4
+      _SteppingStones: 0
+      _SubsurfaceStrength: 0.6
+      _Tiling: 1
+      _Tiling1: 2
+      _TopCoverDistortionAmount: 0.7
+      _TopCoverThreshold: 0.75
+      _UVSec: 0
+      _UV_SCROLL: 0
+      _WindSwayFrequency: 3
+      _WindSwaySpeed: 0.075
+      _WindSwayStrength: 0.25
+      _ZTest: 4
+      _ZWrite: 1
+      __dirty: 0
+    m_Colors:
+      _ASEOutlineColor: {r: 0, g: 0, b: 0, a: 0}
+      _AlbedoTint: {r: 1, g: 1, b: 1, a: 1}
+      _BaseTint: {r: 1, g: 1, b: 1, a: 0}
+      _BaseTint1: {r: 1, g: 1, b: 1, a: 0}
+      _CollectibleSheenRim: {r: 1, g: 1, b: 1, a: 1}
+      _CollectibleSheenSweep: {r: 1, g: 1, b: 1, a: 1}
+      _Color: {r: 1, g: 1, b: 1, a: 1}
+      _DissolveColor0: {r: 2, g: 1.1, b: 1.1, a: 1}
+      _DissolveColor1: {r: 1.5, g: 0.5, b: 0, a: 1}
+      _DissolveColor2: {r: 1.25, g: 0.24999997, b: 0.14999998, a: 1}
+      _DissolveColor3: {r: 0.5, g: 0.01, b: 0.01, a: 1}
+      _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+      _ExtraSelfLightColor: {r: 6.498019, g: 4.40846, b: 0, a: 1}
+      _ExtraSelfLightData: {r: 0, g: 1.07, b: 0.1, a: 0.07}
+      _FresnelTint: {r: 1.0592737, g: 1.0592737, b: 1.0592737, a: 1}
+      _HighlightTint: {r: 1024, g: 1024, b: 1024, a: 1}
+      _HighlightTint1: {r: 1, g: 1, b: 1, a: 1}
+      _LightCausticCenterPosition: {r: 20, g: 10, b: 45, a: 12}
+      _LightCausticsColor: {r: 1, g: 1, b: 1, a: 1}
+      _LightCausticsNoiseSettings: {r: 0.1, g: 0.1, b: 2, a: 0.05}
+      _LightCausticsScrollSettings: {r: 0.003125, g: 0.025, b: 0.125, a: 0.0625}
+      _LightCausticsScrollSettings2: {r: 1, g: 1, b: 2, a: 1}
+      _LightCausticsTexture: {r: 2, g: 1.1, b: 1.1, a: 1}
+      _ObsidianFresnelTint: {r: 0, g: 0, b: 0, a: 1}
+      _OutlineTint: {r: 1, g: 1, b: 1, a: 0}
+      _RimColor: {r: 0, g: 0, b: 0, a: 0}
+      _RimColor1: {r: 0, g: 1, b: 0.8758622, a: 0}
+      _ShadowStepDistortionSettings: {r: 0.1, g: 0.15, b: 2, a: 1}
+      _ShadowStepSettings: {r: 0.3, g: 0.8, b: 1.5, a: 0.8}
+      _SpecularColor: {r: 1, g: 1, b: 1, a: 1}
+      _SpecularTint: {r: 1.4980392, g: 1.4980392, b: 1.4980392, a: 1}
+      _SteppingStoneHoverData: {r: 1, g: 1, b: 1, a: 10}
+      _TilingScale: {r: 1, g: 4, b: 0, a: 0}
+      _Tint: {r: 1, g: 1, b: 1, a: 1}
+      _TopCoverTint: {r: 1, g: 1, b: 1, a: 1}
+      _UVScrollSettings: {r: 0, g: 0, b: 0, a: 0}
+      _VertexMaskColorTintBlue: {r: 1, g: 1, b: 1, a: 0}
+      _VertexMaskColorTintGreen: {r: 1, g: 1, b: 1, a: 0}
+      _VertexMaskColorTintRed: {r: 1, g: 1, b: 1, a: 0}
+  m_BuildTextureStacks: []

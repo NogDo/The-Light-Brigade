@@ -1,0 +1,139 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Spell_DamageAmplifyZone_PowerWindow_Rank0
+  m_Shader: {fileID: 4800000, guid: 3b530b5dccbdd7c41bdfd02f6308d6f7, type: 3}
+  m_ValidKeywords: []
+  m_InvalidKeywords:
+  - _FLIPBOOKBLENDING_OFF
+  - _SURFACE_TYPE_TRANSPARENT
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses:
+  - DepthOnly
+  - SHADOWCASTER
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+      _MainTex:
+        m_Texture: {fileID: 2800000, guid: f9d4ba76d26f07c4e82b8a55ff11b8fb, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: {}
+    m_Floats:
+      _AlphaClip: 0
+      _Blend: 0
+      _BlendOp: 0
+      _BumpScale: 1
+      _CameraFadingEnabled: 0
+      _CameraFarFadeDistance: 2
+      _CameraNearFadeDistance: 1
+      _CausticParallaxOffset: 0.1
+      _CausticStrength: 0.7
+      _CausticTiling: 1
+      _ClearCoatMask: 0
+      _ClearCoatSmoothness: 0
+      _ColorMode: 0
+      _Cull: 2
+      _Cutoff: 0.5
+      _DetailAlbedoMapScale: 1
+      _DetailNormalMapScale: 1
+      _DistortionBlend: 0.5
+      _DistortionEnabled: 0
+      _DistortionStrength: 1
+      _DistortionStrengthScaled: 0.1
+      _DstBlend: 10
+      _EnableDebugVertexColors: 0
+      _EnableShoreLine: 0
+      _EnableSpecular: 0
+      _EnvironmentReflections: 1
+      _Flash: 0
+      _FlipbookBlending: 0
+      _FlipbookMode: 0
+      _FogOffset: 0
+      _GlossMapScale: 0
+      _Glossiness: 0
+      _GlossyReflections: 0
+      _InnerFresnelTightness: 0
+      _InsideFresnelDance: 1
+      _Metallic: 0
+      _Mode: 0
+      _OcclusionStrength: 1
+      _Parallax: 0.005
+      _ParallaxInside: 0
+      _QueueOffset: 0
+      _ReceiveShadows: 1
+      _RingCenterFade: 0.74
+      _RingFrequency: 10.4
+      _RingParallaxOffset: 0
+      _RingSharpness: 0.871
+      _RingSpeed: -8
+      _ShareLineFreq: 3
+      _ShoreLineNoiseAmount: 0.1
+      _ShoreLineSpeed: 0.1
+      _Smoothness: 0.5
+      _SmoothnessTextureChannel: 0
+      _SoftParticlesEnabled: 0
+      _SoftParticlesFarFadeDistance: 1
+      _SoftParticlesNearFadeDistance: 0
+      _SpecularHighlights: 1
+      _SpecularTightness: 0.9
+      _SrcBlend: 5
+      _StencilComp: 0
+      _StencilOpFail: 0
+      _StencilOpPass: 0
+      _StencilReadMask: 0
+      _Surface: 1
+      _SwayFreqOutside: 0.69
+      _SwayRainbow: 2
+      _SwaySpeedOutside: 0.646
+      _VertexSwayDistance: 0.015
+      _VertexSwayFreq: 15
+      _VertexSwaySpeed: 5
+      _WaterNoiseFreq: 0.75
+      _WaterNoiseSpeed: 0.5
+      _WaterNoiseStrength: 0.03
+      _WorkflowMode: 1
+      _ZWrite: 0
+    m_Colors:
+      _AbledoBot: {r: 1, g: 1, b: 1, a: 1}
+      _AbledoTop: {r: 1, g: 1, b: 1, a: 1}
+      _AimColor: {r: 1, g: 1, b: 1, a: 1}
+      _AimDataLocalPos: {r: 0, g: 0, b: 1.22, a: 1}
+      _AlbedoTint: {r: 1, g: 1, b: 1, a: 1}
+      _BaseColor: {r: 4.0060825, g: 1.836401, b: 1.0495934, a: 0.05490196}
+      _BaseColorAddSubDiff: {r: 0, g: 0, b: 0, a: 0}
+      _CameraFadeParams: {r: 0, g: Infinity, b: 0, a: 0}
+      _CausticTintInside: {r: 1, g: 1, b: 1, a: 1}
+      _CausticTintOutside: {r: 1, g: 1, b: 1, a: 1}
+      _Color: {r: 1, g: 1, b: 1, a: 1}
+      _DentColor: {r: 45.254833, g: 43.302666, b: 7.098798, a: 1}
+      _DentDataLocalPos: {r: 0, g: 0, b: -0.08, a: 0.1}
+      _DentPosition: {r: 0, g: 0, b: 0, a: 0}
+      _DentPositionLocalPos: {r: 0, g: 0, b: 0, a: 0}
+      _EdgeColor: {r: 3.158646, g: 2.3700924, b: 1.3676937, a: 0.11764706}
+      _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+      _FresnelColor: {r: 3.2945085, g: 3.8490567, b: 1.9789962, a: 1}
+      _FresnelTint: {r: 1, g: 1, b: 1, a: 1}
+      _FresnelTintBot: {r: 1, g: 1, b: 1, a: 1}
+      _Inner: {r: 1, g: 1, b: 1, a: 1}
+      _InnerEdge: {r: 1, g: 1, b: 1, a: 1}
+      _RingColor: {r: 0.96968555, g: 1, b: 0.7028302, a: 1}
+      _ShoreLineColor: {r: 1, g: 1, b: 1, a: 1}
+      _ShoreLineThresholds: {r: 0.4, g: 1, b: 0.8, a: 0}
+      _SoftParticleFadeParams: {r: 0, g: 0, b: 0, a: 0}
+      _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
+      _SpecularTint: {r: 1, g: 1, b: 1, a: 1}
+      _SwayAmpOutside: {r: 0, g: 0, b: 0.2, a: 0}
+      _TextureDataInside: {r: 1, g: 1, b: 0, a: 0}
+      _TextureDataOutside: {r: 1, g: 1, b: 0, a: 0}
+  m_BuildTextureStacks: []
