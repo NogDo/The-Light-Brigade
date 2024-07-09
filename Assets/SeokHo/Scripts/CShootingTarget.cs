@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using static UnityEngine.ParticleSystem;
 
 public class CShootingTarget : MonoBehaviour, IHittable
 {
@@ -57,51 +58,85 @@ public class CShootingTarget : MonoBehaviour, IHittable
     #endregion
 
 
-    #region 히트스캔
-
     #region private 변수
-    MeshRenderer render;
-    Animator animator;
-    MeshCollider meshCollider;
-    Rigidbody body;
-    Vector3 v3StartPosition;
+    private MeshRenderer render;
+    private Animator animator;
+    private MeshCollider meshCollider;
+    private Rigidbody rb;
+    private Vector3 v3StartPosition;
+    private Quaternion v3StartRotation;
+
+    public ParticleSystem respawnParticles;
+    public ParticleSystem breakParticles;
+    bool targetbreak = false;
     #endregion
 
     void Awake()
     {
-        render = GetComponent<MeshRenderer>();
         animator = transform.parent.parent.GetComponent<Animator>();
+        meshCollider = GetComponent<MeshCollider>();
+        rb = GetComponent<Rigidbody>();
+        v3StartPosition = transform.localPosition;
+        v3StartRotation = transform.localRotation;
     }
 
     public void Hit()
     {
+        // 만약 "Target_0500"을 맞췄다면
+        if (gameObject.name == "Target_0500")
+        {
+            Transform parent = transform.parent;
 
-        animator.SetTrigger("Hit");
-        body.isKinematic = false;
-        body.useGravity = false;
-        meshCollider.isTrigger = false;
+            // 해당 오브젝트의 부모를 기준으로 자식에 CShootingTarget 스크립트가 붙어있다면 전부 처리
+            foreach (Transform child in parent)
+            {
+                CShootingTarget target = child.GetComponent<CShootingTarget>();
+                if (target != null)
+                {
+                    targetbreak = true;
+                    // 현재 Invoke 된 모든 것을 취소
+                    target.CancelInvoke("SetActiveTrue");
 
-        Invoke("SetActiveFalse", 1.0f);
-        Invoke("SetActiveTrue", 5.0f);
-
+                    // Hit 액션 실행
+                    target.TriggerHitActions();
+                    if (breakParticles != null)
+                    {
+                        breakParticles.Play(); // 파티클 재생
+                    }
+                }
+            }
+        }
+        else
+        {
+            // 현재 오브젝트의 Hit 액션 실행
+            TriggerHitActions();
+        }
     }
 
-    void SetActiveFalse()
+    private void TriggerHitActions()
     {
-        render.enabled = false;
+        animator.SetTrigger("Hit");
+        rb.isKinematic = false;
+        meshCollider.isTrigger = false;
+        Vector3 randomDirection = new Vector3(Random.Range(-1f, 0f), Random.Range(-1f, 1f), 0).normalized;
+        float forceMagnitude = 300f;
+        rb.AddForce(randomDirection * forceMagnitude);
+
+        Invoke("SetActiveTrue", 3.0f);
     }
 
     void SetActiveTrue()
     {
         transform.localPosition = v3StartPosition;
-        transform.localRotation = Quaternion.identity;
-        render.enabled = true;
-        body.isKinematic = true;
-        body.useGravity = true;
+        transform.localRotation = v3StartRotation;
+
+        rb.isKinematic = true;
         meshCollider.isTrigger = true;
+
+        // 만약 Target_0500을 맞췄다면
+        if (targetbreak)
+        {
+            respawnParticles.Play();
+        }
     }
-
-    #endregion
-
-
 }
