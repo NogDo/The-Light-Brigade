@@ -6,9 +6,6 @@ using static UnityEngine.ParticleSystem;
 
 public class CShootingTarget : MonoBehaviour, IHittable
 {
-
-
-
     #region 투사체
 
     //Vector3 v3StartPosition;
@@ -57,8 +54,9 @@ public class CShootingTarget : MonoBehaviour, IHittable
     //}
     #endregion
 
+    #region 히트스캔
 
-    #region private 변수
+    #region 변수
     private MeshRenderer render;
     private Animator animator;
     private MeshCollider meshCollider;
@@ -139,4 +137,5 @@ public class CShootingTarget : MonoBehaviour, IHittable
             respawnParticles.Play();
         }
     }
+    #endregion
 }
