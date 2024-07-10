@@ -8,12 +8,6 @@ public class RayScript : MonoBehaviour
     RaycastHit raycasthit;
     float Maxdistance = 300f;
 
-    MeshRenderer render;
-
-    private void Awake()
-    {
-        render = GetComponent<MeshRenderer>();
-    }
     void Update()
     {
         if(Input.GetKeyUp(KeyCode.Space))
@@ -29,8 +23,6 @@ public class RayScript : MonoBehaviour
                 if (raycasthit.transform.gameObject.TryGetComponent<IHittable>(out IHittable target))
                 {
                     target.Hit();
-
-                    Invoke("SetActiveTrue", 3.0f);
                 }
             }
         }
