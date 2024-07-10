@@ -9,6 +9,10 @@ public class CWeaponController : MonoBehaviour
     XRGrabInteractable grabInteractable;
     #endregion
 
+    #region public º¯¼ö
+    public Transform bulletTransform;
+    #endregion
+
     void Start()
     {
         grabInteractable = GetComponent<XRGrabInteractable>();
@@ -18,6 +22,14 @@ public class CWeaponController : MonoBehaviour
 
     public void Fire(ActivateEventArgs eventArgs)
     {
-        Debug.Log("Fire");
+        RaycastHit hit;
+        
+        if (Physics.Raycast(bulletTransform.position, bulletTransform.forward, out hit, float.MaxValue))
+        {
+            if (hit.transform.TryGetComponent<IHittable>(out IHittable hitObj))
+            {
+                hitObj.Hit();
+            }
+        }
     }
 }
