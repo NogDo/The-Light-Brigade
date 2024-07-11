@@ -20,10 +20,20 @@ public class CWeaponController : MonoBehaviour
         grabInteractable.activated.AddListener(Fire);
     }
 
+    void OnDisable()
+    {
+        if (grabInteractable is not null)
+        {
+            grabInteractable.activated.RemoveListener(Fire);
+        }
+    }
+
     public void Fire(ActivateEventArgs eventArgs)
     {
         RaycastHit hit;
-        
+
+        Debug.Log("Fire");
+
         if (Physics.Raycast(bulletTransform.position, bulletTransform.forward, out hit, float.MaxValue))
         {
             if (hit.transform.TryGetComponent<IHittable>(out IHittable hitObj))
