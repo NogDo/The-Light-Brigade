@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class EnemyHpBar : MonoBehaviour
 {
-    private Canvas canvas;
-    private RectTransform rectParent; // 부모의 rectTransform 변수를 저장할 변수
     private RectTransform rectHp; // 자신의 rectTransform 저장할 변수
 
     // HideInInspector는 해당 변수 숨기기, 굳이 보여줄 필요가 없을 때 
@@ -14,17 +12,12 @@ public class EnemyHpBar : MonoBehaviour
 
     void Start()
     {
-        canvas = GetComponentInParent<Canvas>();
-        rectParent = canvas.GetComponent<RectTransform>();
         rectHp = this.gameObject.GetComponent<RectTransform>();
     }
 
     private void LateUpdate()
     {
         transform.LookAt(Camera.main.transform);
-        rectParent.transform.position = enemyTr.position + offset;
-
+        rectHp.transform.position = enemyTr.position + offset;
     }
-
-
 }
