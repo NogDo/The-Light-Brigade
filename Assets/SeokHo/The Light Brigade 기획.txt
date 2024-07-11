@@ -1,0 +1,58 @@
+The Light Brigade 기획
+
+3일 단기 프로젝트 7/8 ~ 7/10
+ㄴ TitleScreenScene에서 시작
+ㄴ 문을 지나치면 TempleScene으로 진입
+ㄴ TempleScene에서 사격 연습할 수 있는 공간에 테이블, 총과 탄약이 있고
+훈련 봇을 배치해두고 사격 훈련 진행
+
+석호
+훈련봇, 슈팅 타겟, 피격 데미지 UI
+
+지원
+맵, 맵 텔포, 바닥 Material 수정
+
+승범
+플레이어, 총(Json도 같이), 총알 UI, 소스트리 커밋 담당
+
+할 것
+포폴에 쓸 캐릭터 정해놓고
+해당하지 않는 애니메이터 및 애니메이션 정리
+
+일반 인간형 적 EnemyAcolyte_FBX
+AnimControl_Huminoid
+
+LBMother_FBX 
+AnimControl_Mother
+
+NPC
+AnimControl_Huminoid
+
+날몹 EnemyFalcon_FBX
+AnimControl_Falcon
+
+TempleCrystal 프리팹 복구
+TempleCrystal_AnimCtrl
+
+보스 EnemyBoss01_FBX
+EnemyBoss01_Body_Controller
+
+보스날개 EnemyBossWings_FBX
+EnemyBossWings_FBXAvatar
++ 
+
+
+오디오 클립 정리
+텍스쳐 정리
+
+
+구현할 것
+VR 기능 구현 및 컨트롤러 손모양 구현
+플레이어 인벤토리 UI 구현
+TempleScene내 맵 Mesh 자연스럽게 구현
+총과 탄약 상호작용
+발사 했을 때 총알과 훈련 봇 상호작용 구현
+
+++ 이후 포폴 준비
+총을 등 뒤에다 놓으면 소지할 수 있게 구현
+
