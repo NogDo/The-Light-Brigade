@@ -64,8 +64,8 @@ public class CShootingTarget : MonoBehaviour, IHittable
     private Vector3 v3StartPosition;
     private Quaternion v3StartRotation;
 
-    public ParticleSystem respawnParticles;
-    public ParticleSystem breakParticles;
+    public ParticleSystem particleRespawn;
+    public ParticleSystem particleBreak;
     bool targetbreak = false;
     #endregion
 
@@ -97,9 +97,9 @@ public class CShootingTarget : MonoBehaviour, IHittable
 
                     // Hit 액션 실행
                     target.TriggerHitActions();
-                    if (breakParticles != null)
+                    if (particleBreak != null)
                     {
-                        breakParticles.Play(); // 파티클 재생
+                        particleBreak.Play(); // 파티클 재생
                     }
                 }
             }
@@ -134,7 +134,7 @@ public class CShootingTarget : MonoBehaviour, IHittable
         // 만약 Target_0500을 맞췄다면
         if (targetbreak)
         {
-            respawnParticles.Play();
+            particleRespawn.Play();
         }
     }
     #endregion
