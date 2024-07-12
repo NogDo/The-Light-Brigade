@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class RayScript : MonoBehaviour
+public class CRayScript : MonoBehaviour
 {
     RaycastHit raycasthit;
     float Maxdistance = 300f;
