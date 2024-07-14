@@ -1,41 +1,45 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using System.Collections.Generic;
 
 public class UIDamagePool : MonoBehaviour
 {
-    Queue<GameObject> queueDamagetextpool;
-    public GameObject oDamagetextprefab; //Instantiate 메서드로 복제할 프리펩을 담을 변수
-    public Canvas canvasEnemydamage;
-    public Vector3 v3Damageoffset = new Vector3(0, 2.4f, 0);
-    int nDamagetextcount;
+    public GameObject prefab;
+    public int poolSize = 20;
+
+    private Queue<GameObject> pool;
+
+    // 데미지 텍스트 객체를 재사용하기 위한 객체 풀 관리
 
     void Start()
     {
-        nDamagetextcount = 10;
-        queueDamagetextpool = new Queue<GameObject>();
-        canvasEnemydamage = GameObject.Find("Enemy Damage Canvas").GetComponent<Canvas>();
-        SetDamageText();
+        pool = new Queue<GameObject>();
 
-        for (int i = 0; i < nDamagetextcount; i++)
+        for (int i = 0; i < poolSize; i++)
         {
-            queueDamagetextpool.Enqueue(oDamagetextprefab);
-
+            GameObject obj = Instantiate(prefab, transform);
+            obj.SetActive(false);
+            pool.Enqueue(obj);
         }
     }
 
-    public void OutDamageText()
+    public GameObject GetObject()
     {
-        queueDamagetextpool.Dequeue().transform.GetChild(0).gameObject.SetActive(true);
+        if (pool.Count > 0)
+        {
+            GameObject obj = pool.Dequeue();
+            obj.SetActive(true);
+            return obj;
+        }
+        else
+        {
+            GameObject obj = Instantiate(prefab, transform);
+            return obj;
+        }
     }
 
-    void SetDamageText()
+    public void ReturnObject(GameObject obj)
     {
-        canvasEnemydamage = GameObject.Find("Enemy Damage Canvas").GetComponent<Canvas>();
-        // 데미지 텍스트 인스턴스 생성
-        GameObject damageText = Instantiate<GameObject>(oDamagetextprefab, canvasEnemydamage.transform);
-        var _damageText = damageText.GetComponent<UIDamageText>();
-        _damageText.trEnemy = gameObject.transform;
-        _damageText.v3Offset = v3Damageoffset;
+        obj.SetActive(false);
+        pool.Enqueue(obj);
     }
 }
