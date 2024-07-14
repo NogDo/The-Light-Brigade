@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class CWeaponGewehr43 : CWeapon
 {
-
     private void Start()
     {
         ActionNumber = 1;
-        WeaponType = EWeapon.GEWEHR;
+        weaponType = EWeapon.GEWEHR;
+        nGrabCount = 0;
     }
 }

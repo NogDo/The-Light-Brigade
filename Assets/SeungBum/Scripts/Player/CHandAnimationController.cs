@@ -47,24 +47,26 @@ public class CHandAnimationController : MonoBehaviour
     }
 
     /// <summary>
-    /// RayInteractor가 SelectEntered됐을 때 실행될 메서드
+    /// RayInteractor, DirectInterator가 SelectEntered됐을 때 실행될 메서드
     /// </summary>
     /// <param name="args"></param>
     void OnSelectEntered(SelectEnterEventArgs args)
     {
         ResetPose();
 
+        args.interactableObject.transform.GetComponent<CWeapon>().GrabCount++;
         animator.SetInteger("Action", args.interactableObject.transform.GetComponent<CInteractable>().ActionNumber);
     }
 
     /// <summary>
-    /// RayInteractor가 SelectExited됐을 때 실행될 메서드
+    /// RayInteractor, DirectInterator가 SelectExited됐을 때 실행될 메서드
     /// </summary>
     /// <param name="args"></param>
     void OnSelectExited(SelectExitEventArgs args)
     {
         InitPose();
 
+        args.interactableObject.transform.GetComponent<CWeapon>().GrabCount--;
         animator.SetInteger("Action", 0);
     }
 
