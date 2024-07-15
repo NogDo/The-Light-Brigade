@@ -24,26 +24,32 @@ public class CHandAnimationController : MonoBehaviour
     Quaternion qMeshOffset;
     Quaternion qGloveMasterOffset;
     Quaternion qGrabPoseMovemonetNode;
+
+    [SerializeField]
+    bool isAnimatedHand;
     #endregion
 
     void Start()
     {
-        rayInteractor = transform.parent.GetComponentInChildren<XRRayInteractor>();
-        rayInteractor.selectEntered.AddListener(OnSelectEntered);
-        rayInteractor.selectExited.AddListener(OnSelectExited);
+        //rayInteractor = transform.parent.GetComponentInChildren<XRRayInteractor>();
+        //rayInteractor.selectEntered.AddListener(OnSelectEntered);
+        //rayInteractor.selectExited.AddListener(OnSelectExited);
 
-        directInteractor = transform.parent.GetComponentInChildren<XRDirectInteractor>();
-        directInteractor.selectEntered.AddListener(OnSelectEntered);
-        directInteractor.selectExited.AddListener(OnSelectExited);
+        //directInteractor = transform.parent.GetComponentInChildren<XRDirectInteractor>();
+        //directInteractor.selectEntered.AddListener(OnSelectEntered);
+        //directInteractor.selectExited.AddListener(OnSelectExited);
 
-        triggerAction = transform.parent.GetComponent<ActionBasedController>().activateAction;
-        selectAction = transform.parent.GetComponent<ActionBasedController>().selectAction;
-        InitAction();
+        if (!isAnimatedHand)
+        {
+            triggerAction = transform.parent.GetComponent<ActionBasedController>().activateAction;
+            selectAction = transform.parent.GetComponent<ActionBasedController>().selectAction;
+            InitAction();
+        }
 
-        qMeshOffset = tfHandOffsetNode.localRotation;
-        qGloveMasterOffset = tfGloveMasterOffset.localRotation;
-        v3GloveMasterOffset = tfGloveMasterOffset.localPosition;
-        qGloveMasterOffset = tfGrabPoseMovemonetNode.localRotation;
+        //qMeshOffset = tfHandOffsetNode.localRotation;
+        //qGloveMasterOffset = tfGloveMasterOffset.localRotation;
+        //v3GloveMasterOffset = tfGloveMasterOffset.localPosition;
+        //qGloveMasterOffset = tfGrabPoseMovemonetNode.localRotation;
     }
 
     /// <summary>
@@ -54,8 +60,7 @@ public class CHandAnimationController : MonoBehaviour
     {
         ResetPose();
 
-        args.interactableObject.transform.GetComponent<CWeapon>().GrabCount++;
-        animator.SetInteger("Action", args.interactableObject.transform.GetComponent<CInteractable>().ActionNumber);
+        //animator.SetInteger("Action", args.interactableObject.transform.GetComponent<CInteractable>().ActionNumber);
     }
 
     /// <summary>
@@ -66,8 +71,16 @@ public class CHandAnimationController : MonoBehaviour
     {
         InitPose();
 
-        args.interactableObject.transform.GetComponent<CWeapon>().GrabCount--;
-        animator.SetInteger("Action", 0);
+        //animator.SetInteger("Action", 0);
+    }
+
+    /// <summary>
+    /// Hand Action 애니메이션을 재생
+    /// </summary>
+    /// <param name="actionNumber">재생할 애니메이션 Number</param>
+    public void ActionAnimation(int actionNumber)
+    {
+        animator.SetInteger("Action", actionNumber);
     }
 
     /// <summary>

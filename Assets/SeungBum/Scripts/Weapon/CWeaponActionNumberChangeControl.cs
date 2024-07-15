@@ -5,7 +5,7 @@ using UnityEngine.XR.Interaction.Toolkit;
 
 public enum EGrabPoint
 {
-    TRIGGER = 1,
+    TRIGGER,
     BARREL,
     BOLT
 }
@@ -23,10 +23,13 @@ public class CWeaponActionNumberChangeControl : MonoBehaviour
     {
         if (other.CompareTag("Hand"))
         {
-            if (weapon.GrabCount > 0)
+            if (weapon.GetComponent<CHandGrabInteractable>().interactorsSelecting.Count > 0)
             {
-                weapon.GetComponent<XRGrabInteractable>().secondaryAttachTransform = tfHandPose;
-                weapon.ActionNumber = (int)weapon.WeaponType * (int)grabPointType;
+                if (grabPointType != EGrabPoint.TRIGGER)
+                {
+                    //weapon.GetComponent<XRGrabInteractable>().secondaryAttachTransform = tfHandPose;
+                    weapon.ActionNumber = (int)weapon.WeaponType + (int)grabPointType;
+                }
             }
 
             else

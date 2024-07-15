@@ -8,6 +8,5 @@ public class CWeaponGewehr43 : CWeapon
     {
         ActionNumber = 1;
         weaponType = EWeapon.GEWEHR;
-        nGrabCount = 0;
     }
 }

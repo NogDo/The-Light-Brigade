@@ -20,7 +20,6 @@ public class CWeapon : CInteractable
 
     #region protected 변수
     protected EWeapon weaponType;
-    protected int nGrabCount;
     #endregion
 
     /// <summary>
@@ -52,22 +51,6 @@ public class CWeapon : CInteractable
         protected set
         {
             weaponType = value;
-        }
-    }
-
-    /// <summary>
-    /// 현재 Grab된 개수
-    /// </summary>
-    public int GrabCount
-    {
-        get
-        {
-            return nGrabCount;
-        }
-
-        set
-        {
-            nGrabCount = value;
         }
     }
 }
