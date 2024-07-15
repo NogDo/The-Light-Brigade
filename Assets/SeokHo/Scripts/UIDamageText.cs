@@ -19,6 +19,12 @@ public class UIDamageText : MonoBehaviour
         }
     }
 
+    //void OnEnable()
+    //{
+    //    // 시간에 따른 데미지 텍스트 이동
+    //    transform.position += new Vector3(0f, 1f * Time.deltaTime, 0f);
+    //}
+
     // 적 트랜스폼과 오프셋을 설정하는 초기화 메서드
     public void Initialize(Transform enemy, Vector3 offset)
     {
