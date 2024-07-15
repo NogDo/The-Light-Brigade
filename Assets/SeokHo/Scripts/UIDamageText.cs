@@ -1,21 +1,28 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class UIDamageText : MonoBehaviour
 {
-    private RectTransform recttrDamageText; // 자신의 rectTransform 저장할 변수
-    public Vector3 v3Offset = Vector3.zero; // damageText 위치 조절용, offset은 어디에 damageText를 위치 출력할지
-    public Transform trEnemy; // 적 캐릭터의 위치
+    public Vector3 offset = Vector3.zero; // 데미지 텍스트 위치 오프셋
+    public Transform enemyTransform; // 적의 트랜스폼
 
-    void Start()
+    // 데미지 텍스트가 적의 위치에 따라 움직이도록 설정
+
+    void Update()
     {
-        recttrDamageText = this.gameObject.GetComponent<RectTransform>();
+        if (enemyTransform != null)
+        {
+            // 적의 위치에 오프셋을 더한 위치로 설정
+            transform.position = enemyTransform.position + offset;
+            // 카메라를 향하도록 회전
+            transform.LookAt(Camera.main.transform);
+            transform.Rotate(0, 180, 0); // LookAt이 텍스트를 반대 방향으로 보기 때문에 180도 회전
+        }
     }
 
-    private void LateUpdate()
+    // 적 트랜스폼과 오프셋을 설정하는 초기화 메서드
+    public void Initialize(Transform enemy, Vector3 offset)
     {
-        transform.LookAt(Camera.main.transform);
-        recttrDamageText.transform.position = trEnemy.position + v3Offset;
+        this.enemyTransform = enemy;
+        this.offset = offset;
     }
 }
