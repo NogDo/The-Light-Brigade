@@ -4,7 +4,7 @@ using System.Collections.Generic;
 public class UIDamagePool : MonoBehaviour
 {
     public GameObject prefab;
-    public int poolSize = 20;
+    private int poolSize = 10;
 
     private Queue<GameObject> pool;
 
