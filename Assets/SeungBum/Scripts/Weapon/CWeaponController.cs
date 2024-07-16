@@ -36,7 +36,7 @@ public class CWeaponController : MonoBehaviour
         {
             if (hit.transform.TryGetComponent<IHittable>(out IHittable hitObj))
             {
-                hitObj.Hit();
+                hitObj.Hit(5);
             }
         }
     }

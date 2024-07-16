@@ -22,7 +22,7 @@ public class CRayScript : MonoBehaviour
 
                 if (raycasthit.transform.gameObject.TryGetComponent<IHittable>(out IHittable target))
                 {
-                    target.Hit();
+                    target.Hit(5);
                 }
             }
         }

@@ -1,6 +1,11 @@
-using System.Collections;
-using TMPro;
 using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
+using TMPro;
+using Unity.Mathematics;
+using System;
+
+using Random = UnityEngine.Random;
 
 public class UIDamageText : MonoBehaviour
 {
@@ -42,9 +47,8 @@ public class UIDamageText : MonoBehaviour
         float originalFontSize = textMesh.fontSize;
         float duration = 1f;
         float elapsedTime = 0f;
-
         Vector3 startPosition = transform.position;
-        Vector3 endPosition = startPosition + new Vector3(0, 1f, 0);
+        Vector3 endPosition = startPosition + new Vector3(Random.Range(-1, 1f), 1, Random.Range(-1, 1f));
 
         while (elapsedTime < duration)
         {
@@ -62,7 +66,6 @@ public class UIDamageText : MonoBehaviour
 
             yield return null;
         }
-
         // 재활용을 위한 값 초기화
         transform.position = startPosition;
         textMesh.color = originalColor;
@@ -70,6 +73,5 @@ public class UIDamageText : MonoBehaviour
 
         // 오브젝트를 풀에 반환
         damagePool.ReturnObject(gameObject);
-        
     }
 }

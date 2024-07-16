@@ -4,5 +4,5 @@ using UnityEngine;
 
 public interface IHittable
 {
-    public abstract void Hit();
+    public abstract void Hit(float damage);
 }

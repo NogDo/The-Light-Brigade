@@ -7,36 +7,73 @@ using UnityEngine.AI;
 public class CNormalEnemy : MonoBehaviour, IHittable
 {
     #region 변수
-    private NavMeshAgent pathFinder;
     public GameObject hpBarPrefab;
     public GameObject damageTextPrefab;
     public Vector3 v3HpBar = new Vector3(0, 2.4f, 0);
     public Slider enemyHpbar;
     private UIDamagePool damagePool;
-    public TagUnitType player;
-    private Animator enemyAnimator;
+    private Animator animatorNormalenemy;
 
-    public float startingHealth = 20;
+    private NavMeshAgent agent;
+    public Transform player;
+    public float attackRange = 5.0f;
+
+    public float damage = 5f; // 공격력
     public float health = 20;
-    public float damage = 5f;
-    public float attackDelay = 1f;
-    private float lastAttackTime;
-    private float dist;
+    public float startingHealth = 20;
+
+    public float attackDelay = 1f; // 공격 간격
+    private float lastAttackTime; // 마지막 공격 시점
+    private float dist; // 적과 추적대상과의 거리
 
     private bool isDead = false;
+    private bool canMove;
+    private bool canAttack;
     #endregion
+
+    private void Awake()
+    {
+        animatorNormalenemy = GetComponent<Animator>();
+    }
 
     void Start()
     {
         SetHpBar();
         setRigidbodyState(true);
         setColliderState(false);
+        agent = GetComponent<NavMeshAgent>();
 
         damagePool = FindObjectOfType<UIDamagePool>();
     }
 
-    public void Hit()
+    void Update()
     {
+        float distanceToPlayer = Vector3.Distance(player.position, transform.position);
+        // 추적 대상의 존재 여부에 따라 다른 애니메이션 재생
+        animatorNormalenemy.SetBool("CanMove", canMove);
+        animatorNormalenemy.SetBool("CanAttack", canAttack);
+
+        if (distanceToPlayer < attackRange)
+        {
+            canMove = false;
+            canAttack = true;
+            Debug.Log("Attack the player!");
+            // 여기에서는 일반적으로 공격 애니메이션 또는 효과를 트리거합니다.
+
+        }
+        else
+        {
+
+            agent.SetDestination(player.position);
+            canMove = true;
+            canAttack = false;
+        }
+    }
+
+    // 핵심 맞았을 시
+    public void Hit(float damage)
+    {
+        damage = Random.Range(5, 10);
         if (!isDead)
         {
             health -= damage;
@@ -48,12 +85,12 @@ public class CNormalEnemy : MonoBehaviour, IHittable
                 text.text = damage.ToString();
 
                 UIDamageText damageText = damageUI.GetComponent<UIDamageText>();
-                damageText.Initialize(transform, Vector3.up * 2, damagePool); // Pass the pool reference
-
-                StartCoroutine(ReturnDamageUIToPool(damageUI, 1f));
+                damageText.Initialize(transform, Vector3.up * 2, damagePool);
             }
             if (health <= 0)
             {
+                GameObject trhp = GameObject.Find("EnemyHpBarCanvas");
+                Destroy(trhp, 1f);
                 isDead = true;
                 HandleDeath();
             }
@@ -97,6 +134,7 @@ public class CNormalEnemy : MonoBehaviour, IHittable
         {
             enemyHpbar.value = health;
         }
+
     }
 
     private void SetHpBar()
@@ -120,10 +158,4 @@ public class CNormalEnemy : MonoBehaviour, IHittable
     }
     #endregion
 
-    // Damage Pool
-    private IEnumerator ReturnDamageUIToPool(GameObject damageUI, float delay)
-    {
-        yield return new WaitForSeconds(delay);
-        damagePool.ReturnObject(damageUI);
-    }
 }

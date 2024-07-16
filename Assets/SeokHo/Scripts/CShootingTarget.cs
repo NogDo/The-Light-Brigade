@@ -78,7 +78,7 @@ public class CShootingTarget : MonoBehaviour, IHittable
         v3StartRotation = transform.localRotation;
     }
 
-    public void Hit()
+    public void Hit(float damage)
     {
         // 만약 "Target_0500"을 맞췄다면
         if (gameObject.name == "Target_0500")
