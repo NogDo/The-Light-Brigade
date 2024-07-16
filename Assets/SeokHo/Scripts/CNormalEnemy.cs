@@ -1,83 +1,173 @@
+using System.Collections;
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.UI;
 using TMPro;
-using System.Collections;
-using UnityEngine.AI;
 
 public class CNormalEnemy : MonoBehaviour, IHittable
 {
     #region 변수
-    public GameObject hpBarPrefab;
-    public GameObject damageTextPrefab;
-    public Vector3 v3HpBar = new Vector3(0, 2.4f, 0);
-    public Slider enemyHpbar;
-    private UIDamagePool damagePool;
-    private Animator animatorNormalenemy;
+    private NavMeshAgent pathFinder; // 경로 탐색을 위한 NavMeshAgent
+    public GameObject hpBarPrefab; // HP 바 프리팹
+    public GameObject damageTextPrefab; // 데미지 텍스트 프리팹
+    public Vector3 v3HpBar = new Vector3(0, 2.4f, 0); // HP 바 위치 오프셋
+    public Slider enemyHpbar; // 적의 HP 바 슬라이더
+    private UIDamagePool damagePool; // 데미지 UI 풀
+    private Animator animatorNormalenemy; // 애니메이터
 
-    private NavMeshAgent agent;
-    public Transform player;
-    public float attackRange = 5.0f;
-
+    public TagUnitType player; // 추적 대상 태그
     public float damage = 5f; // 공격력
-    public float health = 20;
-    public float startingHealth = 20;
+    public float health = 20; // 현재 체력
+    public float startingHealth = 20; // 시작 체력
 
     public float attackDelay = 1f; // 공격 간격
     private float lastAttackTime; // 마지막 공격 시점
-    private float dist; // 적과 추적대상과의 거리
+    private float dist; // 적과 추적 대상과의 거리
 
-    private bool isDead = false;
-    private bool canMove;
-    private bool canAttack;
+    private bool isDead = false; // 사망 여부
+    private GameObject hpBarCanvas; // 개별 HP 바 캔버스
     #endregion
 
-    private void Awake()
+    #region 상태 기계
+    private enum State
     {
-        animatorNormalenemy = GetComponent<Animator>();
+        IDLE,   // 대기 상태
+        CHASE,  // 추적 상태
+        ATTACK, // 공격 상태
+        KILLED  // 사망 상태
     }
+
+    private State state; // 현재 상태
+    private Transform target; // 추적 대상
+    #endregion
 
     void Start()
     {
-        SetHpBar();
-        setRigidbodyState(true);
-        setColliderState(false);
-        agent = GetComponent<NavMeshAgent>();
+        SetHpBar(); // HP 바 설정
+        setRigidbodyState(true); // Rigidbody 상태 설정
+        setColliderState(false); // Collider 상태 설정
 
-        damagePool = FindObjectOfType<UIDamagePool>();
+        damagePool = FindObjectOfType<UIDamagePool>(); // 데미지 풀 찾기
+        pathFinder = GetComponent<NavMeshAgent>(); // NavMeshAgent 컴포넌트 가져오기
+        animatorNormalenemy = GetComponent<Animator>(); // 애니메이터 컴포넌트 가져오기
+
+        state = State.IDLE; // 초기 상태를 IDLE로 설정
+        StartCoroutine(StateMachine()); // 상태 기계 시작
+    }
+
+    private IEnumerator StateMachine()
+    {
+        while (health > 0) // 체력이 0 이상일 때 계속 실행
+        {
+            yield return StartCoroutine(state.ToString()); // 현재 상태 실행
+        }
+    }
+
+    private IEnumerator IDLE()
+    {
+        animatorNormalenemy.Play("IdleRifle"); // Idle 애니메이션 재생
+
+        while (state == State.IDLE)
+        {
+            // IDLE 상태에서 할 일 (예: 주변을 둘러보기)
+            yield return null;
+        }
+    }
+
+    private IEnumerator CHASE()
+    {
+        animatorNormalenemy.Play("WalkFWD"); // 걷기 애니메이션 재생
+
+        while (state == State.CHASE)
+        {
+            if (target == null)
+            {
+                ChangeState(State.IDLE); // 대상이 없으면 IDLE 상태로 전환
+                yield break;
+            }
+
+            pathFinder.SetDestination(target.position); // 대상 위치로 이동
+
+            if (pathFinder.remainingDistance <= pathFinder.stoppingDistance)
+            {
+                ChangeState(State.ATTACK); // 대상에 도달하면 ATTACK 상태로 전환
+            }
+            else if (Vector3.Distance(transform.position, target.position) > pathFinder.stoppingDistance * 2)
+            {
+                target = null;
+                ChangeState(State.IDLE); // 대상이 멀어지면 IDLE 상태로 전환
+            }
+
+            yield return null;
+        }
+    }
+
+    private IEnumerator ATTACK()
+    {
+        animatorNormalenemy.Play("Attack01"); // 공격 애니메이션 재생
+
+        while (state == State.ATTACK)
+        {
+            if (target == null)
+            {
+                ChangeState(State.IDLE); // 대상이 없으면 IDLE 상태로 전환
+                yield break;
+            }
+
+            if (pathFinder.remainingDistance > pathFinder.stoppingDistance)
+            {
+                ChangeState(State.CHASE); // 대상이 멀어지면 CHASE 상태로 전환
+                yield break;
+            }
+
+            if (Time.time >= lastAttackTime + attackDelay)
+            {
+                // 공격 수행
+                lastAttackTime = Time.time;
+                // 플레이어나 대상에게 데미지 적용
+            }
+
+            yield return null;
+        }
+    }
+
+    private IEnumerator KILLED()
+    {
+        // 적 사망 로직 처리
+       
+        yield return null;
+    }
+
+    private void ChangeState(State newState)
+    {
+        state = newState; // 새로운 상태로 전환
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            target = other.transform; // 대상 설정
+            ChangeState(State.CHASE); // 추적 상태로 전환
+        }
     }
 
     void Update()
     {
-        float distanceToPlayer = Vector3.Distance(player.position, transform.position);
-        // 추적 대상의 존재 여부에 따라 다른 애니메이션 재생
-        animatorNormalenemy.SetBool("CanMove", canMove);
-        animatorNormalenemy.SetBool("CanAttack", canAttack);
-
-        if (distanceToPlayer < attackRange)
+        if (target != null)
         {
-            canMove = false;
-            canAttack = true;
-            Debug.Log("Attack the player!");
-            // 여기에서는 일반적으로 공격 애니메이션 또는 효과를 트리거합니다.
-
-        }
-        else
-        {
-
-            agent.SetDestination(player.position);
-            canMove = true;
-            canAttack = false;
+            pathFinder.SetDestination(target.position); // 대상 위치로 이동
         }
     }
 
-    // 핵심 맞았을 시
+    // 적이 공격을 받았을 때
     public void Hit(float damage)
     {
         damage = Random.Range(5, 10);
         if (!isDead)
         {
             health -= damage;
-            CheckHp();
+            CheckHp(); // HP 체크
             if (damagePool != null)
             {
                 GameObject damageUI = damagePool.GetObject();
@@ -89,10 +179,10 @@ public class CNormalEnemy : MonoBehaviour, IHittable
             }
             if (health <= 0)
             {
-                GameObject trhp = GameObject.Find("EnemyHpBarCanvas");
-                Destroy(trhp, 1f);
+                ChangeState(State.KILLED); // 사망 상태로 전환
+                Destroy(hpBarCanvas, 1f);
                 isDead = true;
-                HandleDeath();
+                HandleDeath(); // 사망 처리
             }
         }
     }
@@ -122,7 +212,7 @@ public class CNormalEnemy : MonoBehaviour, IHittable
         gameObject.GetComponent<Animator>().enabled = false;
         setRigidbodyState(false);
         setColliderState(true);
-        Destroy(gameObject, 5f);
+        Destroy(gameObject, 5f); // 5초 후에 게임 오브젝트 파괴
     }
 
     #endregion
@@ -132,19 +222,18 @@ public class CNormalEnemy : MonoBehaviour, IHittable
     {
         if (enemyHpbar != null)
         {
-            enemyHpbar.value = health;
+            enemyHpbar.value = health; // HP 바 업데이트
         }
-
     }
 
     private void SetHpBar()
     {
         // HP 바가 월드 스페이스 캔버스에 생성되도록 설정
-        GameObject canvasObject = new GameObject("EnemyHpBarCanvas");
-        canvasObject.transform.SetParent(transform);
-        Canvas canvas = canvasObject.AddComponent<Canvas>();
+        hpBarCanvas = new GameObject("EnemyHpBarCanvas");
+        hpBarCanvas.transform.SetParent(transform);
+        Canvas canvas = hpBarCanvas.AddComponent<Canvas>();
         canvas.renderMode = RenderMode.WorldSpace;
-        CanvasScaler canvasScaler = canvasObject.AddComponent<CanvasScaler>();
+        CanvasScaler canvasScaler = hpBarCanvas.AddComponent<CanvasScaler>();
         canvasScaler.dynamicPixelsPerUnit = 10;
 
         GameObject hpBar = Instantiate(hpBarPrefab, canvas.transform);
@@ -157,5 +246,4 @@ public class CNormalEnemy : MonoBehaviour, IHittable
         enemyHpbar.value = health;
     }
     #endregion
-
 }
