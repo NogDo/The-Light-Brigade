@@ -44,12 +44,12 @@ public class CHandAnimationController : MonoBehaviour
             triggerAction = transform.parent.GetComponent<ActionBasedController>().activateAction;
             selectAction = transform.parent.GetComponent<ActionBasedController>().selectAction;
             InitAction();
-        }
 
-        //qMeshOffset = tfHandOffsetNode.localRotation;
-        //qGloveMasterOffset = tfGloveMasterOffset.localRotation;
-        //v3GloveMasterOffset = tfGloveMasterOffset.localPosition;
-        //qGloveMasterOffset = tfGrabPoseMovemonetNode.localRotation;
+            qMeshOffset = tfHandOffsetNode.localRotation;
+            qGloveMasterOffset = tfGloveMasterOffset.localRotation;
+            v3GloveMasterOffset = tfGloveMasterOffset.localPosition;
+            qGloveMasterOffset = tfGrabPoseMovemonetNode.localRotation;
+        }
     }
 
     /// <summary>
@@ -80,6 +80,19 @@ public class CHandAnimationController : MonoBehaviour
     /// <param name="actionNumber">재생할 애니메이션 Number</param>
     public void ActionAnimation(int actionNumber)
     {
+        if (!isAnimatedHand)
+        {
+            if (actionNumber == 0)
+            {
+                InitPose();
+            }
+
+            else
+            {
+                ResetPose();
+            }
+        }
+
         animator.SetInteger("Action", actionNumber);
     }
 

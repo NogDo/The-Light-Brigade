@@ -7,7 +7,8 @@ public enum EGrabPoint
 {
     TRIGGER,
     BARREL,
-    BOLT
+    BOLT,
+    AMMO
 }
 
 public class CWeaponActionNumberChangeControl : MonoBehaviour
@@ -23,11 +24,10 @@ public class CWeaponActionNumberChangeControl : MonoBehaviour
     {
         if (other.CompareTag("Hand"))
         {
-            if (weapon.GetComponent<CHandGrabInteractable>().interactorsSelecting.Count > 0)
+            if (weapon.GetComponent<CTirggerBarrelInteractable>().interactorsSelecting.Count > 0)
             {
                 if (grabPointType != EGrabPoint.TRIGGER)
                 {
-                    //weapon.GetComponent<XRGrabInteractable>().secondaryAttachTransform = tfHandPose;
                     weapon.ActionNumber = (int)weapon.WeaponType + (int)grabPointType;
                 }
             }
