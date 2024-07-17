@@ -1,60 +1,29 @@
-using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class SceneLoader : MonoBehaviour
 {
-    public string loadingSceneName;
-    public string[] scenesToLoad;
-    public GameObject playerPrefab; // 플레이어 프리팹 참조
-    public Transform[] playerSpawnPoints; // 플레이어 스폰 위치 참조 배열
+    public string[] scenes; // 로드할 씬의 이름 배열
+    private int currentSceneIndex = 0; // 현재 로드할 씬의 인덱스
 
-    private Scene? previousScene = null;
-
-    private void OnTriggerEnter(Collider other)
+    void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
-            DontDestroyOnLoad(gameObject);
-            SceneManager.LoadScene(loadingSceneName, LoadSceneMode.Single);
-            StartCoroutine(LoadScenesInOrder());
+            LoadNextScene();
         }
     }
 
-    IEnumerator LoadScenesInOrder()
+    public void LoadNextScene()
     {
-        yield return new WaitForSeconds(1); // 로딩 씬이 완전히 로드될 시간을 기다립니다.
-
-        foreach (var sceneName in scenesToLoad)
+        if (currentSceneIndex < scenes.Length)
         {
-            if (previousScene.HasValue && previousScene.Value.isLoaded)
-            {
-                yield return SceneManager.UnloadSceneAsync(previousScene.Value);
-            }
-
-            AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
-            while (!asyncLoad.isDone)
-            {
-                yield return null;
-            }
-
-            Scene currentScene = SceneManager.GetSceneByName(sceneName);
-            SceneManager.SetActiveScene(currentScene);
-
-            if (playerSpawnPoints != null && playerSpawnPoints.Length > 0)
-            {
-                int index = System.Array.IndexOf(scenesToLoad, sceneName);
-                Instantiate(playerPrefab, playerSpawnPoints[index].position, Quaternion.identity);
-            }
-
-            previousScene = currentScene;
+            SceneManager.LoadScene(scenes[currentSceneIndex]);
+            currentSceneIndex++; // 다음 씬으로 인덱스 증가
         }
-
-        if (previousScene.HasValue && previousScene.Value.isLoaded)
+        else
         {
-            SceneManager.UnloadSceneAsync(previousScene.Value);
+            Debug.Log("모든 씬을 로드했습니다.");
         }
-
-        SceneManager.LoadScene(loadingSceneName, LoadSceneMode.Single);
     }
 }
