@@ -4,58 +4,81 @@ using UnityEngine.AI;
 using UnityEngine.UI;
 using TMPro;
 
+
+public enum State
+{
+    IDLE,   // 대기 상태
+    CHASE,  // 추적 상태
+    ATTACK, // 공격 상태
+    KILLED  // 사망 상태
+}
+
 public class CNormalEnemy : MonoBehaviour, IHittable
 {
+    CChasePlayer chaseplayer;
     #region 변수
-    private NavMeshAgent pathFinder; // 경로 탐색을 위한 NavMeshAgent
+    public NavMeshAgent nmAgent; // 경로 탐색을 위한 NavMeshAgent
     public GameObject hpBarPrefab; // HP 바 프리팹
     public GameObject damageTextPrefab; // 데미지 텍스트 프리팹
     public Vector3 v3HpBar = new Vector3(0, 2.4f, 0); // HP 바 위치 오프셋
     public Slider enemyHpbar; // 적의 HP 바 슬라이더
     private UIDamagePool damagePool; // 데미지 UI 풀
-    private Animator animatorNormalenemy; // 애니메이터
+    private Animator animatorEnemy; // 애니메이터
 
     public TagUnitType player; // 추적 대상 태그
     public float damage = 5f; // 공격력
     public float health = 20; // 현재 체력
     public float startingHealth = 20; // 시작 체력
 
-    public float attackDelay = 1f; // 공격 간격
+    public float attackDelay = 3f; // 공격 간격
     private float lastAttackTime; // 마지막 공격 시점
     private float dist; // 적과 추적 대상과의 거리
+    public float attackRange; // 공격 사거리
+
+    private bool canMove;
+    private bool canAttack;
 
     private bool isDead = false; // 사망 여부
     private GameObject hpBarCanvas; // 개별 HP 바 캔버스
     #endregion
 
-    #region 상태 기계
-    private enum State
+    // 추적 대상이 존재하는지 알려주는 프로퍼티
+    private bool hasTarget
     {
-        IDLE,   // 대기 상태
-        CHASE,  // 추적 상태
-        ATTACK, // 공격 상태
-        KILLED  // 사망 상태
+        get
+        {
+            // 추적할 대상이 존재하면
+            if (target != null)
+            {
+                return true;
+            }
+
+            return false;
+        }
     }
 
-    private State state; // 현재 상태
-    private Transform target; // 추적 대상
+    #region 상태 머신
+
+    public State state; // 현재 상태
+    public Transform target; // 추적 대상
+
     #endregion
 
-    void Start()
+    void Awake()
     {
         SetHpBar(); // HP 바 설정
         setRigidbodyState(true); // Rigidbody 상태 설정
         setColliderState(false); // Collider 상태 설정
 
         damagePool = FindObjectOfType<UIDamagePool>(); // 데미지 풀 찾기
-        pathFinder = GetComponent<NavMeshAgent>(); // NavMeshAgent 컴포넌트 가져오기
-        animatorNormalenemy = GetComponent<Animator>(); // 애니메이터 컴포넌트 가져오기
+        nmAgent = GetComponent<NavMeshAgent>(); // NavMeshAgent 컴포넌트 가져오기
+        animatorEnemy = GetComponent<Animator>(); // 애니메이터 컴포넌트 가져오기
 
         state = State.IDLE; // 초기 상태를 IDLE로 설정
-        StartCoroutine(StateMachine()); // 상태 기계 시작
+        StartCoroutine(StateMachine()); // 상태 머신 시작
     }
 
-    private IEnumerator StateMachine()
+    public IEnumerator StateMachine()
     {
         while (health > 0) // 체력이 0 이상일 때 계속 실행
         {
@@ -65,99 +88,114 @@ public class CNormalEnemy : MonoBehaviour, IHittable
 
     private IEnumerator IDLE()
     {
-        animatorNormalenemy.Play("IdleRifle"); // Idle 애니메이션 재생
+        var curAnimStateInfo = animatorEnemy.GetCurrentAnimatorStateInfo(0);
 
-        while (state == State.IDLE)
+        Debug.Log("Idle 상태");
+        animatorEnemy.Play("Idle"); // Idle 애니메이션 재생
+
+        int dir = Random.Range(0f, 1f) > 0.5f ? 1 : -1;
+        // 회전 속도 설정
+        float lookSpeed = Random.Range(5f, 10f);
+
+        for (float i = 0; i < curAnimStateInfo.length; i += Time.deltaTime)
         {
+            transform.localEulerAngles = new Vector3(0f, transform.localEulerAngles.y + (dir) * Time.deltaTime * lookSpeed, 0f);
             // IDLE 상태에서 할 일 (예: 주변을 둘러보기)
             yield return null;
         }
+        
     }
 
     private IEnumerator CHASE()
     {
-        animatorNormalenemy.Play("WalkFWD"); // 걷기 애니메이션 재생
-
-        while (state == State.CHASE)
+        var curAnimStateInfo = animatorEnemy.GetCurrentAnimatorStateInfo(0);
+        canMove = true;
+        animatorEnemy.SetBool("CanMove", true);
+        canAttack = false;
+        Debug.Log("CHASE");
+        if(curAnimStateInfo.IsName("Walk")== false)
         {
-            if (target == null)
-            {
-                ChangeState(State.IDLE); // 대상이 없으면 IDLE 상태로 전환
-                yield break;
-            }
-
-            pathFinder.SetDestination(target.position); // 대상 위치로 이동
-
-            if (pathFinder.remainingDistance <= pathFinder.stoppingDistance)
-            {
-                ChangeState(State.ATTACK); // 대상에 도달하면 ATTACK 상태로 전환
-            }
-            else if (Vector3.Distance(transform.position, target.position) > pathFinder.stoppingDistance * 2)
-            {
-                target = null;
-                ChangeState(State.IDLE); // 대상이 멀어지면 IDLE 상태로 전환
-            }
-
+            animatorEnemy.Play("Walk", 0, 0);
             yield return null;
+        }
+        // 목표까지의 남은 거리가 멈추는 지점(10f)보다 작거나 같으면
+        if (nmAgent.remainingDistance <= nmAgent.stoppingDistance)
+        {
+            ChangeState(State.ATTACK); // 대상에 도달하면 ATTACK 상태로 전환
+        }
+        // 탐지거리 밖이면 다시 IDLE
+        else if (nmAgent.remainingDistance > 15)
+        {
+            target = null;
+            nmAgent.SetDestination(transform.position); // 대상 위치로 이동
+            yield return null;
+            ChangeState(State.IDLE); // 대상이 멀어지면 IDLE 상태로 전환
+        }
+        else
+        {
+            yield return new WaitForSeconds(curAnimStateInfo.length);
         }
     }
 
     private IEnumerator ATTACK()
     {
-        animatorNormalenemy.Play("Attack01"); // 공격 애니메이션 재생
-
-        while (state == State.ATTACK)
+        Debug.Log("ATTACK 상태");
+        if (target == null)
         {
-            if (target == null)
-            {
-                ChangeState(State.IDLE); // 대상이 없으면 IDLE 상태로 전환
-                yield break;
-            }
-
-            if (pathFinder.remainingDistance > pathFinder.stoppingDistance)
-            {
-                ChangeState(State.CHASE); // 대상이 멀어지면 CHASE 상태로 전환
-                yield break;
-            }
-
-            if (Time.time >= lastAttackTime + attackDelay)
-            {
-                // 공격 수행
-                lastAttackTime = Time.time;
-                // 플레이어나 대상에게 데미지 적용
-            }
-
-            yield return null;
+            canAttack = false;
+            ChangeState(State.IDLE); // 대상이 없으면 IDLE 상태로 전환
+            yield break;
         }
+
+        // 자신이 사망하지 않고, 최근 공격 시점에서 attackDelay 이상 시간이 지났고,
+        // 플레이어와의 거리가 공격 사거리안에 있다면 공격 가능
+        if (!isDead && nmAgent.remainingDistance <= attackRange)
+        {
+            // 공격 반경 안에 있으면 움직임을 멈춤.
+            canMove = false;
+            this.transform.LookAt(target.transform);
+
+            // 공격 딜레이가 지났다면 공격 애니메이션 실행
+            if (lastAttackTime + attackDelay <= Time.time)
+            {
+                canAttack = true;
+                lastAttackTime = Time.time; // 최근 공격 시간 초기화
+            }
+            // 공격 반경 안에 있지만, 딜레이가 남아있을 경우
+            else
+            {
+                //canAttack = false;
+            }
+        }
+        else
+        {
+            ChangeState(State.CHASE); // 대상이 멀어지면 CHASE 상태로 전환
+        }
+
+        yield return null;
+        
     }
 
     private IEnumerator KILLED()
     {
+        Debug.Log("KILLED 상태");
         // 적 사망 로직 처리
-       
+
         yield return null;
     }
 
-    private void ChangeState(State newState)
+    public void ChangeState(State newState)
     {
         state = newState; // 새로운 상태로 전환
     }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.CompareTag("Player"))
-        {
-            target = other.transform; // 대상 설정
-            ChangeState(State.CHASE); // 추적 상태로 전환
-        }
-    }
-
+    
     void Update()
     {
-        if (target != null)
-        {
-            pathFinder.SetDestination(target.position); // 대상 위치로 이동
-        }
+        // 추적 대상의 존재 여부에 따라 다른 애니메이션 재생
+        //animatorEnemy.SetBool("CanMove", canMove);
+
+        // 공격 애니메이션 재생
+        //animatorEnemy.SetBool("CanAttack", canAttack); 
     }
 
     // 적이 공격을 받았을 때
