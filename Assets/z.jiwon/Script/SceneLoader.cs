@@ -1,43 +1,60 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class SceneLoader : MonoBehaviour
 {
-    public string[] ScenesToLoad;
+    public string loadingSceneName;
+    public string[] scenesToLoad;
+    public GameObject playerPrefab; // 플레이어 프리팹 참조
+    public Transform[] playerSpawnPoints; // 플레이어 스폰 위치 참조 배열
+
+    private Scene? previousScene = null;
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
+            DontDestroyOnLoad(gameObject);
+            SceneManager.LoadScene(loadingSceneName, LoadSceneMode.Single);
             StartCoroutine(LoadScenesInOrder());
         }
     }
 
     IEnumerator LoadScenesInOrder()
     {
-        foreach (var sceneName in ScenesToLoad)
-        {
-            yield return StartCoroutine(LoadSceneAsync(sceneName));
-        }
-    }
+        yield return new WaitForSeconds(1); // 로딩 씬이 완전히 로드될 시간을 기다립니다.
 
-    IEnumerator LoadSceneAsync(string sceneName)
-    {
-        Debug.Log($"Loading{sceneName}...");
-        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
-        while (asyncLoad.progress < 0.9f)
+        foreach (var sceneName in scenesToLoad)
         {
-            yield return null;
-        }
-        asyncLoad.allowSceneActivation = true;
+            if (previousScene.HasValue && previousScene.Value.isLoaded)
+            {
+                yield return SceneManager.UnloadSceneAsync(previousScene.Value);
+            }
 
-        while (!asyncLoad.isDone)
+            AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
+            while (!asyncLoad.isDone)
+            {
+                yield return null;
+            }
+
+            Scene currentScene = SceneManager.GetSceneByName(sceneName);
+            SceneManager.SetActiveScene(currentScene);
+
+            if (playerSpawnPoints != null && playerSpawnPoints.Length > 0)
+            {
+                int index = System.Array.IndexOf(scenesToLoad, sceneName);
+                Instantiate(playerPrefab, playerSpawnPoints[index].position, Quaternion.identity);
+            }
+
+            previousScene = currentScene;
+        }
+
+        if (previousScene.HasValue && previousScene.Value.isLoaded)
         {
-            yield return null;
+            SceneManager.UnloadSceneAsync(previousScene.Value);
         }
 
-        Debug.Log($"{sceneName} loaded");
+        SceneManager.LoadScene(loadingSceneName, LoadSceneMode.Single);
     }
 }
