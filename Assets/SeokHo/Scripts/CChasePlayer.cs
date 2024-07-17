@@ -22,6 +22,10 @@ public class CChasePlayer : MonoBehaviour
         else if(other.CompareTag("Player"))
         {
             Debug.Log("닿았음");
+            if(normalenemy == null)
+            {
+                return;
+            }
             // 공격 상태로 전환
             normalenemy.ChangeState(State.CHASE);
             normalenemy.target = other.transform;
