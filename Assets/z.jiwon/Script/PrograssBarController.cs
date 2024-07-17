@@ -9,13 +9,16 @@ public class PrograssBarController : MonoBehaviour
 
     void Start()
     {
-        StartCoroutine(LoadSceneProgress());
+        int sceneIndex = PlayerPrefs.GetInt("NextSceneIndex", 0); // 기본값은 0
+        StartCoroutine(LoadSceneProgress(sceneIndex));
     }
 
-    IEnumerator LoadSceneProgress()
+    IEnumerator LoadSceneProgress(int sceneIndex)
     {
-        AsyncOperation op = SceneManager.LoadSceneAsync("Map 1");
+        Debug.Log("Loading Scene Index: " + sceneIndex);
+        AsyncOperation op = SceneManager.LoadSceneAsync(sceneIndex);
         op.allowSceneActivation = false;
+
 
         while (!op.isDone)
         {
@@ -27,12 +30,8 @@ public class PrograssBarController : MonoBehaviour
             }
             else
             {
-                progressBar.fillAmount = Mathf.Clamp01(op.progress / 0.9f); // 90%를 기준으로 가득 차도록 설정
-
-                // 로딩 완료 후 3초 대기
+                progressBar.fillAmount = Mathf.Clamp01(op.progress / 0.9f);
                 yield return new WaitForSeconds(3);
-
-                // 3초 후 씬 활성화
                 op.allowSceneActivation = true;
                 yield break;
             }

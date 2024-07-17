@@ -8,22 +8,23 @@ public class SceneLoader : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player"))
+        if (other.CompareTag("Player") && currentSceneIndex < scenes.Length)
         {
-            LoadNextScene();
+            Debug.Log("Current Scene Index: " + currentSceneIndex);
+            PlayerPrefs.SetInt("NextSceneIndex", currentSceneIndex);
+            SceneManager.LoadScene("LoadingScene");
         }
     }
-
     public void LoadNextScene()
     {
-        if (currentSceneIndex < scenes.Length)
+        if (currentSceneIndex < scenes.Length - 1)
         {
-            SceneManager.LoadScene(scenes[currentSceneIndex]);
-            currentSceneIndex++; // 다음 씬으로 인덱스 증가
+            currentSceneIndex++;
+            PlayerPrefs.SetInt("NextSceneIndex", currentSceneIndex);
         }
         else
         {
-            Debug.Log("모든 씬을 로드했습니다.");
+            Debug.Log("End of game, no more scenes to load.");
         }
     }
 }
