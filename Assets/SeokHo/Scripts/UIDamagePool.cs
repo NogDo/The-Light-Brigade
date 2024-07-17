@@ -1,14 +1,11 @@
-using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine;
 
 public class UIDamagePool : MonoBehaviour
 {
     public GameObject prefab;
-    private int poolSize = 10;
-
+    private int poolSize = 20;
     private Queue<GameObject> pool;
-
-    // 데미지 텍스트 객체를 재사용하기 위한 객체 풀 관리
 
     void Start()
     {

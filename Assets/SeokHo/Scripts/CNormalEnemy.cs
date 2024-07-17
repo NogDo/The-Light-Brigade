@@ -1,57 +1,193 @@
+using System.Collections;
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.UI;
 using TMPro;
-using System.Collections;
-using UnityEngine.AI;
 
 public class CNormalEnemy : MonoBehaviour, IHittable
 {
-    // 경로 계산 AI 에이전트 변수 선언
-    private NavMeshAgent pathFinder;
-    // 추적 대상 
+    #region 변수
+    private NavMeshAgent pathFinder; // 경로 탐색을 위한 NavMeshAgent
+    public GameObject hpBarPrefab; // HP 바 프리팹
+    public GameObject damageTextPrefab; // 데미지 텍스트 프리팹
+    public Vector3 v3HpBar = new Vector3(0, 2.4f, 0); // HP 바 위치 오프셋
+    public Slider enemyHpbar; // 적의 HP 바 슬라이더
+    private UIDamagePool damagePool; // 데미지 UI 풀
+    private Animator animatorNormalenemy; // 애니메이터
 
-    // AI 에이전트 정지 제어
-    // pathFinder.isStopped = true/false;
+    public TagUnitType player; // 추적 대상 태그
+    public float damage = 5f; // 공격력
+    public float health = 20; // 현재 체력
+    public float startingHealth = 20; // 시작 체력
 
-    // AI 목적지 정하기
-    //pathFinder.SetDestination(추적대상.transform.position);
-    //pathFinder.SetDestination(targetEntity.transform.position);
+    public float attackDelay = 1f; // 공격 간격
+    private float lastAttackTime; // 마지막 공격 시점
+    private float dist; // 적과 추적 대상과의 거리
 
-    public GameObject hpBarPrefab;
-    public GameObject damageTextPrefab;
-    public Canvas canvasHpbar;
-    public Vector3 v3HpBar = new Vector3(0, 2.4f, 0);
-    public Slider enemyHpbar;
-    private UIDamagePool damagePool;
-    public TagUnitType player;
+    private bool isDead = false; // 사망 여부
+    private GameObject hpBarCanvas; // 개별 HP 바 캔버스
+    #endregion
 
-    /*
-    public ParticleSystem hitEffect; //피격 이펙트
-    public AudioClip deathSound;//사망 사운드
-    public AudioClip hitSound; //피격 사운드
-    */
-    private Animator enemyAnimator;
-    //private AudioSource enemyAudioPlayer; //오디오 소스 컴포넌트
+    #region 상태 기계
+    private enum State
+    {
+        IDLE,   // 대기 상태
+        CHASE,  // 추적 상태
+        ATTACK, // 공격 상태
+        KILLED  // 사망 상태
+    }
 
-
-    public float startingHealth = 20;
-    public float health = 20;
-    public float damage = 5f; //공격력
-    public float attackDelay = 1f; //공격 딜레이
-    private float lastAttackTime; //마지막 공격 시점
-    private float dist; //추적대상과의 거리
-
-    private bool isDead = false; // 적 사망 여부
-
-    // 적 캐릭터의 히트 처리 및 데미지 텍스트 표시 관리
+    private State state; // 현재 상태
+    private Transform target; // 추적 대상
+    #endregion
 
     void Start()
     {
-        SetHpBar();
-        setRigidbodyState(true);
-        setColliderState(false);
+        SetHpBar(); // HP 바 설정
+        setRigidbodyState(true); // Rigidbody 상태 설정
+        setColliderState(false); // Collider 상태 설정
+
+        damagePool = FindObjectOfType<UIDamagePool>(); // 데미지 풀 찾기
+        pathFinder = GetComponent<NavMeshAgent>(); // NavMeshAgent 컴포넌트 가져오기
+        animatorNormalenemy = GetComponent<Animator>(); // 애니메이터 컴포넌트 가져오기
+
+        state = State.IDLE; // 초기 상태를 IDLE로 설정
+        StartCoroutine(StateMachine()); // 상태 기계 시작
     }
 
+    private IEnumerator StateMachine()
+    {
+        while (health > 0) // 체력이 0 이상일 때 계속 실행
+        {
+            yield return StartCoroutine(state.ToString()); // 현재 상태 실행
+        }
+    }
+
+    private IEnumerator IDLE()
+    {
+        animatorNormalenemy.Play("IdleRifle"); // Idle 애니메이션 재생
+
+        while (state == State.IDLE)
+        {
+            // IDLE 상태에서 할 일 (예: 주변을 둘러보기)
+            yield return null;
+        }
+    }
+
+    private IEnumerator CHASE()
+    {
+        animatorNormalenemy.Play("WalkFWD"); // 걷기 애니메이션 재생
+
+        while (state == State.CHASE)
+        {
+            if (target == null)
+            {
+                ChangeState(State.IDLE); // 대상이 없으면 IDLE 상태로 전환
+                yield break;
+            }
+
+            pathFinder.SetDestination(target.position); // 대상 위치로 이동
+
+            if (pathFinder.remainingDistance <= pathFinder.stoppingDistance)
+            {
+                ChangeState(State.ATTACK); // 대상에 도달하면 ATTACK 상태로 전환
+            }
+            else if (Vector3.Distance(transform.position, target.position) > pathFinder.stoppingDistance * 2)
+            {
+                target = null;
+                ChangeState(State.IDLE); // 대상이 멀어지면 IDLE 상태로 전환
+            }
+
+            yield return null;
+        }
+    }
+
+    private IEnumerator ATTACK()
+    {
+        animatorNormalenemy.Play("Attack01"); // 공격 애니메이션 재생
+
+        while (state == State.ATTACK)
+        {
+            if (target == null)
+            {
+                ChangeState(State.IDLE); // 대상이 없으면 IDLE 상태로 전환
+                yield break;
+            }
+
+            if (pathFinder.remainingDistance > pathFinder.stoppingDistance)
+            {
+                ChangeState(State.CHASE); // 대상이 멀어지면 CHASE 상태로 전환
+                yield break;
+            }
+
+            if (Time.time >= lastAttackTime + attackDelay)
+            {
+                // 공격 수행
+                lastAttackTime = Time.time;
+                // 플레이어나 대상에게 데미지 적용
+            }
+
+            yield return null;
+        }
+    }
+
+    private IEnumerator KILLED()
+    {
+        // 적 사망 로직 처리
+       
+        yield return null;
+    }
+
+    private void ChangeState(State newState)
+    {
+        state = newState; // 새로운 상태로 전환
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            target = other.transform; // 대상 설정
+            ChangeState(State.CHASE); // 추적 상태로 전환
+        }
+    }
+
+    void Update()
+    {
+        if (target != null)
+        {
+            pathFinder.SetDestination(target.position); // 대상 위치로 이동
+        }
+    }
+
+    // 적이 공격을 받았을 때
+    public void Hit(float damage)
+    {
+        damage = Random.Range(5, 10);
+        if (!isDead)
+        {
+            health -= damage;
+            CheckHp(); // HP 체크
+            if (damagePool != null)
+            {
+                GameObject damageUI = damagePool.GetObject();
+                TextMeshProUGUI text = damageUI.GetComponent<TextMeshProUGUI>();
+                text.text = damage.ToString();
+
+                UIDamageText damageText = damageUI.GetComponent<UIDamageText>();
+                damageText.Initialize(transform, Vector3.up * 2, damagePool);
+            }
+            if (health <= 0)
+            {
+                ChangeState(State.KILLED); // 사망 상태로 전환
+                Destroy(hpBarCanvas, 1f);
+                isDead = true;
+                HandleDeath(); // 사망 처리
+            }
+        }
+    }
+
+    #region Ragdoll, Collider 관련
     void setRigidbodyState(bool state)
     {
         Rigidbody[] rigidbodies = gameObject.GetComponentsInChildren<Rigidbody>();
@@ -70,64 +206,44 @@ public class CNormalEnemy : MonoBehaviour, IHittable
         }
         gameObject.GetComponent<Collider>().enabled = true;
     }
-    public void Hit()
+
+    private void HandleDeath()
     {
-        if (!isDead)
-        {
-            Debug.Log("맞음");
-            health -= damage;
-            CheckHp();
-            if (damagePool != null)
-            {
-                GameObject damageUI = damagePool.GetObject();
-                TextMeshProUGUI text = damageUI.GetComponent<TextMeshProUGUI>();
-                text.text = damage.ToString();
-                Debug.Log(text);
-                Debug.Log("데미지 로그");
-
-                // UIDamageText 컴포넌트 초기화
-                UIDamageText damageText = damageUI.GetComponent<UIDamageText>();
-                damageText.Initialize(transform, Vector3.up * 2); // 적의 위치와 오프셋 설정
-
-                StartCoroutine(ReturnDamageUIToPool(damageUI, 1f));
-            }
-            if (health <= 0)
-            {
-                isDead = true;
-            }
-        }
-        if (isDead)
-        {
-            Debug.Log("죽음");
-            // rbEnemybody.AddForce(new Vector3(0f, 1000f, 1000f));
-            gameObject.GetComponent<Animator>().enabled = false;
-            Destroy(gameObject, 5f);
-            setRigidbodyState(false);
-            setColliderState(true);
-        }
+        gameObject.GetComponent<Animator>().enabled = false;
+        setRigidbodyState(false);
+        setColliderState(true);
+        Destroy(gameObject, 5f); // 5초 후에 게임 오브젝트 파괴
     }
+
+    #endregion
+
+    #region HPBar 관련
     private void CheckHp()
     {
         if (enemyHpbar != null)
         {
-            enemyHpbar.value = health;
+            enemyHpbar.value = health; // HP 바 업데이트
         }
     }
+
     private void SetHpBar()
     {
-        canvasHpbar = GameObject.Find("Enemy HpBar Canvas").GetComponent<Canvas>();
-        GameObject hpBar = Instantiate(hpBarPrefab, canvasHpbar.transform);
+        // HP 바가 월드 스페이스 캔버스에 생성되도록 설정
+        hpBarCanvas = new GameObject("EnemyHpBarCanvas");
+        hpBarCanvas.transform.SetParent(transform);
+        Canvas canvas = hpBarCanvas.AddComponent<Canvas>();
+        canvas.renderMode = RenderMode.WorldSpace;
+        CanvasScaler canvasScaler = hpBarCanvas.AddComponent<CanvasScaler>();
+        canvasScaler.dynamicPixelsPerUnit = 10;
+
+        GameObject hpBar = Instantiate(hpBarPrefab, canvas.transform);
         var hpBarScript = hpBar.GetComponent<UIEnemyHpBar>();
-        hpBarScript.enemyTransform = transform;
-        hpBarScript.offset = v3HpBar;
+        hpBarScript.trEnemy = transform;
+        hpBarScript.v3offset = v3HpBar;
 
         enemyHpbar = hpBar.GetComponentInChildren<Slider>();
         enemyHpbar.maxValue = startingHealth;
         enemyHpbar.value = health;
     }
-    private IEnumerator ReturnDamageUIToPool(GameObject damageUI, float delay)
-    {
-        yield return new WaitForSeconds(delay);
-        damagePool.ReturnObject(damageUI);
-    }
+    #endregion
 }
