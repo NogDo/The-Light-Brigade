@@ -7,6 +7,7 @@ public class CWeaponController : MonoBehaviour
 {
     #region private º¯¼ö
     XRGrabInteractable grabInteractable;
+    Animator animator;
     CWeapon weapon;
     CAmmo nowEquipAmmo;
     #endregion
@@ -19,6 +20,7 @@ public class CWeaponController : MonoBehaviour
     void Start()
     {
         grabInteractable = GetComponent<XRGrabInteractable>();
+        animator = GetComponent<Animator>();
         weapon = GetComponent<CWeapon>();
 
         grabInteractable.activated.AddListener(Fire);
@@ -55,6 +57,8 @@ public class CWeaponController : MonoBehaviour
                     hitObj.Hit(weapon.Damage);
                 }
             }
+
+            animator.SetTrigger("Fire");
         }
 
         else
