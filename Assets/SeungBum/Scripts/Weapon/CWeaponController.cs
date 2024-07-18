@@ -12,6 +12,9 @@ public class CWeaponController : MonoBehaviour
 
     ActionBasedController leftController;
     ActionBasedController rightController;
+
+    [SerializeField]
+    UIWeapon weaponUI;
     #endregion
 
     #region public 변수
@@ -80,12 +83,15 @@ public class CWeaponController : MonoBehaviour
     /// <param name="eventArgs">ActiveEvent</param>
     public void Fire(ActivateEventArgs eventArgs)
     {
-        if (nowEquipAmmo is not null && nowEquipAmmo.BulletCount > 0)
+        if (nowEquipAmmo is not null && nowEquipAmmo.BulletNowCount > 0)
         {
             RaycastHit hit;
 
             nowEquipAmmo.DecreaseBulltCount();
-            Debug.LogFormat("총알 발사! 남은 총알 개수 : {0}", nowEquipAmmo.BulletCount);
+
+            weaponUI.ChangeBulletCount(nowEquipAmmo.BulletNowCount);
+            weaponUI.ChangeColor((nowEquipAmmo.RemainBulletPercent >= 0.4f) ? Color.white : Color.red);
+            Debug.LogFormat("총알 발사! 남은 총알 개수 : {0}", nowEquipAmmo.BulletNowCount);
 
             if (Physics.Raycast(bulletTransform.position, bulletTransform.forward, out hit, float.MaxValue))
             {
@@ -153,8 +159,11 @@ public class CWeaponController : MonoBehaviour
     {
         if (nowEquipAmmo is not null)
         {
-            weapon.Reload(nowEquipAmmo.BulletCount);
-            Debug.LogFormat("장전 완료 : {0}", nowEquipAmmo.BulletCount);
+            weapon.Reload(nowEquipAmmo.BulletNowCount);
+
+            weaponUI.ChangeBulletCount(nowEquipAmmo.BulletNowCount);
+            weaponUI.ChangeColor((nowEquipAmmo.RemainBulletPercent >= 0.4f) ? Color.white : Color.red);
+            Debug.LogFormat("장전 완료 : {0}", nowEquipAmmo.BulletNowCount);
         }
 
         else

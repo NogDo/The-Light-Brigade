@@ -6,7 +6,8 @@ public class CAmmo : MonoBehaviour
 {
     #region protected 변수
     protected EWeapon equipWeaponType;
-    protected int nBulletCount;
+    protected int nBulletMaxCount;
+    protected int nBulletNowCount;
     #endregion
 
     /// <summary>
@@ -21,13 +22,35 @@ public class CAmmo : MonoBehaviour
     }
 
     /// <summary>
-    /// 탄창의 남은 총알 개수
+    /// 탄창의 최대 총알 개수
     /// </summary>
-    public int BulletCount
+    public int BulletMaxCount
     {
         get
         {
-            return nBulletCount;
+            return nBulletMaxCount;
+        }
+    }
+
+    /// <summary>
+    /// 탄창의 남은 총알 개수
+    /// </summary>
+    public int BulletNowCount
+    {
+        get
+        {
+            return nBulletNowCount;
+        }
+    }
+
+    /// <summary>
+    /// 남은 총알의 비율
+    /// </summary>
+    public float RemainBulletPercent
+    {
+        get
+        {
+            return nBulletNowCount / (float)nBulletMaxCount;
         }
     }
 
@@ -36,6 +59,6 @@ public class CAmmo : MonoBehaviour
     /// </summary>
     public void DecreaseBulltCount()
     {
-        nBulletCount--;
+        nBulletNowCount--;
     }
 }
