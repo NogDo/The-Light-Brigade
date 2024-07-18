@@ -70,6 +70,10 @@ public class CTirggerBarrelInteractable : XRGrabInteractable
             rightControllerAnimation.tfHandOffsetNode.gameObject.SetActive(false);
 
             args.interactableObject.transform.GetComponent<CWeaponController>().GrabRightController(args);
+            args.interactorObject.transform.root.GetComponentInChildren<CPlayerController>().SetWeaponUI
+                (
+                    args.interactableObject.transform.GetComponent<CWeaponController>().WeaponUI
+                );
         }
 
         base.OnSelectEntering(args);
@@ -95,6 +99,8 @@ public class CTirggerBarrelInteractable : XRGrabInteractable
             rightControllerAnimation.tfHandOffsetNode.gameObject.SetActive(true);
 
             args.interactableObject.transform.GetComponent<CWeaponController>().ReleaseRightController();
+            args.interactableObject.transform.GetComponent<CWeaponController>().WeaponUI.gameObject.SetActive(false);
+            args.interactorObject.transform.root.GetComponentInChildren<CPlayerController>().SetWeaponUI(null);
         }
 
         base.OnSelectExiting(args);

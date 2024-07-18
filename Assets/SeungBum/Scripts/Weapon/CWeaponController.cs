@@ -47,6 +47,17 @@ public class CWeaponController : MonoBehaviour
     }
 
     /// <summary>
+    /// WeaponUI Class 반환
+    /// </summary>
+    public UIWeapon WeaponUI
+    {
+        get
+        {
+            return weaponUI;
+        }
+    }
+
+    /// <summary>
     /// 무기를 왼쪽 손으로 그랩했을 때 leftController를 할당
     /// </summary>
     /// <param name="args"></param>
@@ -98,7 +109,7 @@ public class CWeaponController : MonoBehaviour
             nowEquipAmmo.DecreaseBulltCount();
 
             weaponUI.ChangeBulletCount(nowEquipAmmo.BulletNowCount);
-            weaponUI.ChangeColor((nowEquipAmmo.RemainBulletPercent >= 0.4f) ? Color.white : Color.red);
+            weaponUI.ChangeBulletUIColor((nowEquipAmmo.RemainBulletPercent >= 0.4f) ? Color.white : Color.red);
             Debug.LogFormat("총알 발사! 남은 총알 개수 : {0}", nowEquipAmmo.BulletNowCount);
 
             if (Physics.Raycast(bulletTransform.position, bulletTransform.forward, out hit, float.MaxValue))
@@ -182,7 +193,7 @@ public class CWeaponController : MonoBehaviour
             weapon.Reload(nowEquipAmmo.BulletNowCount);
 
             weaponUI.ChangeBulletCount(nowEquipAmmo.BulletNowCount);
-            weaponUI.ChangeColor((nowEquipAmmo.RemainBulletPercent >= 0.4f) ? Color.white : Color.red);
+            weaponUI.ChangeBulletUIColor((nowEquipAmmo.RemainBulletPercent >= 0.4f) ? Color.white : Color.red);
             Debug.LogFormat("장전 완료 : {0}", nowEquipAmmo.BulletNowCount);
         }
 
