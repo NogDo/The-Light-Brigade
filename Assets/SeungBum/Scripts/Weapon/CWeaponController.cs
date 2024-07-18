@@ -7,7 +7,6 @@ public class CWeaponController : MonoBehaviour
 {
     #region private 변수
     XRGrabInteractable grabInteractable;
-    Animator animator;
     CWeapon weapon;
     CAmmo nowEquipAmmo;
     #endregion
@@ -20,8 +19,8 @@ public class CWeaponController : MonoBehaviour
     void Start()
     {
         grabInteractable = GetComponent<XRGrabInteractable>();
-        animator = GetComponent<Animator>();
         weapon = GetComponent<CWeapon>();
+        nowEquipAmmo = null;
 
         grabInteractable.activated.AddListener(Fire);
 
@@ -58,12 +57,13 @@ public class CWeaponController : MonoBehaviour
                 }
             }
 
-            animator.SetTrigger("Fire");
+            Recoil();
         }
 
         else
         {
             Debug.LogFormat("남은 총알 개수가 없다!");
+            Recoil();
         }
     }
 
@@ -100,7 +100,29 @@ public class CWeaponController : MonoBehaviour
 
         else
         {
-            Debug.LogFormat("장전 실패 : {0}", nowEquipAmmo.BulletCount);
+            Debug.LogFormat("장전 실패");
+        }
+    }
+
+
+    public void Recoil()
+    {
+        Debug.Log("Recoil Work");
+        StartCoroutine(RecoilStart());
+    }
+
+    IEnumerator RecoilStart()
+    {
+        float fStartTime = 0.0f;
+
+        while (fStartTime <= 0.05f)
+        {
+            transform.Translate(Vector3.forward * -3.0f * Time.deltaTime);
+            transform.Rotate(Vector3.right * -60.0f * Time.deltaTime);
+
+            fStartTime += Time.deltaTime;
+
+            yield return null;
         }
     }
 }
