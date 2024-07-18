@@ -132,6 +132,7 @@ public class CWeaponController : MonoBehaviour
     public void AddAmmo(SelectEnterEventArgs args)
     {
         nowEquipAmmo = args.interactableObject.transform.GetComponent<CAmmo>();
+        nowEquipAmmo.GetComponent<Rigidbody>().isKinematic = false;
         Debug.LogFormat("ÅºÃ¢ ÀåÂø : {0}", nowEquipAmmo.name);
     }
 

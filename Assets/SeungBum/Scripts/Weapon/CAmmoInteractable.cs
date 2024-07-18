@@ -14,7 +14,6 @@ public class CAmmoInteractable : XRGrabInteractable
     XRRayInteractor leftRayController;
     XRRayInteractor rightRayController;
 
-
     CHandAnimationController leftHandAnimationController;
     CHandAnimationController rightHandAnimationController;
     #endregion
@@ -58,6 +57,8 @@ public class CAmmoInteractable : XRGrabInteractable
             }
 
             rightHandAnimationController.ActionAnimation(weaponNumber + (int)EGrabPoint.AMMO);
+
+            
         }
 
         base.OnSelectEntering(args);
