@@ -9,6 +9,9 @@ public class CWeaponController : MonoBehaviour
     XRGrabInteractable grabInteractable;
     CWeapon weapon;
     CAmmo nowEquipAmmo;
+
+    ActionBasedController leftController;
+    ActionBasedController rightController;
     #endregion
 
     #region public 변수
@@ -23,6 +26,7 @@ public class CWeaponController : MonoBehaviour
         nowEquipAmmo = null;
 
         grabInteractable.activated.AddListener(Fire);
+        grabInteractable.activated.AddListener(Haptic);
 
         ammoSoketInteractor.selectEntered.AddListener(AddAmmo);
         ammoSoketInteractor.selectExited.AddListener(RemoveAmmo);
@@ -34,6 +38,40 @@ public class CWeaponController : MonoBehaviour
         {
             grabInteractable.activated.RemoveListener(Fire);
         }
+    }
+
+    /// <summary>
+    /// 무기를 왼쪽 손으로 그랩했을 때 leftController를 할당
+    /// </summary>
+    /// <param name="args"></param>
+    public void GrabLeftController(SelectEnterEventArgs args)
+    {
+        leftController = args.interactorObject.transform.parent.GetComponent<ActionBasedController>();
+    }
+
+    /// <summary>
+    /// 무기를 오른쪽 손으로 그랩했을 때 rightController를 할당
+    /// </summary>
+    /// <param name="args"></param>
+    public void GrabRightController(SelectEnterEventArgs args)
+    {
+        rightController = args.interactorObject.transform.parent.GetComponent<ActionBasedController>();
+    }
+
+    /// <summary>
+    /// 왼쪽 손의 그랩을 Release했을 때 leftController를 해제
+    /// </summary>
+    public void ReleaseLeftController()
+    {
+        leftController = null;
+    }
+
+    /// <summary>
+    /// 오른쪽 손의 그랩을 Release했을 때 rightController를 해제
+    /// </summary>
+    public void ReleaseRightController()
+    {
+        rightController = null;
     }
 
     /// <summary>
@@ -64,6 +102,26 @@ public class CWeaponController : MonoBehaviour
         {
             Debug.LogFormat("남은 총알 개수가 없다!");
             Recoil();
+        }
+    }
+
+    /// <summary>
+    /// 컨트롤러를 진동시키기 위한 메서드
+    /// </summary>
+    /// <param name="eventArgs"></param>
+    public void Haptic(ActivateEventArgs eventArgs)
+    {
+
+        if (leftController is not null)
+        {
+            Debug.Log("왼쪽 손 진동 발생!");
+            leftController.SendHapticImpulse(0.8f, 0.5f);
+        }
+
+        if (rightController is not null)
+        {
+            Debug.Log("오른쪽 손 진동 발생!");
+            rightController.SendHapticImpulse(0.8f, 0.5f);
         }
     }
 
@@ -104,13 +162,19 @@ public class CWeaponController : MonoBehaviour
         }
     }
 
-
+    /// <summary>
+    /// Trigger시 총기 반동을 주기위한 Coroutine을 실행하는 메서드
+    /// </summary>
     public void Recoil()
     {
         Debug.Log("Recoil Work");
         StartCoroutine(RecoilStart());
     }
 
+    /// <summary>
+    /// 총에 반동을 준다.
+    /// </summary>
+    /// <returns></returns>
     IEnumerator RecoilStart()
     {
         float fStartTime = 0.0f;
