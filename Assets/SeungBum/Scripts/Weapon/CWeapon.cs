@@ -20,6 +20,8 @@ public class CWeapon : CInteractable
 
     #region protected º¯¼ö
     protected EWeapon weaponType;
+
+    protected float fShootCoolTime;
     #endregion
 
     /// <summary>
@@ -73,6 +75,17 @@ public class CWeapon : CInteractable
         protected set
         {
             weaponType = value;
+        }
+    }
+
+    /// <summary>
+    /// ÃÑ ¹ß»ç ÄðÅ¸ÀÓ
+    /// </summary>
+    public float ShootCoolTime
+    {
+        get
+        {
+            return fShootCoolTime;
         }
     }
 

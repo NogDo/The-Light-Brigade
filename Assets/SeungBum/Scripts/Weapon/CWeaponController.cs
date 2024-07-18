@@ -15,6 +15,8 @@ public class CWeaponController : MonoBehaviour
 
     [SerializeField]
     UIWeapon weaponUI;
+
+    bool isFireReady;
     #endregion
 
     #region public 변수
@@ -29,10 +31,11 @@ public class CWeaponController : MonoBehaviour
         nowEquipAmmo = null;
 
         grabInteractable.activated.AddListener(Fire);
-        grabInteractable.activated.AddListener(Haptic);
 
         ammoSoketInteractor.selectEntered.AddListener(AddAmmo);
         ammoSoketInteractor.selectExited.AddListener(RemoveAmmo);
+
+        isFireReady = true;
     }
 
     void OnDisable()
@@ -83,6 +86,11 @@ public class CWeaponController : MonoBehaviour
     /// <param name="eventArgs">ActiveEvent</param>
     public void Fire(ActivateEventArgs eventArgs)
     {
+        if (!isFireReady)
+        {
+            return;
+        }
+
         if (nowEquipAmmo is not null && nowEquipAmmo.BulletNowCount > 0)
         {
             RaycastHit hit;
@@ -102,22 +110,34 @@ public class CWeaponController : MonoBehaviour
             }
 
             Recoil();
+            Haptic();
+            StartCoroutine(ShootCoolTime());
         }
 
         else
         {
             Debug.LogFormat("남은 총알 개수가 없다!");
-            Recoil();
         }
+    }
+
+    /// <summary>
+    /// 총 발사 쿨타임을 기다리는 코루틴
+    /// </summary>
+    /// <returns></returns>
+    IEnumerator ShootCoolTime()
+    {
+        isFireReady = false;
+
+        yield return new WaitForSeconds(weapon.ShootCoolTime);
+
+        isFireReady = true;
     }
 
     /// <summary>
     /// 컨트롤러를 진동시키기 위한 메서드
     /// </summary>
-    /// <param name="eventArgs"></param>
-    public void Haptic(ActivateEventArgs eventArgs)
+    public void Haptic()
     {
-
         if (leftController is not null)
         {
             Debug.Log("왼쪽 손 진동 발생!");

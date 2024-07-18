@@ -8,5 +8,6 @@ public class CWeaponGewehr43 : CWeapon
     {
         ActionNumber = 1;
         weaponType = EWeapon.GEWEHR;
+        fShootCoolTime = 0.5f;
     }
 }
