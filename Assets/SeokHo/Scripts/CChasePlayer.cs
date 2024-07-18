@@ -28,7 +28,7 @@ public class CChasePlayer : MonoBehaviour
             }
             // 공격 상태로 전환
             normalenemy.ChangeState(State.CHASE);
-            normalenemy.target = other.transform;
+            normalenemy.target = other.transform.GetChild(0);
         }
 
     }
