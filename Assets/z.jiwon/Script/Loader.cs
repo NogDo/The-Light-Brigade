@@ -13,7 +13,7 @@ public class Loader : MonoBehaviour
         }
        else
         {
-            Debug.LogError("SceneLoadManager instance is not available.");
+            
         }
     }
 }
