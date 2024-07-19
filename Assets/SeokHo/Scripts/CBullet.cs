@@ -65,6 +65,7 @@ public class CBullet : MonoBehaviour
 
             if (hit.transform.CompareTag("Player"))
             {
+                Debug.Log("플레이어 타격");
                 Destroy(hit.transform.gameObject);
             }
             DestroyBullet();
@@ -72,11 +73,6 @@ public class CBullet : MonoBehaviour
         else
         {
             destroyTimer += Time.deltaTime;
-
-            if (destroyTimer >= 5f)
-            {
-                DestroyBullet();
-            }
         }
 
         RotateTowardsDirection();

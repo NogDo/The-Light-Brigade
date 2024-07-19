@@ -4,15 +4,7 @@ using UnityEngine.AI;
 using UnityEngine.UI;
 using TMPro;
 
-public enum State
-{
-    IDLE,   // 대기 상태
-    CHASE,  // 추적 상태
-    ATTACK, // 공격 상태
-    DIE, // 사망 상태
-}
-
-public class CNormalEnemy : MonoBehaviour, IHittable
+public class CWolfEnemy : MonoBehaviour, IHittable
 {
     #region 변수
     // UI 관련 변수
@@ -25,10 +17,6 @@ public class CNormalEnemy : MonoBehaviour, IHittable
     private GameObject hpBarCanvas; // 개별 HP 바 캔버스
     private Coroutine hideHpBarCoroutine;
 
-    // 총알 관련 변수
-    public GameObject bulletPrefab; // 발사체 프리팹
-    public Transform bulletSpawnPoint; // 발사체 생성 위치
-    public BulletPool bulletPool; // 총알 풀 참조
 
     // 적 오브젝트 관련 변수
     public State state; // 현재 상태
@@ -45,6 +33,7 @@ public class CNormalEnemy : MonoBehaviour, IHittable
     private float lastAttackTime; // 마지막 공격 시점
     private bool canMove; // 추적가능여부
     private bool canAttack; // 공격가능여부
+    private bool canWalk; // 대기가능여부
     #endregion
 
     void Awake()
@@ -59,13 +48,6 @@ public class CNormalEnemy : MonoBehaviour, IHittable
 
         state = State.IDLE; // 초기 상태를 IDLE로 설정
         StartCoroutine(StateMachine()); // 상태 머신 시작
-    }
-    void Update()
-    {
-        // 추적 대상의 존재 여부에 따라 다른 애니메이션 재생
-        animatorEnemy.SetBool("CanMove", canMove);
-        // 공격 애니메이션 재생
-        animatorEnemy.SetBool("CanAttack", canAttack);
     }
 
     #region 상태 머신
@@ -124,6 +106,7 @@ public class CNormalEnemy : MonoBehaviour, IHittable
     // IDLE 상태 코루틴
     private IEnumerator IDLE()
     {
+        Debug.Log("Idle 상태");
         canMove = false;
         canAttack = false;
 
@@ -134,9 +117,8 @@ public class CNormalEnemy : MonoBehaviour, IHittable
         {
             if (!nmAgent.hasPath || nmAgent.remainingDistance < 0.5f)
             {
-                // 애니메이터 상태를 WALK로 설정
-                animatorEnemy.Play("Walk");
 
+                canWalk = true;
                 Vector3 randomDirection = Random.insideUnitSphere * 10f; // 랜덤한 방향
                 randomDirection += transform.position; // 현재 위치를 기준으로 랜덤 방향 계산
 
@@ -145,7 +127,7 @@ public class CNormalEnemy : MonoBehaviour, IHittable
 
                 Vector3 finalPosition = navHit.position; // 최종 목표 위치
 
-                nmAgent.SetDestination(finalPosition); // 목표 위치 설정
+                nmAgent.SetDestination(finalPosition); // 목표 위치 설정  
                 nmAgent.isStopped = false; // 이동 활성화
             }
 
@@ -156,20 +138,20 @@ public class CNormalEnemy : MonoBehaviour, IHittable
         nmAgent.isStopped = true;
         nmAgent.SetDestination(transform.position); // 현재 위치로 이동 목표를 설정하여 멈추게 함
 
-        // 애니메이터 상태를 IDLE로 설정
-        animatorEnemy.Play("Idle");
     }
 
     // CHASE 상태 코루틴
     private IEnumerator CHASE()
     {
-        canMove = true;
+        Debug.Log("CHASE 상태");
         canAttack = false;
+        canWalk = false;
         nmAgent.isStopped = false;
         nmAgent.SetDestination(target.position);
 
         while (state == State.CHASE)
         {
+            canMove = true;
             if (target == null)
             {
                 ChangeState(State.IDLE);
@@ -197,7 +179,7 @@ public class CNormalEnemy : MonoBehaviour, IHittable
     private IEnumerator ATTACK()
     {
         canMove = false;
-        canAttack = true;
+        canWalk = false;
         if (target == null)
         {
             canAttack = false;
@@ -212,10 +194,10 @@ public class CNormalEnemy : MonoBehaviour, IHittable
         {
             if (lastAttackTime + attackDelay <= Time.time)
             {
-                transform.LookAt(target);
+                Debug.Log("ATTACK 상태");
 
                 lastAttackTime = Time.time;
-                animatorEnemy.SetTrigger("IsShooting"); // 발사체 발사 애니메이션 트리거
+                canAttack = true;
                 yield return new WaitForSeconds(0.5f); // 공격 애니메이션 시간 대기
             }
         }
@@ -230,6 +212,7 @@ public class CNormalEnemy : MonoBehaviour, IHittable
     // DIE 상태 코루틴
     private IEnumerator DIE()
     {
+        Debug.Log("DIE 상태");
         // 적 사망 로직 처리
         Destroy(hpBarCanvas, 1f);
         HandleDeath();
@@ -239,22 +222,15 @@ public class CNormalEnemy : MonoBehaviour, IHittable
 
 
 
-    // 발사체 발사 메서드
-    public void ShootBullet()
+    void Update()
     {
-        GameObject bullet = bulletPool.GetBullet(); // 풀에서 총알 가져오기
-        bullet.transform.position = bulletSpawnPoint.position;
-        bullet.transform.rotation = Quaternion.identity;
-
-        Rigidbody rb = bullet.GetComponent<Rigidbody>();
-        rb.velocity = (target.position - bulletSpawnPoint.position).normalized * bulletSpeed;
-
-        //CBullet 컴포넌트가 총알에 연결되어 있음을 가정합니다.
-        CBullet bulletScript = bullet.GetComponent<CBullet>();
-        bulletScript.bulletPool = bulletPool; // bulletPool을 할당
+        // 추적 대상의 존재 여부에 따라 다른 애니메이션 재생
+        animatorEnemy.SetBool("CanMove", canMove);
+        // 공격 애니메이션 재생
+        animatorEnemy.SetBool("CanAttack", canAttack);
     }
 
-    // 맞았을 시 메서드
+
     public void Hit(float damage)
     {
         ShowHpBar();
@@ -266,7 +242,7 @@ public class CNormalEnemy : MonoBehaviour, IHittable
             GameObject playerObject = GameObject.FindGameObjectWithTag("Player");
             if (playerObject != null)
             {
-                target = playerObject.transform.GetChild(0); // 플레이어의 적절한 트랜스폼 참조
+                target = playerObject.transform; // 플레이어의 적절한 트랜스폼 참조
                 ChangeState(State.CHASE);
             }
         }
@@ -279,7 +255,7 @@ public class CNormalEnemy : MonoBehaviour, IHittable
         }
 
         GameObject damageUI = damagePool.GetObject();
-        damage = Random.Range(5, 10);       
+        damage = Random.Range(5, 10);
         health -= damage;
         CheckHp();
         if (damagePool != null)
@@ -294,8 +270,10 @@ public class CNormalEnemy : MonoBehaviour, IHittable
         {
             ChangeState(State.DIE);
         }
-        
     }
+
+
+
 
     #region Ragdoll, Collider 관련
     // Rigidbody 상태 설정 메서드
@@ -360,7 +338,7 @@ public class CNormalEnemy : MonoBehaviour, IHittable
         enemyHpbar.maxValue = startingHealth;
         enemyHpbar.value = health;
 
-        hpBarCanvas.SetActive(false); 
+        hpBarCanvas.SetActive(false);
     }
 
     // HP 바 표시 및 숨기기 메서드
@@ -372,7 +350,7 @@ public class CNormalEnemy : MonoBehaviour, IHittable
         }
 
         hpBarCanvas.SetActive(true);
-        hideHpBarCoroutine = StartCoroutine(HideHpBarAfterDelay(3f)); 
+        hideHpBarCoroutine = StartCoroutine(HideHpBarAfterDelay(3f));
     }
 
     // 일정 시간 후 HP 바 숨기기 코루틴
