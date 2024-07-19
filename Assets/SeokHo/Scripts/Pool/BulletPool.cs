@@ -4,19 +4,11 @@ using System.Collections.Generic;
 public class BulletPool : MonoBehaviour
 {
     public GameObject bulletPrefab;
-    public int poolSize = 10;
     private Queue<GameObject> bulletQueue;
 
     void Awake()
     {
         bulletQueue = new Queue<GameObject>();
-
-        for (int i = 0; i < poolSize; i++)
-        {
-            GameObject bullet = Instantiate(bulletPrefab, transform);
-            bullet.SetActive(false);
-            bulletQueue.Enqueue(bullet);
-        }
     }
 
     public GameObject GetBullet()
