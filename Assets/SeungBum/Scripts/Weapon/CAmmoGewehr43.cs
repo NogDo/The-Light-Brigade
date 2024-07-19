@@ -7,6 +7,7 @@ public class CAmmoGewehr43 : CAmmo
     void Start()
     {
         equipWeaponType = EWeapon.GEWEHR;
-        nBulletCount = 10;
+        nBulletMaxCount = 10;
+        nBulletNowCount = 10;
     }
 }

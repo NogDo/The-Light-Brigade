@@ -16,6 +16,9 @@ public class CBoltInteractable : XRGrabInteractable
     XRDirectInteractor leftDirectController;
     XRRayInteractor leftRayController;
     CHandAnimationController leftControllerAnimation;
+
+    Rigidbody rb;
+    ConfigurableJoint joint;
     #endregion
 
     void Start()
@@ -24,6 +27,9 @@ public class CBoltInteractable : XRGrabInteractable
 
         leftDirectController = inputModalityManager.leftController.GetComponentInChildren<XRDirectInteractor>();
         leftRayController = inputModalityManager.leftController.GetComponentInChildren<XRRayInteractor>();
+
+        rb = GetComponent<Rigidbody>();
+        joint = GetComponent<ConfigurableJoint>();
     }
 
     protected override void OnSelectEntering(SelectEnterEventArgs args)
@@ -47,6 +53,9 @@ public class CBoltInteractable : XRGrabInteractable
                 leftControllerAnimation = inputModalityManager.leftController.GetComponentInChildren<CHandAnimationController>();
             }
             leftControllerAnimation.tfHandOffsetNode.gameObject.SetActive(false);
+
+            rb.isKinematic = false;
+            joint.connectedBody = weapon.gameObject.GetComponent<Rigidbody>();
         }
 
         base.OnSelectEntering(args);
@@ -60,8 +69,18 @@ public class CBoltInteractable : XRGrabInteractable
             animataedLeftHand.gameObject.SetActive(false);
 
             leftControllerAnimation.tfHandOffsetNode.gameObject.SetActive(true);
+
+            StartCoroutine(InitOption());
         }
 
         base.OnSelectExiting(args);
+    }
+
+    IEnumerator InitOption()
+    {
+        yield return new WaitForSeconds(0.5f);
+
+        rb.isKinematic = true;
+        joint.connectedBody = null;
     }
 }

@@ -54,6 +54,8 @@ public class CTirggerBarrelInteractable : XRGrabInteractable
                 leftControllerAnimation = inputModalityManager.leftController.GetComponentInChildren<CHandAnimationController>();
             }
             leftControllerAnimation.tfHandOffsetNode.gameObject.SetActive(false);
+
+            args.interactableObject.transform.GetComponent<CWeaponController>().GrabLeftController(args);
         }
 
         else
@@ -66,6 +68,12 @@ public class CTirggerBarrelInteractable : XRGrabInteractable
                 rightControllerAnimation = inputModalityManager.rightController.GetComponentInChildren<CHandAnimationController>();
             }
             rightControllerAnimation.tfHandOffsetNode.gameObject.SetActive(false);
+
+            args.interactableObject.transform.GetComponent<CWeaponController>().GrabRightController(args);
+            args.interactorObject.transform.root.GetComponentInChildren<CPlayerController>().SetWeaponUI
+                (
+                    args.interactableObject.transform.GetComponent<CWeaponController>().WeaponUI
+                );
         }
 
         base.OnSelectEntering(args);
@@ -79,6 +87,8 @@ public class CTirggerBarrelInteractable : XRGrabInteractable
             animataedLeftHand.gameObject.SetActive(false);
 
             leftControllerAnimation.tfHandOffsetNode.gameObject.SetActive(true);
+
+            args.interactableObject.transform.GetComponent<CWeaponController>().ReleaseLeftController();
         }
 
         else
@@ -87,6 +97,10 @@ public class CTirggerBarrelInteractable : XRGrabInteractable
             animataedRightHand.gameObject.SetActive(false);
 
             rightControllerAnimation.tfHandOffsetNode.gameObject.SetActive(true);
+
+            args.interactableObject.transform.GetComponent<CWeaponController>().ReleaseRightController();
+            args.interactableObject.transform.GetComponent<CWeaponController>().WeaponUI.gameObject.SetActive(false);
+            args.interactorObject.transform.root.GetComponentInChildren<CPlayerController>().SetWeaponUI(null);
         }
 
         base.OnSelectExiting(args);

@@ -9,7 +9,7 @@ public enum State
     IDLE,   // 대기 상태
     CHASE,  // 추적 상태
     ATTACK, // 공격 상태
-    KILLED, // 사망 상태
+    DIE, // 사망 상태
 }
 
 public class CNormalEnemy : MonoBehaviour, IHittable
@@ -22,18 +22,18 @@ public class CNormalEnemy : MonoBehaviour, IHittable
     public Transform bulletSpawnPoint; // 발사체 생성 위치
     public Vector3 v3HpBar = new Vector3(0, 2.4f, 0); // HP 바 위치 오프셋
     public Slider enemyHpbar; // 적의 HP 바 슬라이더
+    public BulletPool bulletPool; // 총알 풀 참조
     private UIDamagePool damagePool; // 데미지 UI 풀
+    private UIEnemyHpBar hpBarScript;
     private Animator animatorEnemy; // 애니메이터
-
     public TagUnitType player; // 추적 대상 태그
     public float damage; // 공격력
-    private float health; // 현재 체력
     public float startingHealth; // 시작 체력
+    private float health; // 현재 체력
     private float attackDelay = 3f; // 공격 간격
     private float bulletSpeed = 10f; // 발사체 속도
     public float attackRange; // 공격 거리
     public float chaseRange; // 추적 거리
-
     private float lastAttackTime; // 마지막 공격 시점
     private bool canMove;
     private bool canAttack;
@@ -41,6 +41,7 @@ public class CNormalEnemy : MonoBehaviour, IHittable
     private GameObject hpBarCanvas; // 개별 HP 바 캔버스
     public State state; // 현재 상태
     public Transform target; // 추적 대상
+    private Coroutine hideHpBarCoroutine; // Hide HP bar coroutine
     #endregion
 
     void Awake()
@@ -56,8 +57,18 @@ public class CNormalEnemy : MonoBehaviour, IHittable
         state = State.IDLE; // 초기 상태를 IDLE로 설정
         StartCoroutine(StateMachine()); // 상태 머신 시작
     }
+    void Update()
+    {
+        // 추적 대상의 존재 여부에 따라 다른 애니메이션 재생
+        animatorEnemy.SetBool("CanMove", canMove);
+        // 공격 애니메이션 재생
+        animatorEnemy.SetBool("CanAttack", canAttack);
+    }
 
     #region 상태 머신
+
+
+
     // 상태 머신 코루틴
     public IEnumerator StateMachine()
     {
@@ -74,10 +85,38 @@ public class CNormalEnemy : MonoBehaviour, IHittable
                 case State.ATTACK:
                     yield return StartCoroutine(ATTACK());
                     break;
-                case State.KILLED:
-                    yield return StartCoroutine(KILLED());
-                    break;
             }
+        }
+        switch (state)
+        {
+            case State.DIE:
+                yield return StartCoroutine(DIE());
+                break;
+        }
+    }
+
+    // 상태 전환 메서드
+    public void ChangeState(State newState)
+    {
+        if (state == newState)
+        {
+            return;
+        }
+
+        // 현재 상태가 IDLE 상태일 때, IDLE 코루틴을 중지
+        if (state == State.IDLE)
+        {
+            StopCoroutine(IDLE());
+            nmAgent.isStopped = true; // 이동을 멈추게 함
+            nmAgent.SetDestination(transform.position); // 현재 위치로 목표를 설정하여 멈추게 함
+        }
+
+        state = newState;
+
+        // 상태 전환 시 애니메이터 상태를 업데이트
+        if (newState == State.IDLE)
+        {
+            animatorEnemy.Play("Idle");
         }
     }
 
@@ -85,15 +124,40 @@ public class CNormalEnemy : MonoBehaviour, IHittable
     private IEnumerator IDLE()
     {
         Debug.Log("Idle 상태");
-        animatorEnemy.Play("Idle");
         canMove = false;
         canAttack = false;
+
+        // 애니메이터 상태를 IDLE로 설정
+        animatorEnemy.Play("Idle");
+
         while (state == State.IDLE)
         {
-            
+            if (!nmAgent.hasPath || nmAgent.remainingDistance < 0.5f)
+            {
+                // 애니메이터 상태를 WALK로 설정
+                animatorEnemy.Play("Walk");
 
-            yield return null;
+                Vector3 randomDirection = Random.insideUnitSphere * 10f; // 랜덤한 방향
+                randomDirection += transform.position; // 현재 위치를 기준으로 랜덤 방향 계산
+
+                NavMeshHit navHit;
+                NavMesh.SamplePosition(randomDirection, out navHit, 5f, NavMesh.AllAreas); // NavMesh 상에서 랜덤 위치 계산
+
+                Vector3 finalPosition = navHit.position; // 최종 목표 위치
+
+                nmAgent.SetDestination(finalPosition); // 목표 위치 설정
+                nmAgent.isStopped = false; // 이동 활성화
+            }
+
+            yield return new WaitForSeconds(2f); // 일정 시간 대기 (랜덤 이동을 위한 대기 시간)
         }
+
+        // 상태 전환 시, NavMeshAgent 멈추기 및 목표 취소
+        nmAgent.isStopped = true;
+        nmAgent.SetDestination(transform.position); // 현재 위치로 이동 목표를 설정하여 멈추게 함
+
+        // 애니메이터 상태를 IDLE로 설정
+        animatorEnemy.Play("Idle");
     }
 
     // CHASE 상태 코루틴
@@ -125,13 +189,6 @@ public class CNormalEnemy : MonoBehaviour, IHittable
                 nmAgent.isStopped = true;
                 ChangeState(State.ATTACK);
             }
-            // 추적 범위를 벗어나면 IDLE 상태로 전환
-            else if (distanceToTarget > chaseRange)
-            {
-                target = null;
-                nmAgent.SetDestination(transform.position);
-                ChangeState(State.IDLE);
-            }
 
             yield return null;
         }
@@ -140,6 +197,7 @@ public class CNormalEnemy : MonoBehaviour, IHittable
     // ATTACK 상태 코루틴
     private IEnumerator ATTACK()
     {
+        canMove = false;
         canAttack = true;
         if (target == null)
         {
@@ -147,25 +205,20 @@ public class CNormalEnemy : MonoBehaviour, IHittable
             ChangeState(State.IDLE);
             yield break;
         }
+
         // 남은 거리를 계산하여 공격 범위 내에 있는지 확인
         float distanceToTarget = Vector3.Distance(transform.position, target.position);
 
         if (!isDead && distanceToTarget <= attackRange)
         {
-            canMove = false;
-
-
             if (lastAttackTime + attackDelay <= Time.time)
             {
                 Debug.Log("ATTACK 상태");
                 transform.LookAt(target);
 
-
                 lastAttackTime = Time.time;
-                animatorEnemy.SetTrigger("IsShooting"); // 발사체 발사
+                animatorEnemy.SetTrigger("IsShooting"); // 발사체 발사 애니메이션 트리거
                 yield return new WaitForSeconds(0.5f); // 공격 애니메이션 시간 대기
-                // ShootBullet(); // 발사체 발사
-
             }
         }
         else
@@ -176,44 +229,60 @@ public class CNormalEnemy : MonoBehaviour, IHittable
         yield return null;
     }
 
-    // KILLED 상태 코루틴
-    private IEnumerator KILLED()
+    // DIE 상태 코루틴
+    private IEnumerator DIE()
     {
-        Debug.Log("KILLED 상태");
+        Debug.Log("DIE 상태");
         // 적 사망 로직 처리
+        Destroy(hpBarCanvas, 1f);
+        isDead = true;
+        HandleDeath();
         yield return null;
-    }
-
-    // 상태 전환 메서드
-    public void ChangeState(State newState)
-    {
-        if (state == newState) return;
-        state = newState;
     }
     #endregion
 
-    void Update()
-    {
-        // 추적 대상의 존재 여부에 따라 다른 애니메이션 재생
-        animatorEnemy.SetBool("CanMove", canMove);
-        // 공격 애니메이션 재생
-        animatorEnemy.SetBool("CanAttack", canAttack);
-    }
+
 
     // 발사체 발사 메서드
-    private void ShootBullet()
+    public void ShootBullet()
     {
-        GameObject bullet = Instantiate(bulletPrefab, bulletSpawnPoint.position, Quaternion.identity);
+        GameObject bullet = bulletPool.GetBullet(); // 풀에서 총알 가져오기
+        bullet.transform.position = bulletSpawnPoint.position;
+        bullet.transform.rotation = Quaternion.identity;
+
         Rigidbody rb = bullet.GetComponent<Rigidbody>();
         rb.velocity = (target.position - bulletSpawnPoint.position).normalized * bulletSpeed;
 
-        CEnemyBullet enemyBullet = bullet.GetComponent<CEnemyBullet>();
-        enemyBullet.damage = damage;
+        //CBullet 컴포넌트가 총알에 연결되어 있음을 가정합니다.
+        CBullet bulletScript = bullet.GetComponent<CBullet>();
+        bulletScript.bulletPool = bulletPool; // bulletPool을 할당
     }
 
     // 맞았을 시 메서드
     public void Hit(float damage)
     {
+        ShowHpBar();
+
+        // 만약 맞았을 시 대기상태일 때
+        if (state == State.IDLE)
+        {
+            // 플레이어를 찾기 위해 탐색
+            GameObject playerObject = GameObject.FindGameObjectWithTag("Player");
+            if (playerObject != null)
+            {
+                target = playerObject.transform.GetChild(0); // 플레이어의 적절한 트랜스폼 참조
+                ChangeState(State.CHASE);
+            }
+        }
+        else if (state == State.CHASE)
+        {
+            if (target != null)
+            {
+                target = GameObject.FindGameObjectWithTag("Player")?.transform.GetChild(0);
+            }
+        }
+
+        GameObject damageUI = damagePool.GetObject();
         damage = Random.Range(5, 10);
         if (!isDead)
         {
@@ -221,19 +290,15 @@ public class CNormalEnemy : MonoBehaviour, IHittable
             CheckHp();
             if (damagePool != null)
             {
-                GameObject damageUI = damagePool.GetObject();
                 TextMeshProUGUI text = damageUI.GetComponent<TextMeshProUGUI>();
-                text.text = damage.ToString();
+                text.text = (" - ") + damage.ToString();
 
                 UIDamageText damageText = damageUI.GetComponent<UIDamageText>();
                 damageText.Initialize(transform, Vector3.up * 2, damagePool);
             }
             if (health <= 0)
             {
-                ChangeState(State.KILLED);
-                Destroy(hpBarCanvas, 1f);
-                isDead = true;
-                HandleDeath();
+                ChangeState(State.DIE);
             }
         }
     }
@@ -293,13 +358,34 @@ public class CNormalEnemy : MonoBehaviour, IHittable
         canvasScaler.dynamicPixelsPerUnit = 10;
 
         GameObject hpBar = Instantiate(hpBarPrefab, canvas.transform);
-        var hpBarScript = hpBar.GetComponent<UIEnemyHpBar>();
+
+        hpBarScript = hpBar.GetComponent<UIEnemyHpBar>();
         hpBarScript.trEnemy = transform;
         hpBarScript.v3offset = v3HpBar;
-
         enemyHpbar = hpBar.GetComponentInChildren<Slider>();
         enemyHpbar.maxValue = startingHealth;
         enemyHpbar.value = health;
+
+        hpBarCanvas.SetActive(false); 
+    }
+
+    // HP 바 표시 및 숨기기 메서드
+    private void ShowHpBar()
+    {
+        if (hideHpBarCoroutine != null)
+        {
+            StopCoroutine(hideHpBarCoroutine);
+        }
+
+        hpBarCanvas.SetActive(true);
+        hideHpBarCoroutine = StartCoroutine(HideHpBarAfterDelay(3f)); 
+    }
+
+    // 일정 시간 후 HP 바 숨기기 코루틴
+    private IEnumerator HideHpBarAfterDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        hpBarCanvas.SetActive(false);
     }
     #endregion
 }
