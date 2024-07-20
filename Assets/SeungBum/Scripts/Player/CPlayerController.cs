@@ -40,7 +40,7 @@ public class CPlayerController : MonoBehaviour
         isInitModel = false;
     }
 
-    void Update()
+    void LateUpdate()
     {
         InitModel();
     }
@@ -55,10 +55,17 @@ public class CPlayerController : MonoBehaviour
             return;
         }
 
-        if (leftController.model is not null)
+        if (leftController.model != null)
         {
             playerStatsUI = leftController.model.GetComponentInChildren<UIPlayerStats>();
             playerStatsUI.gameObject.SetActive(false);
+            playerStatsUI.ChangeLifeCount(playerStats.Life, playerStats.MaxLife);
+            playerStatsUI.ChangeMoneyCount(playerStats.Money);
+            playerStatsUI.ChangePrayState(false);
+            playerStatsUI.ChangeHPText(playerStats.HP, playerStats.MaxHP);
+            playerStatsUI.ChangeSoulText(playerStats.Soul);
+            playerStatsUI.ChangeAmmoText(playerStats.Ammo);
+
             isInitModel = true;
         }
     }
@@ -80,6 +87,8 @@ public class CPlayerController : MonoBehaviour
             weaponUI.ChangeHPCount(playerStats.HP);
             weaponUI.ChangeHPUIColor((playerStats.HP >= 4) ? Color.white : Color.red);
         }
+
+        playerStatsUI.ChangeHPText(playerStats.HP, playerStats.MaxHP);
     }
 
     /// <summary>

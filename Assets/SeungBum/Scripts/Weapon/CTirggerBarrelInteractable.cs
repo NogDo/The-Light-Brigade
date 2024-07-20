@@ -56,6 +56,7 @@ public class CTirggerBarrelInteractable : XRGrabInteractable
             leftControllerAnimation.tfHandOffsetNode.gameObject.SetActive(false);
 
             args.interactableObject.transform.GetComponent<CWeaponController>().GrabLeftController(args);
+            args.interactorObject.transform.root.GetComponentInChildren<UIPlayerStatsActiveController>().DontActive();
         }
 
         else
@@ -89,6 +90,7 @@ public class CTirggerBarrelInteractable : XRGrabInteractable
             leftControllerAnimation.tfHandOffsetNode.gameObject.SetActive(true);
 
             args.interactableObject.transform.GetComponent<CWeaponController>().ReleaseLeftController();
+            args.interactorObject.transform.root.GetComponentInChildren<UIPlayerStatsActiveController>().CanActive();
         }
 
         else
