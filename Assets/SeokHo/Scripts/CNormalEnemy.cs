@@ -33,13 +33,13 @@ public class CNormalEnemy : MonoBehaviour, IHittable
     // 적 오브젝트 관련 변수
     public State state; // 현재 상태
     public float startingHealth; // 시작 체력
+    private float health; // 현재 체력
     public float damage; // 공격력
     public float attackRange; // 공격 사거리
     public float chaseRange; // 추적 거리
     public Transform target; // 추적 대상
     private NavMeshAgent nmAgent; // 경로 탐색을 위한 NavMeshAgent
     private Animator animatorEnemy; // 애니메이터
-    private float health; // 현재 체력
     private float attackDelay = 5f; // 공격 간격
     private float bulletSpeed = 10f; // 발사체 속도
     private float lastAttackTime; // 마지막 공격 시점
@@ -132,33 +132,63 @@ public class CNormalEnemy : MonoBehaviour, IHittable
 
         while (state == State.IDLE)
         {
+            // NavMeshAgent에 경로가 없거나 남은 거리가 작으면
             if (!nmAgent.hasPath || nmAgent.remainingDistance < 0.5f)
             {
                 // 애니메이터 상태를 WALK로 설정
                 animatorEnemy.Play("Walk");
 
-                Vector3 randomDirection = Random.insideUnitSphere * 10f; // 랜덤한 방향
-                randomDirection += transform.position; // 현재 위치를 기준으로 랜덤 방향 계산
+                // 랜덤한 방향 선택
+                Vector3 randomDirection = Random.insideUnitSphere * 10f;
+                randomDirection += transform.position;
 
                 NavMeshHit navHit;
-                NavMesh.SamplePosition(randomDirection, out navHit, 5f, NavMesh.AllAreas); // NavMesh 상에서 랜덤 위치 계산
+                if (NavMesh.SamplePosition(randomDirection, out navHit, 3f, NavMesh.AllAreas))
+                {
+                    Vector3 finalPosition = navHit.position;
 
-                Vector3 finalPosition = navHit.position; // 최종 목표 위치
+                    // 목표 위치 설정 및 이동 시작
+                    nmAgent.SetDestination(finalPosition);
+                    nmAgent.isStopped = false;
 
-                nmAgent.SetDestination(finalPosition); // 목표 위치 설정
-                nmAgent.isStopped = false; // 이동 활성화
+                    // 에이전트가 목표 위치에 도착할 때까지 대기
+                    while (nmAgent.pathPending || nmAgent.remainingDistance > 0.5f)
+                    {
+                        yield return null; // 에이전트가 도착할 때까지 대기
+                    }
+
+                    // 도착 후 이동 멈추기 및 IDLE 애니메이션 재생
+                    nmAgent.isStopped = true;
+                    nmAgent.SetDestination(transform.position); // 현재 위치로 목표 설정하여 정지
+
+                    // 50% 확률로 애니메이션 상태를 결정
+                    float randomChance = Random.value; // 0.0f ~ 1.0f 범위의 랜덤 값
+                    if (randomChance < 0.5f)
+                    {
+                        // IDLE 상태에서 5초 동안 대기
+                        animatorEnemy.Play("KickFoot");
+                        yield return new WaitForSeconds(5f);
+                    }
+                    else
+                    {
+                        // IDLE 상태에서 5초 동안 대기
+                        animatorEnemy.Play("Idle");
+                        yield return new WaitForSeconds(5f);
+                    }
+                }
             }
 
-            yield return new WaitForSeconds(2f); // 일정 시간 대기 (랜덤 이동을 위한 대기 시간)
+            yield return null; // 매 프레임 상태를 확인
         }
 
-        // 상태 전환 시, NavMeshAgent 멈추기 및 목표 취소
+        // IDLE 상태를 벗어날 때, 에이전트를 멈추고 목표를 초기화
         nmAgent.isStopped = true;
-        nmAgent.SetDestination(transform.position); // 현재 위치로 이동 목표를 설정하여 멈추게 함
+        nmAgent.SetDestination(transform.position);
 
         // 애니메이터 상태를 IDLE로 설정
         animatorEnemy.Play("Idle");
     }
+
 
     // CHASE 상태 코루틴
     private IEnumerator CHASE()
@@ -175,7 +205,7 @@ public class CNormalEnemy : MonoBehaviour, IHittable
                 ChangeState(State.IDLE);
                 yield break;
             }
-            transform.LookAt(target);
+            transform.LookAt(target.GetChild(0));
             // 플레이어를 계속 추적
             nmAgent.SetDestination(target.position);
 
@@ -212,7 +242,7 @@ public class CNormalEnemy : MonoBehaviour, IHittable
         {
             if (lastAttackTime + attackDelay <= Time.time)
             {
-                transform.LookAt(target);
+                transform.LookAt(target.GetChild(0));
 
                 lastAttackTime = Time.time;
                 animatorEnemy.SetTrigger("IsShooting"); // 발사체 발사 애니메이션 트리거
@@ -249,9 +279,8 @@ public class CNormalEnemy : MonoBehaviour, IHittable
         Rigidbody rb = bullet.GetComponent<Rigidbody>();
         rb.velocity = (target.position - bulletSpawnPoint.position).normalized * bulletSpeed;
 
-        //CBullet 컴포넌트가 총알에 연결되어 있음을 가정합니다.
         CBullet bulletScript = bullet.GetComponent<CBullet>();
-        bulletScript.bulletPool = bulletPool; // bulletPool을 할당
+        bulletScript.Initialize(damage, bulletPool); // Initialize with BulletPool
     }
 
     // 맞았을 시 메서드

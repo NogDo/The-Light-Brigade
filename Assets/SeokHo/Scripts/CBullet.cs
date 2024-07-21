@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class CBullet : MonoBehaviour
@@ -16,25 +17,25 @@ public class CBullet : MonoBehaviour
 
     private GameObject bulletParticle;
     private GameObject muzzleParticle;
-    private float destroyTimer = 0f;
     private bool destroyed = false;
+    private float damage;
 
     void Awake()
     {
         rb = GetComponent<Rigidbody>();
         myTransform = transform;
         sphereCollider = GetComponent<SphereCollider>();
-
-        bulletPool = FindObjectOfType<BulletPool>();
     }
 
     void OnEnable()
     {
         destroyed = false;
-        destroyTimer = 0f;
 
-        bulletParticle = Instantiate(bulletParticlePrefab, myTransform.position, myTransform.rotation);
-        bulletParticle.transform.parent = myTransform;
+        if (bulletParticlePrefab)
+        {
+            bulletParticle = Instantiate(bulletParticlePrefab, myTransform.position, myTransform.rotation);
+            bulletParticle.transform.parent = myTransform;
+        }
 
         if (muzzleParticlePrefab)
         {
@@ -42,57 +43,55 @@ public class CBullet : MonoBehaviour
             muzzleParticle.transform.parent = myTransform;
             Destroy(muzzleParticle, 1.5f);
         }
+
+        StartCoroutine(HandleBulletLifetime(5f));
     }
 
-    void FixedUpdate()
+    IEnumerator HandleBulletLifetime(float lifetime)
+    {
+        yield return new WaitForSeconds(lifetime);
+        if (!destroyed)
+        {
+            destroyed = true;
+            bulletPool.ReturnBullet(gameObject); 
+        }
+    }
+
+    public void Initialize(float damage, BulletPool pool)
+    {
+        this.damage = damage;
+        this.bulletPool = pool; 
+    }
+
+    private void OnTriggerEnter(Collider other)
     {
         if (destroyed)
-        {
             return;
-        }
 
-        float rad = sphereCollider ? sphereCollider.radius : colliderRadius;
-        Vector3 dir = rb.velocity;
-        float dist = dir.magnitude * Time.deltaTime;
-
-        RaycastHit hit;
-        if (Physics.SphereCast(myTransform.position, rad, dir, out hit, dist))
+        if (other.CompareTag("Player"))
         {
-            myTransform.position = hit.point + (hit.normal * collideOffset);
-
-            GameObject impactP = Instantiate(impactParticle, myTransform.position, Quaternion.FromToRotation(Vector3.up, hit.normal));
-            Destroy(impactP, 5.0f);
-
-            if (hit.transform.CompareTag("Player"))
+            if (other.TryGetComponent<CPlayerController>(out CPlayerController playerController))
             {
-                Debug.Log("플레이어 타격");
-                Destroy(hit.transform.gameObject);
+                playerController.Hit(damage);
             }
-            DestroyBullet();
-        }
-        else
-        {
-            destroyTimer += Time.deltaTime;
-        }
 
-        RotateTowardsDirection();
+            if (!destroyed)
+            {
+                destroyed = true;
+                GameObject impactP = Instantiate(impactParticle, myTransform.position, Quaternion.identity);
+                Destroy(impactP, 5.0f);
+                bulletPool.ReturnBullet(gameObject);
+            }
+        }
     }
 
-    private void DestroyBullet()
+    private void OnDisable()
     {
-        destroyed = true;
-        Destroy(bulletParticle, 3f);
-        bulletPool.ReturnBullet(gameObject);
-    }
-
-    private void RotateTowardsDirection()
-    {
-        if (rb.velocity != Vector3.zero)
+        // Null 체크를 통해 bulletPool이 null일 경우 처리
+        if (bulletPool != null && !destroyed)
         {
-            Quaternion targetRotation = Quaternion.LookRotation(rb.velocity.normalized, Vector3.up);
-            float angle = Vector3.Angle(myTransform.forward, rb.velocity.normalized);
-            float lerpFactor = angle * Time.deltaTime;
-            myTransform.rotation = Quaternion.Slerp(myTransform.rotation, targetRotation, lerpFactor);
+            destroyed = true;
+            bulletPool.ReturnBullet(gameObject);
         }
     }
 }
