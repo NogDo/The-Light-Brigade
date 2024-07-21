@@ -35,6 +35,8 @@ public class CTirggerBarrelInteractable : XRGrabInteractable
 
     protected override void OnSelectEntering(SelectEnterEventArgs args)
     {
+        base.OnSelectEntering(args);
+
         int weaponNumber = 0;
 
         switch (args.interactableObject.transform.GetComponent<CWeapon>().WeaponType)
@@ -59,7 +61,7 @@ public class CTirggerBarrelInteractable : XRGrabInteractable
             args.interactorObject.transform.root.GetComponentInChildren<UIPlayerStatsActiveController>().DontActive();
         }
 
-        else
+        else if (args.interactorObject as XRDirectInteractor == rightDirectController || args.interactorObject as XRRayInteractor == rightRayController)
         {
             animataedRightHand.gameObject.SetActive(true);
             animataedRightHand.ActionAnimation(weaponNumber + (int)EGrabPoint.TRIGGER);
@@ -76,12 +78,12 @@ public class CTirggerBarrelInteractable : XRGrabInteractable
                     args.interactableObject.transform.GetComponent<CWeaponController>().WeaponUI
                 );
         }
-
-        base.OnSelectEntering(args);
     }
 
     protected override void OnSelectExiting(SelectExitEventArgs args)
     {
+        base.OnSelectExiting(args);
+
         if (args.interactorObject as XRDirectInteractor == leftDirectController || args.interactorObject as XRRayInteractor == leftRayController)
         {
             animataedLeftHand.ActionAnimation(0);
@@ -93,7 +95,7 @@ public class CTirggerBarrelInteractable : XRGrabInteractable
             args.interactorObject.transform.root.GetComponentInChildren<UIPlayerStatsActiveController>().CanActive();
         }
 
-        else
+        else if (args.interactorObject as XRDirectInteractor == rightDirectController || args.interactorObject as XRRayInteractor == rightRayController)
         {
             animataedRightHand.ActionAnimation(0);
             animataedRightHand.gameObject.SetActive(false);
@@ -104,7 +106,5 @@ public class CTirggerBarrelInteractable : XRGrabInteractable
             args.interactableObject.transform.GetComponent<CWeaponController>().WeaponUI.gameObject.SetActive(false);
             args.interactorObject.transform.root.GetComponentInChildren<CPlayerController>().SetWeaponUI(null);
         }
-
-        base.OnSelectExiting(args);
     }
 }

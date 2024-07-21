@@ -26,6 +26,20 @@ public class CWeaponController : MonoBehaviour
 
     void Start()
     {
+        //grabInteractable = GetComponent<XRGrabInteractable>();
+        //weapon = GetComponent<CWeapon>();
+        //nowEquipAmmo = null;
+
+        //grabInteractable.activated.AddListener(Fire);
+
+        //ammoSoketInteractor.selectEntered.AddListener(AddAmmo);
+        //ammoSoketInteractor.selectExited.AddListener(RemoveAmmo);
+
+        //isFireReady = true;
+    }
+
+    void OnEnable()
+    {
         grabInteractable = GetComponent<XRGrabInteractable>();
         weapon = GetComponent<CWeapon>();
         nowEquipAmmo = null;
@@ -127,6 +141,7 @@ public class CWeaponController : MonoBehaviour
 
         else
         {
+            Recoil();
             Debug.LogFormat("남은 총알 개수가 없다!");
         }
     }
