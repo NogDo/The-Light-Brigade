@@ -35,8 +35,6 @@ public class CTirggerBarrelInteractable : XRGrabInteractable
 
     protected override void OnSelectEntering(SelectEnterEventArgs args)
     {
-        base.OnSelectEntering(args);
-
         int weaponNumber = 0;
 
         switch (args.interactableObject.transform.GetComponent<CWeapon>().WeaponType)
@@ -78,12 +76,12 @@ public class CTirggerBarrelInteractable : XRGrabInteractable
                     args.interactableObject.transform.GetComponent<CWeaponController>().WeaponUI
                 );
         }
+
+        base.OnSelectEntering(args);
     }
 
     protected override void OnSelectExiting(SelectExitEventArgs args)
     {
-        base.OnSelectExiting(args);
-
         if (args.interactorObject as XRDirectInteractor == leftDirectController || args.interactorObject as XRRayInteractor == leftRayController)
         {
             animataedLeftHand.ActionAnimation(0);
@@ -106,5 +104,7 @@ public class CTirggerBarrelInteractable : XRGrabInteractable
             args.interactableObject.transform.GetComponent<CWeaponController>().WeaponUI.gameObject.SetActive(false);
             args.interactorObject.transform.root.GetComponentInChildren<CPlayerController>().SetWeaponUI(null);
         }
+
+        base.OnSelectExiting(args);
     }
 }
