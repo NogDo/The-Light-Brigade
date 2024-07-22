@@ -7,6 +7,9 @@ using UnityEngine.XR.Interaction.Toolkit.Inputs;
 public class CAmmoInteractable : XRGrabInteractable
 {
     #region private º¯¼ö
+    [SerializeField]
+    GameObject oNode;
+
     XRInputModalityManager inputModalityManager;
 
     XRDirectInteractor leftDirectController;
@@ -18,6 +21,7 @@ public class CAmmoInteractable : XRGrabInteractable
     CHandAnimationController rightHandAnimationController;
 
     bool isInit = false;
+    bool isGrab = false;
     #endregion
 
     void Start()
@@ -56,6 +60,8 @@ public class CAmmoInteractable : XRGrabInteractable
             }
 
             leftHandAnimationController.ActionAnimation(weaponNumber + (int)EGrabPoint.AMMO);
+            oNode.SetActive(false);
+            isGrab = true;
         }
 
         else if (args.interactorObject as XRDirectInteractor == rightDirectController || args.interactorObject as XRRayInteractor == rightRayController)
@@ -66,6 +72,8 @@ public class CAmmoInteractable : XRGrabInteractable
             }
 
             rightHandAnimationController.ActionAnimation(weaponNumber + (int)EGrabPoint.AMMO);
+            oNode.SetActive(false);
+            isGrab = true;
         }
 
         base.OnSelectEntering(args);
@@ -76,13 +84,34 @@ public class CAmmoInteractable : XRGrabInteractable
         if (args.interactorObject as XRDirectInteractor == leftDirectController || args.interactorObject as XRRayInteractor == leftRayController)
         {
             leftHandAnimationController.ActionAnimation(0);
+            isGrab = false;
         }
 
         else if (args.interactorObject as XRDirectInteractor == rightDirectController || args.interactorObject as XRRayInteractor == rightRayController)
         {
             rightHandAnimationController.ActionAnimation(0);
+            isGrab = false;
         }
 
         base.OnSelectExiting(args);
+    }
+
+    protected override void OnHoverEntered(HoverEnterEventArgs args)
+    {
+        base.OnHoverEntered(args);
+
+        if (isGrab)
+        {
+            return;
+        }
+
+        oNode.SetActive(true);
+    }
+
+    protected override void OnHoverExited(HoverExitEventArgs args)
+    {
+        base.OnHoverExited(args);
+
+        oNode.SetActive(false);
     }
 }
