@@ -9,14 +9,7 @@ public class SceneLoadManager : MonoBehaviour
 
     public static SceneLoadManager Instance
     {
-        get
-        {
-            if (null == instance)
-            {
-                return null;
-            }
-            return instance;
-        }
+        get { return instance == null ? null : instance; }
     }
     private void Awake()
     {
@@ -35,10 +28,19 @@ public class SceneLoadManager : MonoBehaviour
 
     int loadingsceneindex = 0;
     int sceneIndex = 1;
+    public GameObject player;
 
     public void LoadScene()
     {
-        StartCoroutine(LoadScenes());
+        CPlayerStats playerStats = player.GetComponent<CPlayerStats>();
+        if (playerStats.HP <= 0)
+        {
+            StartCoroutine(LoadInitialScenes());
+        }
+        else
+        {
+            StartCoroutine(LoadScenes());
+        }
     }
     
     public IEnumerator LoadScenes()
@@ -51,6 +53,15 @@ public class SceneLoadManager : MonoBehaviour
         Debug.LogFormat("다음 씬 : {0}", sceneIndex);
         AsyncOperation sceneLoad = SceneManager.LoadSceneAsync(sceneIndex);
         yield return new WaitUntil(() => sceneLoad.isDone);
+    }
+
+    IEnumerator LoadInitialScenes()
+    {
+        AsyncOperation loadingOperation = SceneManager.LoadSceneAsync(0); // 0번 씬 로딩
+        yield return new WaitUntil(() => loadingOperation.isDone); // 0번 씬이 완전히 로드될 때까지 대기
+
+        AsyncOperation gameSceneOperation = SceneManager.LoadSceneAsync(1); // 1번 씬 로딩
+        yield return new WaitUntil(() => gameSceneOperation.isDone); // 1번 씬이 완전히 로드될 때까지 대기
     }
 
 }
