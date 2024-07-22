@@ -21,19 +21,19 @@ public class CWolfEnemy : MonoBehaviour, IHittable
     // 적 오브젝트 관련 변수
     public State state; // 현재 상태
     public float startingHealth; // 시작 체력
+    private float health; // 현재 체력
     public float damage; // 공격력
     public float attackRange; // 공격 사거리
     public float chaseRange; // 추적 거리
     public Transform target; // 추적 대상
     private NavMeshAgent nmAgent; // 경로 탐색을 위한 NavMeshAgent
     private Animator animatorEnemy; // 애니메이터
-    private float health; // 현재 체력
-    private float attackDelay = 5f; // 공격 간격
-    private float bulletSpeed = 10f; // 발사체 속도
+    private float attackDelay = 3f; // 공격 간격
     private float lastAttackTime; // 마지막 공격 시점
     private bool canMove; // 추적가능여부
-    private bool canAttack; // 공격가능여부
-    private bool canWalk; // 대기가능여부
+    private bool canWalk; // 걷기가능여부
+    public CWolfEnemyAttack wolfEnemyAttack;
+
     #endregion
 
     void Awake()
@@ -45,6 +45,7 @@ public class CWolfEnemy : MonoBehaviour, IHittable
         damagePool = FindObjectOfType<UIDamagePool>(); // 데미지 풀 찾기
         nmAgent = GetComponent<NavMeshAgent>(); // NavMeshAgent 컴포넌트 가져오기
         animatorEnemy = GetComponent<Animator>(); // 애니메이터 컴포넌트 가져오기
+        wolfEnemyAttack = GetComponentInChildren<CWolfEnemyAttack>();
 
         state = State.IDLE; // 초기 상태를 IDLE로 설정
         StartCoroutine(StateMachine()); // 상태 머신 시작
@@ -95,57 +96,92 @@ public class CWolfEnemy : MonoBehaviour, IHittable
         }
 
         state = newState;
-
-        // 상태 전환 시 애니메이터 상태를 업데이트
-        if (newState == State.IDLE)
-        {
-            animatorEnemy.Play("Idle");
-        }
     }
 
-    // IDLE 상태 코루틴
     private IEnumerator IDLE()
     {
-        Debug.Log("Idle 상태");
+        nmAgent.speed = 1;
         canMove = false;
-        canAttack = false;
 
         // 애니메이터 상태를 IDLE로 설정
         animatorEnemy.Play("Idle");
 
         while (state == State.IDLE)
         {
+            // NavMeshAgent에 경로가 없거나 남은 거리가 작으면
             if (!nmAgent.hasPath || nmAgent.remainingDistance < 0.5f)
             {
-
+                // 애니메이터 상태를 WALK로 설정
                 canWalk = true;
-                Vector3 randomDirection = Random.insideUnitSphere * 10f; // 랜덤한 방향
-                randomDirection += transform.position; // 현재 위치를 기준으로 랜덤 방향 계산
+
+                // 랜덤한 방향 선택
+                Vector3 randomDirection = Random.insideUnitSphere * 10f;
+                randomDirection += transform.position;
 
                 NavMeshHit navHit;
-                NavMesh.SamplePosition(randomDirection, out navHit, 5f, NavMesh.AllAreas); // NavMesh 상에서 랜덤 위치 계산
+                if (NavMesh.SamplePosition(randomDirection, out navHit, 3f, NavMesh.AllAreas))
+                {
+                    Vector3 finalPosition = navHit.position;
 
-                Vector3 finalPosition = navHit.position; // 최종 목표 위치
+                    // 목표 위치 설정 및 이동 시작
+                    nmAgent.SetDestination(finalPosition);
+                    nmAgent.isStopped = false;
 
-                nmAgent.SetDestination(finalPosition); // 목표 위치 설정  
-                nmAgent.isStopped = false; // 이동 활성화
+                    // 이동 방향으로 캐릭터 회전
+                    while (nmAgent.pathPending || nmAgent.remainingDistance > 0.5f)
+                    {
+                        // 목표 방향 계산
+                        Vector3 direction = (finalPosition - transform.position).normalized;
+                        if (direction != Vector3.zero)
+                        {
+                            // 회전 보간
+                            Quaternion targetRotation = Quaternion.LookRotation(direction);
+                            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 5f);
+                        }
+
+                        yield return null; // 에이전트가 도착할 때까지 대기
+                    }
+
+                    // 도착 후 이동 멈추기 및 IDLE 애니메이션 재생
+                    nmAgent.isStopped = true;
+                    nmAgent.SetDestination(transform.position); // 현재 위치로 목표 설정하여 정지
+
+                    // 50% 확률로 애니메이션 상태를 결정
+                    float randomChance = Random.value; // 0.0f ~ 1.0f 범위의 랜덤 값
+                    if (randomChance < 0.5f)
+                    {
+                        canWalk = false;
+                        // IDLE 상태에서 5초 동안 대기
+                        animatorEnemy.Play("Eat");
+                        yield return new WaitForSeconds(5f);
+                    }
+                    else
+                    {
+                        canWalk = false;
+                        // IDLE 상태에서 5초 동안 대기
+                        animatorEnemy.Play("Idle");
+                        yield return new WaitForSeconds(5f);
+                    }
+                }
             }
 
-            yield return new WaitForSeconds(2f); // 일정 시간 대기 (랜덤 이동을 위한 대기 시간)
+            yield return null; // 매 프레임 상태를 확인
         }
 
-        // 상태 전환 시, NavMeshAgent 멈추기 및 목표 취소
+        // IDLE 상태를 벗어날 때, 에이전트를 멈추고 목표를 초기화
         nmAgent.isStopped = true;
-        nmAgent.SetDestination(transform.position); // 현재 위치로 이동 목표를 설정하여 멈추게 함
+        nmAgent.SetDestination(transform.position);
 
+        // 애니메이터 상태를 IDLE로 설정
+        animatorEnemy.Play("Idle");
     }
+
 
     // CHASE 상태 코루틴
     private IEnumerator CHASE()
     {
-        Debug.Log("CHASE 상태");
-        canAttack = false;
         canWalk = false;
+        nmAgent.speed = 3;
         nmAgent.isStopped = false;
         nmAgent.SetDestination(target.position);
 
@@ -160,59 +196,60 @@ public class CWolfEnemy : MonoBehaviour, IHittable
             transform.LookAt(target);
             // 플레이어를 계속 추적
             nmAgent.SetDestination(target.position);
-
+          
             // 남은 거리를 계산하여 공격 범위 내에 있는지 확인
             float distanceToTarget = Vector3.Distance(transform.position, target.position);
-
+          
             // 공격 범위 내에 들어오면 ATTACK 상태로 전환
             if (distanceToTarget <= attackRange)
             {
-                nmAgent.isStopped = true;
-                ChangeState(State.ATTACK);
+                 nmAgent.isStopped = true;
+                 ChangeState(State.ATTACK);
+                 yield break; // ATTACK 상태로 전환 후 CHASE 코루틴 종료
             }
 
-            yield return null;
+             yield return null;
         }
     }
 
     // ATTACK 상태 코루틴
     private IEnumerator ATTACK()
     {
-        canMove = false;
         canWalk = false;
-        if (target == null)
-        {
-            canAttack = false;
-            ChangeState(State.IDLE);
-            yield break;
-        }
-
-        // 남은 거리를 계산하여 공격 범위 내에 있는지 확인
-        float distanceToTarget = Vector3.Distance(transform.position, target.position);
-
-        if (distanceToTarget <= attackRange)
-        {
-            if (lastAttackTime + attackDelay <= Time.time)
-            {
-                Debug.Log("ATTACK 상태");
-
-                lastAttackTime = Time.time;
-                canAttack = true;
-                yield return new WaitForSeconds(0.5f); // 공격 애니메이션 시간 대기
-            }
-        }
-        else
-        {
-            ChangeState(State.CHASE);
-        }
-
-        yield return null;
+        canMove = false;
+         while (state == State.ATTACK)
+         {
+             if (target == null)
+             {
+                 ChangeState(State.IDLE);
+                 yield break;
+             }
+         
+             // 남은 거리를 계산하여 공격 범위 내에 있는지 확인
+             float distanceToTarget = Vector3.Distance(transform.position, target.position);
+         
+             if (distanceToTarget <= attackRange)
+             {
+                 if (lastAttackTime + attackDelay <= Time.time)
+                 {
+                     animatorEnemy.SetTrigger("Attack");
+                     lastAttackTime = Time.time;
+                     yield return new WaitForSeconds(0.5f); // 공격 애니메이션 시간 대기
+                 }
+             }
+             else
+             {
+                 ChangeState(State.CHASE);
+                 yield break; // CHASE 상태로 전환 후 ATTACK 코루틴 종료
+             }
+         
+             yield return null;
+         }
     }
 
     // DIE 상태 코루틴
     private IEnumerator DIE()
     {
-        Debug.Log("DIE 상태");
         // 적 사망 로직 처리
         Destroy(hpBarCanvas, 1f);
         HandleDeath();
@@ -226,8 +263,8 @@ public class CWolfEnemy : MonoBehaviour, IHittable
     {
         // 추적 대상의 존재 여부에 따라 다른 애니메이션 재생
         animatorEnemy.SetBool("CanMove", canMove);
-        // 공격 애니메이션 재생
-        animatorEnemy.SetBool("CanAttack", canAttack);
+
+        animatorEnemy.SetBool("CanWalk", canWalk);
     }
 
 
@@ -250,7 +287,7 @@ public class CWolfEnemy : MonoBehaviour, IHittable
         {
             if (target != null)
             {
-                target = GameObject.FindGameObjectWithTag("Player")?.transform.GetChild(0);
+                target = GameObject.FindGameObjectWithTag("Player")?.transform;
             }
         }
 
@@ -272,9 +309,16 @@ public class CWolfEnemy : MonoBehaviour, IHittable
         }
     }
 
-
-
-
+    // 공격 애니메이션이 작동하면 호출
+    public void startjumpAttack()
+    {
+        wolfEnemyAttack.StartAttack();
+    }
+    
+    public void endJumpAttack()
+    {
+        wolfEnemyAttack.EndAttack();
+    }
     #region Ragdoll, Collider 관련
     // Rigidbody 상태 설정 메서드
     void setRigidbodyState(bool state)
@@ -357,7 +401,12 @@ public class CWolfEnemy : MonoBehaviour, IHittable
     private IEnumerator HideHpBarAfterDelay(float delay)
     {
         yield return new WaitForSeconds(delay);
-        hpBarCanvas.SetActive(false);
+
+        // hpBarCanvas가 null이 아니고 파괴되지 않았는지 확인
+        if (hpBarCanvas != null)
+        {
+            hpBarCanvas.SetActive(false);
+        }
     }
     #endregion
 }
