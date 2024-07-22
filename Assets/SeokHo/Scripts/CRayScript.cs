@@ -6,7 +6,7 @@ using UnityEngine;
 public class CRayScript : MonoBehaviour
 {
     RaycastHit raycasthit;
-    float Maxdistance = 300f;
+    float Maxdistance = 3000000f;
 
     void Update()
     {

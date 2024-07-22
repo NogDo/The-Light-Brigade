@@ -3,6 +3,14 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
+public enum State
+{
+    IDLE,   // 대기 상태
+    CHASE,  // 추적 상태
+    ATTACK, // 공격 상태
+    DIE, // 사망 상태
+}
+
 public class CBossEnemy : MonoBehaviour, IHittable
 {
     #region 변수
@@ -35,14 +43,15 @@ public class CBossEnemy : MonoBehaviour, IHittable
     private bool hasMovedToPosition = false; // 보스가 이동 완료했는지 체크하는 변수
     private float moveSpeed = 1.5f; // 보스 이동 속도
     private float rotationSpeed = 5f; // 보스 회전 속도
+    public Animation IceSpear;
 
     private enum AttackType
     {
-        Attack1,
-        Attack2,
-        Attack3,
-        Attack4,
-        Attack5
+        SpearAttack,
+        SnowBallAttack,
+        CircleAttack,
+        VerticalAttack,
+        HorizontalAttack
     }
     #endregion
 
@@ -146,26 +155,26 @@ public class CBossEnemy : MonoBehaviour, IHittable
                         transform.LookAt(target.GetChild(0));
                         lastAttackTime = Time.time;
 
-                        AttackType attackType = (AttackType)Random.Range(0, 5);
+                        AttackType attackType = (AttackType)Random.Range(0, 4);
                         switch (attackType)
                         {
-                            case AttackType.Attack1:
-                                AnimatorBoss.SetTrigger("Attack1");
+                            case AttackType.SpearAttack:
+                                AnimatorBoss.SetTrigger("SpearAttack");
                                 break;
-                            case AttackType.Attack2:
-                                AnimatorBoss.SetTrigger("Attack2");
+                            case AttackType.SnowBallAttack:
+                                AnimatorBoss.SetTrigger("SnowBallAttack");
                                 break;
-                            case AttackType.Attack3:
-                                AnimatorBoss.SetTrigger("Attack3");
+                            case AttackType.CircleAttack:
+                                AnimatorBoss.SetTrigger("CircleAttack");
                                 break;
-                            case AttackType.Attack4:
-                                AnimatorBoss.SetTrigger("Attack4");
+                            case AttackType.VerticalAttack:
+                                AnimatorBoss.SetTrigger("VerticalAttack");
                                 break;
-                            case AttackType.Attack5:
-                                AnimatorBoss.SetTrigger("Attack5");
+                            case AttackType.HorizontalAttack:
+                                AnimatorBoss.SetTrigger("HorizontalAttack");
                                 break;
                         }
-                        yield return new WaitForSeconds(0.5f);
+                        yield return new WaitForSeconds(1f);
                     }
                 }
             }
@@ -187,9 +196,14 @@ public class CBossEnemy : MonoBehaviour, IHittable
     }
     #endregion
 
-    public void ShootBullet()
+    public void SpearAttack()
     {
-        // 총알 발사 로직 구현
+        IceSpear.Play("SpearAttack");
+    }
+
+    public void CreateIceSpear()
+    {
+
     }
 
     public void Hit(float damage)
@@ -242,12 +256,11 @@ public class CBossEnemy : MonoBehaviour, IHittable
 
             if (randomChance < 0.3f) // 30% 확률로 왼쪽 대쉬
             {
-
-                StartCoroutine(TriggerAnimationsLeft());
+                AnimatorBoss.SetTrigger("QuickDash_Left");
             }
             else if (randomChance < 0.6f) // 추가 30% 확률로 오른쪽 대쉬
-            {
-                StartCoroutine(TriggerAnimationsRight());
+            { 
+                AnimatorBoss.SetTrigger("QuickDash_Right");
             }
             // 40% 확률로 아무것도 하지 않음
             else
@@ -256,26 +269,17 @@ public class CBossEnemy : MonoBehaviour, IHittable
             }
         }
     }
-    IEnumerator TriggerAnimationsLeft()
+
+    #region 애니메이션 관련
+
+    public void TriggerAnimationsLeft()
     {
-        // 첫 번째 트리거 설정
-        AnimatorBoss.SetTrigger("QuickDash_Left");
-
-        // 잠시 기다리기 (애니메이션 상태가 변경될 시간을 확보)
-        yield return new WaitForSeconds(0.1f);
-
-        // 두 번째 트리거 설정
+        // 날개도 따라서 대쉬
         AnimatorBossWing.SetTrigger("QuickDash_Left");
     }
-    IEnumerator TriggerAnimationsRight()
+    public void TriggerAnimationsRight()
     {
-        // 첫 번째 트리거 설정
-        AnimatorBoss.SetTrigger("QuickDash_Right");
-
-        // 잠시 기다리기 (애니메이션 상태가 변경될 시간을 확보)
-        yield return new WaitForSeconds(0.1f);
-
-        // 두 번째 트리거 설정
+        // 날개도 따라서 대쉬
         AnimatorBossWing.SetTrigger("QuickDash_Right");
     }
 
@@ -306,6 +310,8 @@ public class CBossEnemy : MonoBehaviour, IHittable
 
         ChangeState(State.ATTACK); // 이동이 완료된 후 상태 전환
     }
+
+    #endregion
 
 
     #region HPBar 관련
