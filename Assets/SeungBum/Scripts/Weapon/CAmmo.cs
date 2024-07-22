@@ -5,6 +5,9 @@ using UnityEngine;
 public class CAmmo : MonoBehaviour
 {
     #region protected º¯¼ö
+    [SerializeField]
+    protected GameObject[] oBullets;
+
     protected EWeapon equipWeaponType;
     protected int nBulletMaxCount;
     protected int nBulletNowCount;
@@ -60,5 +63,6 @@ public class CAmmo : MonoBehaviour
     public void DecreaseBulltCount()
     {
         nBulletNowCount--;
+        oBullets[nBulletNowCount].SetActive(false);
     }
 }
