@@ -4,9 +4,16 @@ using UnityEngine;
 
 public class CAmmoGewehr43 : CAmmo
 {
-    void Start()
+
+    void OnEnable()
     {
         equipWeaponType = EWeapon.GEWEHR;
-        nBulletCount = 10;
+        nBulletMaxCount = 10;
+        nBulletNowCount = 10;
+
+        for (int i = 0; i < nBulletNowCount; i++)
+        {
+            oBullets[i].SetActive(true);
+        }
     }
 }

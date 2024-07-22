@@ -56,9 +56,10 @@ public class CTirggerBarrelInteractable : XRGrabInteractable
             leftControllerAnimation.tfHandOffsetNode.gameObject.SetActive(false);
 
             args.interactableObject.transform.GetComponent<CWeaponController>().GrabLeftController(args);
+            args.interactorObject.transform.root.GetComponentInChildren<UIPlayerStatsActiveController>().DontActive();
         }
 
-        else
+        else if (args.interactorObject as XRDirectInteractor == rightDirectController || args.interactorObject as XRRayInteractor == rightRayController)
         {
             animataedRightHand.gameObject.SetActive(true);
             animataedRightHand.ActionAnimation(weaponNumber + (int)EGrabPoint.TRIGGER);
@@ -70,6 +71,10 @@ public class CTirggerBarrelInteractable : XRGrabInteractable
             rightControllerAnimation.tfHandOffsetNode.gameObject.SetActive(false);
 
             args.interactableObject.transform.GetComponent<CWeaponController>().GrabRightController(args);
+            args.interactorObject.transform.root.GetComponentInChildren<CPlayerController>().SetWeaponUI
+                (
+                    args.interactableObject.transform.GetComponent<CWeaponController>().WeaponUI
+                );
         }
 
         base.OnSelectEntering(args);
@@ -85,9 +90,10 @@ public class CTirggerBarrelInteractable : XRGrabInteractable
             leftControllerAnimation.tfHandOffsetNode.gameObject.SetActive(true);
 
             args.interactableObject.transform.GetComponent<CWeaponController>().ReleaseLeftController();
+            args.interactorObject.transform.root.GetComponentInChildren<UIPlayerStatsActiveController>().CanActive();
         }
 
-        else
+        else if (args.interactorObject as XRDirectInteractor == rightDirectController || args.interactorObject as XRRayInteractor == rightRayController)
         {
             animataedRightHand.ActionAnimation(0);
             animataedRightHand.gameObject.SetActive(false);
@@ -95,6 +101,8 @@ public class CTirggerBarrelInteractable : XRGrabInteractable
             rightControllerAnimation.tfHandOffsetNode.gameObject.SetActive(true);
 
             args.interactableObject.transform.GetComponent<CWeaponController>().ReleaseRightController();
+            args.interactableObject.transform.GetComponent<CWeaponController>().WeaponUI.gameObject.SetActive(false);
+            args.interactorObject.transform.root.GetComponentInChildren<CPlayerController>().SetWeaponUI(null);
         }
 
         base.OnSelectExiting(args);

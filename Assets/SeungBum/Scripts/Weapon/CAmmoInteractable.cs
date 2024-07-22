@@ -16,6 +16,8 @@ public class CAmmoInteractable : XRGrabInteractable
 
     CHandAnimationController leftHandAnimationController;
     CHandAnimationController rightHandAnimationController;
+
+    bool isInit = false;
     #endregion
 
     void Start()
@@ -30,6 +32,13 @@ public class CAmmoInteractable : XRGrabInteractable
 
     protected override void OnSelectEntering(SelectEnterEventArgs args)
     {
+        if (!isInit)
+        {
+            base.OnSelectEntering(args);
+            isInit = true;
+            return;
+        }
+
         int weaponNumber = 0;
 
         switch (args.interactableObject.transform.GetComponent<CAmmo>().EquipWeaponType)
@@ -49,7 +58,7 @@ public class CAmmoInteractable : XRGrabInteractable
             leftHandAnimationController.ActionAnimation(weaponNumber + (int)EGrabPoint.AMMO);
         }
 
-        else
+        else if (args.interactorObject as XRDirectInteractor == rightDirectController || args.interactorObject as XRRayInteractor == rightRayController)
         {
             if (rightHandAnimationController is null)
             {
@@ -57,8 +66,6 @@ public class CAmmoInteractable : XRGrabInteractable
             }
 
             rightHandAnimationController.ActionAnimation(weaponNumber + (int)EGrabPoint.AMMO);
-
-            
         }
 
         base.OnSelectEntering(args);
@@ -71,7 +78,7 @@ public class CAmmoInteractable : XRGrabInteractable
             leftHandAnimationController.ActionAnimation(0);
         }
 
-        else
+        else if (args.interactorObject as XRDirectInteractor == rightDirectController || args.interactorObject as XRRayInteractor == rightRayController)
         {
             rightHandAnimationController.ActionAnimation(0);
         }

@@ -12,24 +12,32 @@ public class CWeaponController : MonoBehaviour
 
     ActionBasedController leftController;
     ActionBasedController rightController;
+
+    [SerializeField]
+    UIWeapon weaponUI;
+
+    bool isFireReady;
     #endregion
 
     #region public 변수
     public Transform bulletTransform;
+    public Transform modelTransform;
+    public GameObject oMuzzleParticle;
     public XRSocketInteractor ammoSoketInteractor;
     #endregion
 
-    void Start()
+    void OnEnable()
     {
         grabInteractable = GetComponent<XRGrabInteractable>();
         weapon = GetComponent<CWeapon>();
         nowEquipAmmo = null;
 
         grabInteractable.activated.AddListener(Fire);
-        grabInteractable.activated.AddListener(Haptic);
 
         ammoSoketInteractor.selectEntered.AddListener(AddAmmo);
         ammoSoketInteractor.selectExited.AddListener(RemoveAmmo);
+
+        isFireReady = true;
     }
 
     void OnDisable()
@@ -37,6 +45,23 @@ public class CWeaponController : MonoBehaviour
         if (grabInteractable is not null)
         {
             grabInteractable.activated.RemoveListener(Fire);
+        }
+
+        if (ammoSoketInteractor is not null)
+        {
+            ammoSoketInteractor.selectEntered.RemoveListener(AddAmmo);
+            ammoSoketInteractor.selectExited.RemoveListener(RemoveAmmo);
+        }
+    }
+
+    /// <summary>
+    /// WeaponUI Class 반환
+    /// </summary>
+    public UIWeapon WeaponUI
+    {
+        get
+        {
+            return weaponUI;
         }
     }
 
@@ -80,38 +105,71 @@ public class CWeaponController : MonoBehaviour
     /// <param name="eventArgs">ActiveEvent</param>
     public void Fire(ActivateEventArgs eventArgs)
     {
-        if (nowEquipAmmo is not null && nowEquipAmmo.BulletCount > 0)
+        if (!isFireReady)
         {
-            RaycastHit hit;
+            return;
+        }
 
+        if (nowEquipAmmo is not null && nowEquipAmmo.BulletNowCount > 0)
+        {
             nowEquipAmmo.DecreaseBulltCount();
-            Debug.LogFormat("총알 발사! 남은 총알 개수 : {0}", nowEquipAmmo.BulletCount);
 
-            if (Physics.Raycast(bulletTransform.position, bulletTransform.forward, out hit, float.MaxValue))
+            weaponUI.ChangeBulletCount(nowEquipAmmo.BulletNowCount);
+            weaponUI.ChangeBulletUIColor((nowEquipAmmo.RemainBulletPercent >= 0.4f) ? Color.white : Color.red);
+            Debug.LogFormat("총알 발사! 남은 총알 개수 : {0}", nowEquipAmmo.BulletNowCount);
+
+            RaycastHit ray;
+            if (Physics.Raycast(bulletTransform.position, bulletTransform.forward, out ray, float.MaxValue))
             {
-                if (hit.transform.TryGetComponent<IHittable>(out IHittable hitObj))
+                if (ray.transform.TryGetComponent<IHittable>(out IHittable hit))
                 {
-                    hitObj.Hit(weapon.Damage);
+                    hit.Hit(weapon.Damage);
                 }
             }
 
             Recoil();
+            Haptic();
+            ActiveMuzzleParticle();
+            StartCoroutine(ShootCoolTime());
         }
 
         else
         {
-            Debug.LogFormat("남은 총알 개수가 없다!");
+            RaycastHit ray;
+            if (Physics.Raycast(bulletTransform.position, bulletTransform.forward, out ray, float.MaxValue))
+            {
+                if (ray.transform.TryGetComponent<IHittable>(out IHittable hit))
+                {
+                    hit.Hit(weapon.Damage);
+                }
+            }
+
             Recoil();
+            Haptic();
+            ActiveMuzzleParticle();
+            StartCoroutine(ShootCoolTime());
+            Debug.LogFormat("남은 총알 개수가 없다!");
         }
+    }
+
+    /// <summary>
+    /// 총 발사 쿨타임을 기다리는 코루틴
+    /// </summary>
+    /// <returns></returns>
+    IEnumerator ShootCoolTime()
+    {
+        isFireReady = false;
+
+        yield return new WaitForSeconds(weapon.ShootCoolTime);
+
+        isFireReady = true;
     }
 
     /// <summary>
     /// 컨트롤러를 진동시키기 위한 메서드
     /// </summary>
-    /// <param name="eventArgs"></param>
-    public void Haptic(ActivateEventArgs eventArgs)
+    public void Haptic()
     {
-
         if (leftController is not null)
         {
             Debug.Log("왼쪽 손 진동 발생!");
@@ -153,8 +211,11 @@ public class CWeaponController : MonoBehaviour
     {
         if (nowEquipAmmo is not null)
         {
-            weapon.Reload(nowEquipAmmo.BulletCount);
-            Debug.LogFormat("장전 완료 : {0}", nowEquipAmmo.BulletCount);
+            weapon.Reload(nowEquipAmmo.BulletNowCount);
+
+            weaponUI.ChangeBulletCount(nowEquipAmmo.BulletNowCount);
+            weaponUI.ChangeBulletUIColor((nowEquipAmmo.RemainBulletPercent >= 0.4f) ? Color.white : Color.red);
+            Debug.LogFormat("장전 완료 : {0}", nowEquipAmmo.BulletNowCount);
         }
 
         else
@@ -179,15 +240,45 @@ public class CWeaponController : MonoBehaviour
     IEnumerator RecoilStart()
     {
         float fStartTime = 0.0f;
-
+        print($"coroutine condition : {fStartTime <= 0.05f}");
         while (fStartTime <= 0.05f)
         {
-            transform.Translate(Vector3.forward * -3.0f * Time.deltaTime);
-            transform.Rotate(Vector3.right * -60.0f * Time.deltaTime);
+            modelTransform.Translate(Vector3.forward * -3.0f * Time.deltaTime);
+            modelTransform.Rotate(Vector3.right * -60.0f * Time.deltaTime);
 
             fStartTime += Time.deltaTime;
 
             yield return null;
         }
+
+        fStartTime = 0.0f;
+        while (fStartTime <= 0.05f)
+        {
+            modelTransform.Translate(Vector3.forward * 3.0f * Time.deltaTime);
+            modelTransform.Rotate(Vector3.right * 60.0f * Time.deltaTime);
+
+            fStartTime += Time.deltaTime;
+
+            yield return null;
+        }
+
+        modelTransform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
+    }
+
+    /// <summary>
+    /// Fire시 재생될 파티클을 키고 끄는 메서드
+    /// </summary>
+    public void ActiveMuzzleParticle()
+    {
+        oMuzzleParticle.SetActive(true);
+        Invoke("InActiveMuzzleParticle", 0.1f);
+    }
+
+    /// <summary>
+    /// Active된 Muzzle 파티클을 다시 InActive 시키는 메서드
+    /// </summary>
+    public void InActiveMuzzleParticle()
+    {
+        oMuzzleParticle.SetActive(false);
     }
 }
