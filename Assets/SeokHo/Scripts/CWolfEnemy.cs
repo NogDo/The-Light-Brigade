@@ -153,14 +153,14 @@ public class CWolfEnemy : MonoBehaviour, IHittable
                         canWalk = false;
                         // IDLE 상태에서 5초 동안 대기
                         animatorEnemy.Play("Eat");
-                        yield return new WaitForSeconds(5f);
+                        yield return new WaitForSeconds(1f);
                     }
                     else
                     {
                         canWalk = false;
                         // IDLE 상태에서 5초 동안 대기
                         animatorEnemy.Play("Idle");
-                        yield return new WaitForSeconds(5f);
+                        yield return new WaitForSeconds(1f);
                     }
                 }
             }
@@ -251,6 +251,7 @@ public class CWolfEnemy : MonoBehaviour, IHittable
     private IEnumerator DIE()
     {
         // 적 사망 로직 처리
+        nmAgent.isStopped = true;
         Destroy(hpBarCanvas, 1f);
         HandleDeath();
         yield return null;
@@ -292,7 +293,6 @@ public class CWolfEnemy : MonoBehaviour, IHittable
         }
 
         GameObject damageUI = damagePool.GetObject();
-        damage = Random.Range(5, 10);
         health -= damage;
         CheckHp();
         if (damagePool != null)

@@ -4,13 +4,7 @@ using UnityEngine.AI;
 using UnityEngine.UI;
 using TMPro;
 
-public enum State
-{
-    IDLE,   // 대기 상태
-    CHASE,  // 추적 상태
-    ATTACK, // 공격 상태
-    DIE, // 사망 상태
-}
+
 
 public class CNormalEnemy : MonoBehaviour, IHittable
 {
@@ -113,12 +107,6 @@ public class CNormalEnemy : MonoBehaviour, IHittable
         }
 
         state = newState;
-
-        // 상태 전환 시 애니메이터 상태를 업데이트
-        if (newState == State.IDLE)
-        {
-            animatorEnemy.Play("Idle");
-        }
     }
 
     // IDLE 상태 코루틴
@@ -127,17 +115,14 @@ public class CNormalEnemy : MonoBehaviour, IHittable
         canMove = false;
         canAttack = false;
 
-        // 애니메이터 상태를 IDLE로 설정
-        animatorEnemy.Play("Idle");
+        // 애니메이터 상태를 WALK로 설정
+        animatorEnemy.SetBool("Walk", false);
 
         while (state == State.IDLE)
         {
             // NavMeshAgent에 경로가 없거나 남은 거리가 작으면
             if (!nmAgent.hasPath || nmAgent.remainingDistance < 0.5f)
             {
-                // 애니메이터 상태를 WALK로 설정
-                animatorEnemy.Play("Walk");
-
                 // 랜덤한 방향 선택
                 Vector3 randomDirection = Random.insideUnitSphere * 10f;
                 randomDirection += transform.position;
@@ -166,14 +151,14 @@ public class CNormalEnemy : MonoBehaviour, IHittable
                     if (randomChance < 0.5f)
                     {
                         // IDLE 상태에서 5초 동안 대기
-                        animatorEnemy.Play("KickFoot");
-                        yield return new WaitForSeconds(5f);
+                        animatorEnemy.SetTrigger("KickFoot");
+                        yield return new WaitForSeconds(1f);
                     }
                     else
                     {
                         // IDLE 상태에서 5초 동안 대기
                         animatorEnemy.Play("Idle");
-                        yield return new WaitForSeconds(5f);
+                        yield return new WaitForSeconds(1f);
                     }
                 }
             }
@@ -185,8 +170,6 @@ public class CNormalEnemy : MonoBehaviour, IHittable
         nmAgent.isStopped = true;
         nmAgent.SetDestination(transform.position);
 
-        // 애니메이터 상태를 IDLE로 설정
-        animatorEnemy.Play("Idle");
     }
 
 
@@ -261,6 +244,7 @@ public class CNormalEnemy : MonoBehaviour, IHittable
     private IEnumerator DIE()
     {
         // 적 사망 로직 처리
+        nmAgent.isStopped = true;
         Destroy(hpBarCanvas, 1f);
         HandleDeath();
         yield return null;
@@ -296,7 +280,8 @@ public class CNormalEnemy : MonoBehaviour, IHittable
             if (playerObject != null)
             {
                 target = playerObject.transform.GetChild(0); // 플레이어의 적절한 트랜스폼 참조
-                ChangeState(State.CHASE);
+                attackRange = 100f;
+                ChangeState(State.ATTACK);
             }
         }
         else if (state == State.CHASE)
@@ -304,11 +289,12 @@ public class CNormalEnemy : MonoBehaviour, IHittable
             if (target != null)
             {
                 target = GameObject.FindGameObjectWithTag("Player")?.transform.GetChild(0);
+                attackRange = 100f;
+                ChangeState(State.ATTACK);
             }
         }
 
         GameObject damageUI = damagePool.GetObject();
-        damage = Random.Range(5, 10);       
         health -= damage;
         CheckHp();
         if (damagePool != null)
