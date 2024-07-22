@@ -9,6 +9,8 @@ public class CPlayerController : MonoBehaviour
     #region private 변수
     [SerializeField]
     ActionBasedController leftController;
+    [SerializeField]
+    GameObject oTunnelingVignette;
 
     CPlayerStats playerStats;
     UIWeapon weaponUI;
@@ -80,6 +82,9 @@ public class CPlayerController : MonoBehaviour
         playerStats.ChangeHP(playerStats.HP - (int)damage);
         playerStatsUI.ChangeHPText(playerStats.HP, playerStats.MaxHP);
 
+        oTunnelingVignette.SetActive(true);
+        Invoke("InActiveTunnelingVignette", 0.2f);
+
         if (weaponUI is null)
         {
             return;
@@ -108,5 +113,13 @@ public class CPlayerController : MonoBehaviour
 
         weaponUI.ChangeHPCount(playerStats.HP);
         weaponUI.ChangeHPUIColor((playerStats.HP >= 4) ? Color.white : Color.red);
+    }
+
+    /// <summary>
+    /// 플레이어 피격시 화면이 빨개지는 효과를 비활성화 한다.
+    /// </summary>
+    void InActiveTunnelingVignette()
+    {
+        oTunnelingVignette.SetActive(false);
     }
 }
