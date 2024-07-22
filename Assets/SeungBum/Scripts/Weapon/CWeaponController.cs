@@ -120,9 +120,9 @@ public class CWeaponController : MonoBehaviour
 
             RaycastHit[] hits = Physics.RaycastAll(bulletTransform.position, bulletTransform.forward, float.MaxValue);
 
-            foreach (RaycastHit hph in hits)
+            foreach (RaycastHit hit in hits)
             {
-                if (hph.transform.TryGetComponent<IHittable>(out IHittable hitObj))
+                if (hit.transform.TryGetComponent<IHittable>(out IHittable hitObj))
                 {
                     hitObj.Hit(weapon.Damage);
                 }
@@ -130,6 +130,7 @@ public class CWeaponController : MonoBehaviour
 
             Recoil();
             Haptic();
+            ActiveMuzzleParticle();
             StartCoroutine(ShootCoolTime());
         }
 
@@ -137,9 +138,9 @@ public class CWeaponController : MonoBehaviour
         {
             RaycastHit[] hits = Physics.RaycastAll(bulletTransform.position, bulletTransform.forward, float.MaxValue);
 
-            foreach (RaycastHit hph in hits)
+            foreach (RaycastHit hit in hits)
             {
-                if (hph.transform.TryGetComponent<IHittable>(out IHittable hitObj))
+                if (hit.transform.TryGetComponent<IHittable>(out IHittable hitObj))
                 {
                     hitObj.Hit(weapon.Damage);
                 }
@@ -147,6 +148,7 @@ public class CWeaponController : MonoBehaviour
 
             Recoil();
             Haptic();
+            ActiveMuzzleParticle();
             StartCoroutine(ShootCoolTime());
             Debug.LogFormat("남은 총알 개수가 없다!");
         }
@@ -263,5 +265,22 @@ public class CWeaponController : MonoBehaviour
         }
 
         modelTransform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
+    }
+
+    /// <summary>
+    /// Fire시 재생될 파티클을 키고 끄는 메서드
+    /// </summary>
+    public void ActiveMuzzleParticle()
+    {
+        oMuzzleParticle.SetActive(true);
+        Invoke("InActiveMuzzleParticle", 0.1f);
+    }
+
+    /// <summary>
+    /// Active된 Muzzle 파티클을 다시 InActive 시키는 메서드
+    /// </summary>
+    public void InActiveMuzzleParticle()
+    {
+        oMuzzleParticle.SetActive(false);
     }
 }
