@@ -118,13 +118,12 @@ public class CWeaponController : MonoBehaviour
             weaponUI.ChangeBulletUIColor((nowEquipAmmo.RemainBulletPercent >= 0.4f) ? Color.white : Color.red);
             Debug.LogFormat("ÃÑ¾Ë ¹ß»ç! ³²Àº ÃÑ¾Ë °³¼ö : {0}", nowEquipAmmo.BulletNowCount);
 
-            RaycastHit[] hits = Physics.RaycastAll(bulletTransform.position, bulletTransform.forward, float.MaxValue);
-
-            foreach (RaycastHit hit in hits)
+            RaycastHit ray;
+            if (Physics.Raycast(bulletTransform.position, bulletTransform.forward, out ray, float.MaxValue))
             {
-                if (hit.transform.TryGetComponent<IHittable>(out IHittable hitObj))
+                if (ray.transform.TryGetComponent<IHittable>(out IHittable hit))
                 {
-                    hitObj.Hit(weapon.Damage);
+                    hit.Hit(weapon.Damage);
                 }
             }
 
@@ -136,13 +135,12 @@ public class CWeaponController : MonoBehaviour
 
         else
         {
-            RaycastHit[] hits = Physics.RaycastAll(bulletTransform.position, bulletTransform.forward, float.MaxValue);
-
-            foreach (RaycastHit hit in hits)
+            RaycastHit ray;
+            if (Physics.Raycast(bulletTransform.position, bulletTransform.forward, out ray, float.MaxValue))
             {
-                if (hit.transform.TryGetComponent<IHittable>(out IHittable hitObj))
+                if (ray.transform.TryGetComponent<IHittable>(out IHittable hit))
                 {
-                    hitObj.Hit(weapon.Damage);
+                    hit.Hit(weapon.Damage);
                 }
             }
 
