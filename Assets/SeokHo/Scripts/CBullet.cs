@@ -68,7 +68,9 @@ public class CBullet : MonoBehaviour
         if (destroyed)
             return;
 
-        if (other.CompareTag("Player"))
+        Debug.Log(other.gameObject.name);
+
+        if (other.gameObject.CompareTag("Player"))
         {
             if (other.TryGetComponent<CPlayerController>(out CPlayerController playerController))
             {

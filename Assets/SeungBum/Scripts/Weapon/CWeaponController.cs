@@ -21,22 +21,10 @@ public class CWeaponController : MonoBehaviour
 
     #region public 변수
     public Transform bulletTransform;
+    public Transform modelTransform;
+    public GameObject oMuzzleParticle;
     public XRSocketInteractor ammoSoketInteractor;
     #endregion
-
-    void Start()
-    {
-        //grabInteractable = GetComponent<XRGrabInteractable>();
-        //weapon = GetComponent<CWeapon>();
-        //nowEquipAmmo = null;
-
-        //grabInteractable.activated.AddListener(Fire);
-
-        //ammoSoketInteractor.selectEntered.AddListener(AddAmmo);
-        //ammoSoketInteractor.selectExited.AddListener(RemoveAmmo);
-
-        //isFireReady = true;
-    }
 
     void OnEnable()
     {
@@ -57,6 +45,12 @@ public class CWeaponController : MonoBehaviour
         if (grabInteractable is not null)
         {
             grabInteractable.activated.RemoveListener(Fire);
+        }
+
+        if (ammoSoketInteractor is not null)
+        {
+            ammoSoketInteractor.selectEntered.RemoveListener(AddAmmo);
+            ammoSoketInteractor.selectExited.RemoveListener(RemoveAmmo);
         }
     }
 
@@ -118,17 +112,17 @@ public class CWeaponController : MonoBehaviour
 
         if (nowEquipAmmo is not null && nowEquipAmmo.BulletNowCount > 0)
         {
-            RaycastHit hit;
-
             nowEquipAmmo.DecreaseBulltCount();
 
             weaponUI.ChangeBulletCount(nowEquipAmmo.BulletNowCount);
             weaponUI.ChangeBulletUIColor((nowEquipAmmo.RemainBulletPercent >= 0.4f) ? Color.white : Color.red);
             Debug.LogFormat("총알 발사! 남은 총알 개수 : {0}", nowEquipAmmo.BulletNowCount);
 
-            if (Physics.Raycast(bulletTransform.position, bulletTransform.forward, out hit, float.MaxValue))
+            RaycastHit[] hits = Physics.RaycastAll(bulletTransform.position, bulletTransform.forward, float.MaxValue);
+
+            foreach (RaycastHit hph in hits)
             {
-                if (hit.transform.TryGetComponent<IHittable>(out IHittable hitObj))
+                if (hph.transform.TryGetComponent<IHittable>(out IHittable hitObj))
                 {
                     hitObj.Hit(weapon.Damage);
                 }
@@ -141,7 +135,19 @@ public class CWeaponController : MonoBehaviour
 
         else
         {
+            RaycastHit[] hits = Physics.RaycastAll(bulletTransform.position, bulletTransform.forward, float.MaxValue);
+
+            foreach (RaycastHit hph in hits)
+            {
+                if (hph.transform.TryGetComponent<IHittable>(out IHittable hitObj))
+                {
+                    hitObj.Hit(weapon.Damage);
+                }
+            }
+
             Recoil();
+            Haptic();
+            StartCoroutine(ShootCoolTime());
             Debug.LogFormat("남은 총알 개수가 없다!");
         }
     }
@@ -234,15 +240,28 @@ public class CWeaponController : MonoBehaviour
     IEnumerator RecoilStart()
     {
         float fStartTime = 0.0f;
-
+        print($"coroutine condition : {fStartTime <= 0.05f}");
         while (fStartTime <= 0.05f)
         {
-            transform.Translate(Vector3.forward * -3.0f * Time.deltaTime);
-            transform.Rotate(Vector3.right * -60.0f * Time.deltaTime);
+            modelTransform.Translate(Vector3.forward * -3.0f * Time.deltaTime);
+            modelTransform.Rotate(Vector3.right * -60.0f * Time.deltaTime);
 
             fStartTime += Time.deltaTime;
 
             yield return null;
         }
+
+        fStartTime = 0.0f;
+        while (fStartTime <= 0.05f)
+        {
+            modelTransform.Translate(Vector3.forward * 3.0f * Time.deltaTime);
+            modelTransform.Rotate(Vector3.right * 60.0f * Time.deltaTime);
+
+            fStartTime += Time.deltaTime;
+
+            yield return null;
+        }
+
+        modelTransform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
     }
 }

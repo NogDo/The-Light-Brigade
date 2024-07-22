@@ -66,6 +66,8 @@ public class CPlayerController : MonoBehaviour
             playerStatsUI.ChangeSoulText(playerStats.Soul);
             playerStatsUI.ChangeAmmoText(playerStats.Ammo);
 
+            GetComponent<CharacterController>().height = 1.5f;
+
             isInitModel = true;
         }
     }
@@ -76,6 +78,7 @@ public class CPlayerController : MonoBehaviour
     public void Hit(float damage)
     {
         playerStats.ChangeHP(playerStats.HP - (int)damage);
+        playerStatsUI.ChangeHPText(playerStats.HP, playerStats.MaxHP);
 
         if (weaponUI is null)
         {
@@ -87,8 +90,6 @@ public class CPlayerController : MonoBehaviour
             weaponUI.ChangeHPCount(playerStats.HP);
             weaponUI.ChangeHPUIColor((playerStats.HP >= 4) ? Color.white : Color.red);
         }
-
-        playerStatsUI.ChangeHPText(playerStats.HP, playerStats.MaxHP);
     }
 
     /// <summary>
