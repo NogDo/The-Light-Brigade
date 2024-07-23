@@ -38,7 +38,7 @@ public class CNormalEnemy : MonoBehaviour, IHittable
     private float bulletSpeed = 10f; // 발사체 속도
     private float lastAttackTime; // 마지막 공격 시점
     private bool canMove; // 추적가능여부
-    private bool canAttack; // 공격가능여부
+    public GameObject soulPrefab; // 영혼 프리팹
     #endregion
 
     void Awake()
@@ -58,8 +58,6 @@ public class CNormalEnemy : MonoBehaviour, IHittable
     {
         // 추적 대상의 존재 여부에 따라 다른 애니메이션 재생
         animatorEnemy.SetBool("CanMove", canMove);
-        // 공격 애니메이션 재생
-        animatorEnemy.SetBool("CanAttack", canAttack);
     }
 
     #region 상태 머신
@@ -113,7 +111,6 @@ public class CNormalEnemy : MonoBehaviour, IHittable
     private IEnumerator IDLE()
     {
         canMove = false;
-        canAttack = false;
 
         // Walk 애니메이션 상태를 반복적으로 변경하는 코루틴 시작
         StartCoroutine(ToggleWalkAnimation());
@@ -198,7 +195,6 @@ public class CNormalEnemy : MonoBehaviour, IHittable
     private IEnumerator CHASE()
     {
         canMove = true;
-        canAttack = false;
         nmAgent.isStopped = false;
         nmAgent.SetDestination(target.position);
 
@@ -231,10 +227,8 @@ public class CNormalEnemy : MonoBehaviour, IHittable
     private IEnumerator ATTACK()
     {
         canMove = false;
-        canAttack = true;
         if (target == null)
         {
-            canAttack = false;
             ChangeState(State.IDLE);
             yield break;
         }
@@ -249,7 +243,7 @@ public class CNormalEnemy : MonoBehaviour, IHittable
                 transform.LookAt(target.GetChild(0));
 
                 lastAttackTime = Time.time;
-                animatorEnemy.SetTrigger("IsShooting"); // 발사체 발사 애니메이션 트리거
+                animatorEnemy.SetTrigger("Attack"); // 발사체 발사 애니메이션 트리거
                 yield return new WaitForSeconds(0.5f); // 공격 애니메이션 시간 대기
             }
         }
@@ -268,6 +262,15 @@ public class CNormalEnemy : MonoBehaviour, IHittable
         nmAgent.isStopped = true;
         Destroy(hpBarCanvas, 1f);
         HandleDeath();
+
+        // 1초 후에 영혼 생성 및 이동 시작
+        yield return new WaitForSeconds(1f);
+        for (int i = 0; i < 3; i++)
+        {
+            GameObject soul = Instantiate(soulPrefab, transform.position, Quaternion.identity);
+            StartCoroutine(MoveSoulToTarget(soul, target));
+        }
+
         yield return null;
     }
     #endregion
@@ -276,6 +279,7 @@ public class CNormalEnemy : MonoBehaviour, IHittable
     // 발사체 발사 메서드
     public void ShootBullet()
     {
+        SoundManager.Instance.PlayEnemySound(0, transform.position);
         GameObject bullet = bulletPool.GetBullet(); // 풀에서 총알 가져오기
         bullet.transform.position = bulletSpawnPoint.position;
         bullet.transform.rotation = Quaternion.identity;
@@ -437,4 +441,31 @@ public class CNormalEnemy : MonoBehaviour, IHittable
         }
     }
     #endregion
+
+    // 영혼 이동 코루틴
+    private IEnumerator MoveSoulToTarget(GameObject soul, Transform target)
+    {
+        float fRandX = Random.Range(-2.0f, 2.0f) + transform.position.x;
+        float fRandY = Random.Range(1.5f, 3.0f);
+        float fRandZ = Random.Range(-2.0f, 2.0f) + transform.position.z;
+
+        Vector3 v3StartPosition = soul.transform.position;
+        Vector3 v3MiddlePosition = new Vector3(fRandX, fRandY, fRandZ);
+
+        float fTime = 0.0f;
+        float fDuration = 1f;
+
+        while (fTime <= fDuration)
+        {
+            Vector3 lerpPoint1 = Vector3.Lerp(v3StartPosition, v3MiddlePosition, fTime / fDuration);
+            Vector3 lerpPoint2 = Vector3.Lerp(v3MiddlePosition, target.position, fTime / fDuration);
+            soul.transform.position = Vector3.Lerp(lerpPoint1, lerpPoint2, fTime / fDuration);
+
+            fTime += Time.deltaTime;
+            yield return null;
+        }
+
+        soul.transform.position = target.position;
+        Destroy(soul);
+    }
 }

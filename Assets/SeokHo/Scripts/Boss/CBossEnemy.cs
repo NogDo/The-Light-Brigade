@@ -31,7 +31,7 @@ public class CBossEnemy : MonoBehaviour, IHittable
     public float spearDamage; // 아이스 창 패턴 공격력
     public float snowBallDamage; // 스노우 볼 패턴 공격력
     public float iceShardDamage; // 얼음 조각 패턴 공격력
-    public float iceShardsDamage; // 여러 얼음 조각 패턴 공격력
+    public float IceCircleShardsDamage; // 얼음 조각 패턴 공격력
 
     public float attackRange; // 공격 사거리
     public Transform target; // 추적 대상
@@ -47,10 +47,12 @@ public class CBossEnemy : MonoBehaviour, IHittable
     public GameObject snowBallPrefab; // 스노우 볼 프리팹
     public GameObject iceShardPrefab; // 얼음 조각 프리팹
     public GameObject iceShardsPrefab; // 여러 얼음 조각 프리팹
+    public GameObject IceCircleShardsPrefab; // 원형 얼음 조각 프리팹
     public Animation iceSpear;
     public GameObject onPlayDefeateParticle;
     public GameObject onPlayDeathParticle;
     public GameObject onPlayBloodParticle;
+    public GameObject soulPrefab; // 영혼 프리팹
 
 
     private enum AttackType
@@ -214,6 +216,7 @@ public class CBossEnemy : MonoBehaviour, IHittable
         if (health <= 0)
         {
             AnimatorBoss.SetTrigger("Death");
+
             return; // 체력이 0 이하일 경우 더 이상의 처리를 중단
         }
 
@@ -286,7 +289,7 @@ public class CBossEnemy : MonoBehaviour, IHittable
         ChangeState(State.ATTACK); // 이동이 완료된 후 상태 전환
     }
 
-    // IceSpear 생성
+    // 1.공격 패턴 IceSpear 생성
     public void CreateIceSpear()
     {
         // IceSpear 프리팹이 비어있는지 확인
@@ -316,7 +319,7 @@ public class CBossEnemy : MonoBehaviour, IHittable
         iceSpear.Play("SpearAttack");
     }
 
-    // SnowBall 생성
+    // 2.공격 패턴 SnowBall 생성
     public void CreateSnowBall()
     {
         // SnowBall 프리팹이 비어있는지 확인
@@ -341,7 +344,7 @@ public class CBossEnemy : MonoBehaviour, IHittable
         }
     }
 
-    // 수평으로 날아가는 얼음 투사체를 생성
+    // 3.공격 패턴 수평으로 날아가는 얼음 투사체를 생성
     public void CreateHorizoniceShard()
     {
         // iceShardPrefab이 할당되었는지 확인
@@ -373,7 +376,7 @@ public class CBossEnemy : MonoBehaviour, IHittable
         }
     }
 
-    // 여러 얼음 투사체를 생성
+    // 4.공격 패턴 여러 얼음 투사체를 생성
     public void CreateIceShards()
     {
         if (iceShardsPrefab == null)
@@ -396,7 +399,34 @@ public class CBossEnemy : MonoBehaviour, IHittable
             IceShardsScript.Initialize(iceShardDamage);
             IceShardsScript.SetTarget(target);
         }
+    }
 
+    // 5.공격 패턴 원 형태의 얼음 투사체 생성
+    public void CreateIceCircleShards()
+    {
+        // iceShardPrefab이 할당되었는지 확인
+        if (IceCircleShardsPrefab == null)
+        {
+            Debug.LogWarning("IceCircleShardsPrefab이 할당되지 않았습니다.");
+            return;
+        }
+
+        // 타겟 위치를 생성 시점에 캡처
+        Vector3 targetPosition = target.position;
+
+        // 얼음 투사체의 초기 회전값을 (90, 90, 90)으로 설정
+        Quaternion initialRotation = Quaternion.Euler(90, 90, 90);
+
+        // 얼음 투사체 프리팹을 현재 위치에 생성하고 초기 회전값 설정
+        GameObject iceCircleShardsPrefab = Instantiate(IceCircleShardsPrefab, transform.position, initialRotation);
+
+        // 얼음 투사체의 방향과 타겟 설정
+        CBossCircleIceShards iceShardScript = iceCircleShardsPrefab.GetComponent<CBossCircleIceShards>();
+        if (iceShardScript != null)
+        {
+            iceShardScript.Initialize(IceCircleShardsDamage);
+            iceShardScript.SetTarget(targetPosition);
+        }
     }
 
     // 죽었을 때 파티클 애니메이션 이벤트
@@ -416,6 +446,7 @@ public class CBossEnemy : MonoBehaviour, IHittable
     // 죽었을 때 애니메이션 이벤트
     public void DieAnimation()
     {
+
         Destroy(hpBarCanvas, 1f);
         StartCoroutine(DieTime());
     }
@@ -423,6 +454,13 @@ public class CBossEnemy : MonoBehaviour, IHittable
     // 오브젝트 비활성화까지 시간
     private IEnumerator DieTime()
     {
+        // 1초 후에 영혼 생성 및 이동 시작
+        yield return new WaitForSeconds(1f);
+        for (int i = 0; i < 3; i++)
+        {
+            GameObject soul = Instantiate(soulPrefab, transform.position, Quaternion.identity);
+            StartCoroutine(MoveSoulToTarget(soul, target));
+        }
         // 3초 대기
         yield return new WaitForSeconds(3.5f);
         gameObject.SetActive(false);
@@ -493,4 +531,31 @@ public class CBossEnemy : MonoBehaviour, IHittable
     }
 
     #endregion
+
+    // 영혼 이동 코루틴
+    private IEnumerator MoveSoulToTarget(GameObject soul, Transform target)
+    {
+        float fRandX = Random.Range(-2.0f, 2.0f) + transform.position.x;
+        float fRandY = Random.Range(1.5f, 3.0f);
+        float fRandZ = Random.Range(-2.0f, 2.0f) + transform.position.z;
+
+        Vector3 v3StartPosition = soul.transform.position;
+        Vector3 v3MiddlePosition = new Vector3(fRandX, fRandY, fRandZ);
+
+        float fTime = 0.0f;
+        float fDuration = 1f;
+
+        while (fTime <= fDuration)
+        {
+            Vector3 lerpPoint1 = Vector3.Lerp(v3StartPosition, v3MiddlePosition, fTime / fDuration);
+            Vector3 lerpPoint2 = Vector3.Lerp(v3MiddlePosition, target.position, fTime / fDuration);
+            soul.transform.position = Vector3.Lerp(lerpPoint1, lerpPoint2, fTime / fDuration);
+
+            fTime += Time.deltaTime;
+            yield return null;
+        }
+
+        soul.transform.position = target.position;
+        Destroy(soul);
+    }
 }
