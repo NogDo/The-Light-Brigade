@@ -4,7 +4,8 @@ using UnityEngine;
 
 public enum EWeapon
 {
-    GEWEHR = 1
+    GEWEHR = 1,
+    STG44 = 5
 }
 
 [System.Serializable]
@@ -59,6 +60,10 @@ public class CWeapon : CInteractable
             {
                 case EWeapon.GEWEHR:
                     randomDamage = Random.Range(fDamage - 2.5f, fDamage + 2.5f);
+                    break;
+
+                case EWeapon.STG44:
+                    randomDamage = Random.Range(fDamage - 1.0f, fDamage + 1.0f);
                     break;
             }
 

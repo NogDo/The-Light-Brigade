@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CWeaponGewehr43 : CWeapon
 {
-    private void Start()
+    void Start()
     {
         ActionNumber = 1;
         weaponType = EWeapon.GEWEHR;

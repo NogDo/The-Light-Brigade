@@ -238,7 +238,6 @@ public class CWeaponController : MonoBehaviour
     IEnumerator RecoilStart()
     {
         float fStartTime = 0.0f;
-        print($"coroutine condition : {fStartTime <= 0.05f}");
         while (fStartTime <= 0.05f)
         {
             modelTransform.Translate(Vector3.forward * -3.0f * Time.deltaTime);

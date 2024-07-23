@@ -41,6 +41,10 @@ public class CBoltInteractable : XRGrabInteractable
             case EWeapon.GEWEHR:
                 weaponNumber = 1;
                 break;
+
+            case EWeapon.STG44:
+                weaponNumber = 5;
+                break;
         }
 
         if (args.interactorObject as XRDirectInteractor == leftDirectController || args.interactorObject as XRRayInteractor == leftRayController)
