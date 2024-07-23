@@ -4,19 +4,22 @@ using UnityEngine;
 
 public class TrapManager : MonoBehaviour
 {
-    Animator trapAnimator;
+    public GameObject openTrap;
+    public GameObject closedTrap;
 
-    private void Start()
-    {
-        trapAnimator = GetComponent<Animator>();
-    }
         
     void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
-            trapAnimator.SetTrigger("leftclose");
-            trapAnimator.SetTrigger("rightclose");
+            Debug.Log("collider in");
+            openTrap.SetActive(false);
+            closedTrap.SetActive(true);
+
+            if (other.transform.TryGetComponent<CPlayerController>(out CPlayerController playerController))
+            {
+                playerController.Hit(5);
+            }
         }
     }
 }

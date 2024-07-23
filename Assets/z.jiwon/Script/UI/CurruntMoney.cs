@@ -10,6 +10,6 @@ public class CurruntMoney : MonoBehaviour
 
     void Update()
     {
-        goldText.text = "Gold: " + playerStats.Money.ToString(); // 골드량 표시
+        goldText.text = "현재 보유 소울 : " + playerStats.Soul.ToString(); // 골드량 표시
     }
 }
