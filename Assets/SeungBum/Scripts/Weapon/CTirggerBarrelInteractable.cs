@@ -11,6 +11,10 @@ public class CTirggerBarrelInteractable : XRGrabInteractable
     CHandAnimationController animataedLeftHand;
     [SerializeField]
     CHandAnimationController animataedRightHand;
+    [SerializeField]
+    CBoltInteractable boltInteractable;
+    [SerializeField]
+    GameObject oNode;
 
     XRInputModalityManager inputModalityManager;
 
@@ -21,6 +25,9 @@ public class CTirggerBarrelInteractable : XRGrabInteractable
 
     CHandAnimationController leftControllerAnimation;
     CHandAnimationController rightControllerAnimation;
+
+    bool isLeftGrab;
+    bool isRightGrab;
     #endregion
 
     void Start()
@@ -31,6 +38,9 @@ public class CTirggerBarrelInteractable : XRGrabInteractable
         rightDirectController = inputModalityManager.rightController.GetComponentInChildren<XRDirectInteractor>();
         leftRayController = inputModalityManager.leftController.GetComponentInChildren<XRRayInteractor>();
         rightRayController = inputModalityManager.rightController.GetComponentInChildren<XRRayInteractor>();
+
+        isLeftGrab = false;
+        isRightGrab = false;
     }
 
     protected override void OnSelectEntering(SelectEnterEventArgs args)
@@ -57,6 +67,9 @@ public class CTirggerBarrelInteractable : XRGrabInteractable
 
             args.interactableObject.transform.GetComponent<CWeaponController>().GrabLeftController(args);
             args.interactorObject.transform.root.GetComponentInChildren<UIPlayerStatsActiveController>().DontActive();
+
+            oNode.SetActive(false);
+            isLeftGrab = true;
         }
 
         else if (args.interactorObject as XRDirectInteractor == rightDirectController || args.interactorObject as XRRayInteractor == rightRayController)
@@ -75,6 +88,10 @@ public class CTirggerBarrelInteractable : XRGrabInteractable
                 (
                     args.interactableObject.transform.GetComponent<CWeaponController>().WeaponUI
                 );
+
+            oNode.SetActive(false);
+            boltInteractable.enabled = true;
+            isRightGrab = true;
         }
 
         base.OnSelectEntering(args);
@@ -91,6 +108,8 @@ public class CTirggerBarrelInteractable : XRGrabInteractable
 
             args.interactableObject.transform.GetComponent<CWeaponController>().ReleaseLeftController();
             args.interactorObject.transform.root.GetComponentInChildren<UIPlayerStatsActiveController>().CanActive();
+
+            isLeftGrab = false;
         }
 
         else if (args.interactorObject as XRDirectInteractor == rightDirectController || args.interactorObject as XRRayInteractor == rightRayController)
@@ -103,8 +122,30 @@ public class CTirggerBarrelInteractable : XRGrabInteractable
             args.interactableObject.transform.GetComponent<CWeaponController>().ReleaseRightController();
             args.interactableObject.transform.GetComponent<CWeaponController>().WeaponUI.gameObject.SetActive(false);
             args.interactorObject.transform.root.GetComponentInChildren<CPlayerController>().SetWeaponUI(null);
+
+            boltInteractable.enabled = false;
+            isRightGrab = false;
         }
 
         base.OnSelectExiting(args);
+    }
+
+    protected override void OnHoverEntered(HoverEnterEventArgs args)
+    {
+        base.OnHoverEntered(args);
+
+        if (isLeftGrab || isRightGrab)
+        {
+            return;
+        }
+
+        oNode.SetActive(true);
+    }
+
+    protected override void OnHoverExited(HoverExitEventArgs args)
+    {
+        base.OnHoverExited(args);
+
+        oNode.SetActive(false);
     }
 }
