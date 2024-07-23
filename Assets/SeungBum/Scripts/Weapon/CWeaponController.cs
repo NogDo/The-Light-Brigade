@@ -15,6 +15,8 @@ public class CWeaponController : MonoBehaviour
 
     [SerializeField]
     UIWeapon weaponUI;
+    [SerializeField]
+    GameObject oHitParticlePrefab;
 
     bool isFireReady;
     #endregion
@@ -136,11 +138,13 @@ public class CWeaponController : MonoBehaviour
         else
         {
             RaycastHit ray;
+
             if (Physics.Raycast(bulletTransform.position, bulletTransform.forward, out ray, float.MaxValue))
             {
                 if (ray.transform.TryGetComponent<IHittable>(out IHittable hit))
                 {
                     hit.Hit(weapon.Damage);
+                    GameObject particle = Instantiate(oHitParticlePrefab, ray.transform.position, Quaternion.identity);
                 }
             }
 
