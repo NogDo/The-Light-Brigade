@@ -14,21 +14,24 @@ public class ColliderUI : MonoBehaviour
     {
         uiElement.SetActive(false);
         nextUI.SetActive(false);
-        switchButton.onClick.AddListener(SwitchUI);
+        //switchButton.onClick.AddListener(SwitchUI);
     }
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
+            Debug.Log("player in");
             uiElement.SetActive(true);
         }
     }
-
+    /*
     void SwitchUI()
     {
+
         uiElement.SetActive(false);
         Debug.Log("Activating nextUI");
         nextUI.SetActive(true);
     }
+    */
 }

@@ -9,14 +9,14 @@ public class SceneLoadManager : MonoBehaviour
 
     public static SceneLoadManager Instance
     {
-        get { return instance == null ? null : instance; }
+        get { return instance; }
     }
+
     private void Awake()
     {
         if (instance == null)
         {
             instance = this;
-
             DontDestroyOnLoad(this.gameObject);
         }
         else
@@ -25,43 +25,38 @@ public class SceneLoadManager : MonoBehaviour
         }
     }
 
-
-    int loadingsceneindex = 0;
-    int sceneIndex = 1;
     public GameObject player;
+    public Dictionary<int, Transform> spawnPoints = new Dictionary<int, Transform>();
+
+    private int sceneIndex = 1;
+
+    public void SetSpawnPoint(int sceneIndex, Transform spawnTransform)
+    {
+        spawnPoints[sceneIndex] = spawnTransform;
+    }
 
     public void LoadScene()
     {
-        CPlayerStats playerStats = player.GetComponent<CPlayerStats>();
-        if (playerStats.HP <= 0)
+        StartCoroutine(LoadScenes(sceneIndex));
+    }
+
+    private IEnumerator LoadScenes(int index)
+    {
+        AsyncOperation sceneLoad = SceneManager.LoadSceneAsync(index);
+        yield return new WaitUntil(() => sceneLoad.isDone);
+
+        UpdatePlayerPosition(index);
+    }
+
+    private void UpdatePlayerPosition(int sceneIndex)
+    {
+        if (player != null && spawnPoints.ContainsKey(sceneIndex))
         {
-            StartCoroutine(LoadInitialScenes());
+            player.transform.position = spawnPoints[sceneIndex].position;
         }
         else
         {
-            StartCoroutine(LoadScenes());
+            Debug.LogError("Player or SpawnPoint for scene " + sceneIndex + " is not set correctly.");
         }
     }
-    
-    public IEnumerator LoadScenes()
-    {
-        Debug.Log("로딩 씬");
-        AsyncOperation loadingScene = SceneManager.LoadSceneAsync(loadingsceneindex);
-        yield return new WaitUntil(() => loadingScene.isDone);
-
-        sceneIndex++;
-        Debug.LogFormat("다음 씬 : {0}", sceneIndex);
-        AsyncOperation sceneLoad = SceneManager.LoadSceneAsync(sceneIndex);
-        yield return new WaitUntil(() => sceneLoad.isDone);
-    }
-
-    IEnumerator LoadInitialScenes()
-    {
-        AsyncOperation loadingOperation = SceneManager.LoadSceneAsync(0); // 0번 씬 로딩
-        yield return new WaitUntil(() => loadingOperation.isDone); // 0번 씬이 완전히 로드될 때까지 대기
-
-        AsyncOperation gameSceneOperation = SceneManager.LoadSceneAsync(1); // 1번 씬 로딩
-        yield return new WaitUntil(() => gameSceneOperation.isDone); // 1번 씬이 완전히 로드될 때까지 대기
-    }
-
 }
