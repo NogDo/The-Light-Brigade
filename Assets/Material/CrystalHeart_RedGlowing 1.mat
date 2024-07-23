@@ -7,15 +7,16 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: CrystalHeart_RedGlowing
-  m_Shader: {fileID: 4800000, guid: d357598c93a40ce4b9c451fe9e433427, type: 3}
-  m_ValidKeywords: []
+  m_Name: CrystalHeart_RedGlowing 1
+  m_Shader: {fileID: 46, guid: 0000000000000000f000000000000000, type: 0}
+  m_ValidKeywords:
+  - _EMISSION
   m_InvalidKeywords:
   - EnableInnerLight
   - EnableLayer0
   - EnableLayer1
   - EnableSpecular
-  m_LightmapFlags: 4
+  m_LightmapFlags: 2
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
@@ -24,8 +25,44 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - _BumpMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailAlbedoMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailMask:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailNormalMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _EmissionMap:
+        m_Texture: {fileID: 2800000, guid: 063ea1146bbcdb54f9fc028427b1c3e6, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _MarbleTex:
         m_Texture: {fileID: 2800000, guid: cea52cb2d2798f14fb09bf396d9cc91d, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MetallicGlossMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _OcclusionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ParallaxMap:
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _ShadowOffsetMap:
@@ -111,7 +148,7 @@ Material:
     - _DissolveColor1: {r: 1.5, g: 0.5, b: 0, a: 1}
     - _DissolveColor2: {r: 1.25, g: 0.24999994, b: 0.14999995, a: 1}
     - _DissolveColor3: {r: 0.5, g: 0.01, b: 0.01, a: 1}
-    - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _EmissionColor: {r: 1, g: 0, b: 0, a: 1}
     - _ExtraSelfLightColor: {r: 0, g: 0.0003439954, b: 0.0023536514, a: 0.003}
     - _ExtraSelfLightData: {r: 13.561826, g: 5.4083, b: 8.879623, a: -0.51}
     - _FresnelColorInside: {r: 0, g: 0, b: 0, a: 1}

@@ -62,8 +62,6 @@ public class CPlayerController : MonoBehaviour
             playerStatsUI = leftController.model.GetComponentInChildren<UIPlayerStats>();
             playerStatsUI.gameObject.SetActive(false);
             playerStatsUI.ChangeLifeCount(playerStats.Life, playerStats.MaxLife);
-            playerStatsUI.ChangeMoneyCount(playerStats.Money);
-            playerStatsUI.ChangePrayState(false);
             playerStatsUI.ChangeHPText(playerStats.HP, playerStats.MaxHP);
             playerStatsUI.ChangeSoulText(playerStats.Soul);
             playerStatsUI.ChangeAmmoText(playerStats.Ammo);

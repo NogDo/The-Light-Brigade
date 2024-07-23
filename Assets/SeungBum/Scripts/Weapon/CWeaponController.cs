@@ -13,10 +13,10 @@ public class CWeaponController : MonoBehaviour
     ActionBasedController leftController;
     ActionBasedController rightController;
 
+    CHitExplosionParticlePool hitExplosionParticlePool;
+
     [SerializeField]
     UIWeapon weaponUI;
-    [SerializeField]
-    GameObject oHitParticlePrefab;
 
     bool isFireReady;
     #endregion
@@ -31,6 +31,7 @@ public class CWeaponController : MonoBehaviour
     void OnEnable()
     {
         grabInteractable = GetComponent<XRGrabInteractable>();
+        hitExplosionParticlePool = FindObjectOfType<CHitExplosionParticlePool>();
         weapon = GetComponent<CWeapon>();
         nowEquipAmmo = null;
 
@@ -126,6 +127,7 @@ public class CWeaponController : MonoBehaviour
                 if (ray.transform.TryGetComponent<IHittable>(out IHittable hit))
                 {
                     hit.Hit(weapon.Damage);
+                    hitExplosionParticlePool.ActiveParticle(ray.point);
                 }
             }
 
@@ -144,7 +146,7 @@ public class CWeaponController : MonoBehaviour
                 if (ray.transform.TryGetComponent<IHittable>(out IHittable hit))
                 {
                     hit.Hit(weapon.Damage);
-                    GameObject particle = Instantiate(oHitParticlePrefab, ray.transform.position, Quaternion.identity);
+                    hitExplosionParticlePool.ActiveParticle(ray.point);
                 }
             }
 
@@ -242,7 +244,7 @@ public class CWeaponController : MonoBehaviour
     IEnumerator RecoilStart()
     {
         float fStartTime = 0.0f;
-        while (fStartTime <= 0.05f)
+        while (fStartTime <= weapon.RecoilTime)
         {
             modelTransform.Translate(Vector3.forward * -3.0f * Time.deltaTime);
             modelTransform.Rotate(Vector3.right * -60.0f * Time.deltaTime);
@@ -253,7 +255,7 @@ public class CWeaponController : MonoBehaviour
         }
 
         fStartTime = 0.0f;
-        while (fStartTime <= 0.05f)
+        while (fStartTime <= weapon.RecoilTime)
         {
             modelTransform.Translate(Vector3.forward * 3.0f * Time.deltaTime);
             modelTransform.Rotate(Vector3.right * 60.0f * Time.deltaTime);

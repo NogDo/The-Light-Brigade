@@ -16,6 +16,7 @@ public class CWeapon : CInteractable
 
     protected float fShootCoolTime;
     protected float fDamage;
+    protected float fRecoilTime;
     protected int nBulletMaxCount;
     protected int nBulletNowCount;
     #endregion
@@ -97,6 +98,17 @@ public class CWeapon : CInteractable
         get
         {
             return fShootCoolTime;
+        }
+    }
+
+    /// <summary>
+    /// 총기의 반동이 동작되는 시간
+    /// </summary>
+    public float RecoilTime
+    {
+        get
+        {
+            return fRecoilTime;
         }
     }
 

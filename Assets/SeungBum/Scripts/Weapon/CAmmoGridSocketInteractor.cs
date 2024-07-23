@@ -6,6 +6,13 @@ using UnityEngine.XR.Interaction.Toolkit;
 
 public class CAmmoGridSocketInteractor : XRGridSocketInteractor
 {
+    protected override void OnEnable()
+    {
+        base.OnEnable();
+
+
+    }
+
     protected override void OnSelectEntering(SelectEnterEventArgs args)
     {
         args.interactableObject.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
