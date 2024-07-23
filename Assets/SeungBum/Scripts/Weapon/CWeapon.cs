@@ -12,6 +12,9 @@ public enum EWeapon
 public class CWeapon : CInteractable
 {
     #region protected 函荐
+    [SerializeField]
+    protected List<AudioClip> soundEffect;
+
     protected EWeapon weaponType;
 
     protected float fShootCoolTime;
@@ -109,6 +112,94 @@ public class CWeapon : CInteractable
         get
         {
             return fRecoilTime;
+        }
+    }
+
+    /// <summary>
+    /// 醚 筋绰 家府
+    /// </summary>
+    public AudioClip SoundShot
+    {
+        get
+        {
+            return soundEffect[0];
+        }
+    }
+
+    /// <summary>
+    /// 醚 Trigger Grab 家府
+    /// </summary>
+    public AudioClip SoundTriggerGrab
+    {
+        get
+        {
+            return soundEffect[1];
+        }
+    }
+
+    /// <summary>
+    /// 醚 Barrel Grab 家府
+    /// </summary>
+    public AudioClip SoundBarrelGrab
+    {
+        get
+        {
+            return soundEffect[2];
+        }
+    }
+
+    /// <summary>
+    /// 醚 Bolt Grab 家府
+    /// </summary>
+    public AudioClip SoundBoltGrab
+    {
+        get
+        {
+            return soundEffect[3];
+        }
+    }
+
+    /// <summary>
+    /// 厘傈 家府
+    /// </summary>
+    public AudioClip SoundReload
+    {
+        get
+        {
+            return soundEffect[4];
+        }
+    }
+
+    /// <summary>
+    /// 醚舅 绝阑 锭 筋绰 家府
+    /// </summary>
+    public AudioClip SoundEmptyShot
+    {
+        get
+        {
+            return soundEffect[5];
+        }
+    }
+
+    /// <summary>
+    /// 藕芒 In 家府
+    /// </summary>
+    public AudioClip SoundAmmoInSound
+    {
+        get
+        {
+            return soundEffect[6];
+        }
+    }
+
+    /// <summary>
+    /// 藕芒 Out 家府
+    /// </summary>
+    public AudioClip SoundAmmoOutSound
+    {
+        get
+        {
+            return soundEffect[7];
         }
     }
 

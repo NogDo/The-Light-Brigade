@@ -26,6 +26,8 @@ public class CTirggerBarrelInteractable : XRGrabInteractable
     CHandAnimationController leftControllerAnimation;
     CHandAnimationController rightControllerAnimation;
 
+    CPlayerSoundManager playerSoundManager;
+
     bool isLeftGrab;
     bool isRightGrab;
     #endregion
@@ -38,6 +40,8 @@ public class CTirggerBarrelInteractable : XRGrabInteractable
         rightDirectController = inputModalityManager.rightController.GetComponentInChildren<XRDirectInteractor>();
         leftRayController = inputModalityManager.leftController.GetComponentInChildren<XRRayInteractor>();
         rightRayController = inputModalityManager.rightController.GetComponentInChildren<XRRayInteractor>();
+
+        playerSoundManager = FindObjectOfType<CPlayerSoundManager>();
 
         isLeftGrab = false;
         isRightGrab = false;
@@ -62,6 +66,7 @@ public class CTirggerBarrelInteractable : XRGrabInteractable
         {
             animataedLeftHand.gameObject.SetActive(true);
             animataedLeftHand.ActionAnimation(weaponNumber + (int)EGrabPoint.BARREL);
+            playerSoundManager.PlaySoundOneShot(args.interactableObject.transform.GetComponent<CWeapon>().SoundBarrelGrab);
 
             if (leftControllerAnimation is null)
             {
@@ -80,6 +85,7 @@ public class CTirggerBarrelInteractable : XRGrabInteractable
         {
             animataedRightHand.gameObject.SetActive(true);
             animataedRightHand.ActionAnimation(weaponNumber + (int)EGrabPoint.TRIGGER);
+            playerSoundManager.PlaySoundOneShot(args.interactableObject.transform.GetComponent<CWeapon>().SoundTriggerGrab);
 
             if (rightControllerAnimation is null)
             {

@@ -14,6 +14,7 @@ public class CWeaponController : MonoBehaviour
     ActionBasedController rightController;
 
     CHitExplosionParticlePool hitExplosionParticlePool;
+    CPlayerSoundManager playerSoundManager;
 
     [SerializeField]
     UIWeapon weaponUI;
@@ -32,6 +33,7 @@ public class CWeaponController : MonoBehaviour
     {
         grabInteractable = GetComponent<XRGrabInteractable>();
         hitExplosionParticlePool = FindObjectOfType<CHitExplosionParticlePool>();
+        playerSoundManager = FindObjectOfType<CPlayerSoundManager>();
         weapon = GetComponent<CWeapon>();
         nowEquipAmmo = null;
 
@@ -115,6 +117,7 @@ public class CWeaponController : MonoBehaviour
 
         if (nowEquipAmmo is not null && nowEquipAmmo.BulletNowCount > 0)
         {
+            playerSoundManager.PlaySoundOneShot(weapon.SoundShot);
             nowEquipAmmo.DecreaseBulltCount();
 
             weaponUI.ChangeBulletCount(nowEquipAmmo.BulletNowCount);
@@ -132,13 +135,15 @@ public class CWeaponController : MonoBehaviour
             }
 
             Recoil();
-            Haptic();
+            Haptic(0.5f);
             ActiveMuzzleParticle();
             StartCoroutine(ShootCoolTime());
         }
 
         else
         {
+            playerSoundManager.PlaySoundOneShot(weapon.SoundEmptyShot);
+
             RaycastHit ray;
 
             if (Physics.Raycast(bulletTransform.position, bulletTransform.forward, out ray, float.MaxValue))
@@ -150,10 +155,7 @@ public class CWeaponController : MonoBehaviour
                 }
             }
 
-            Recoil();
-            Haptic();
-            ActiveMuzzleParticle();
-            StartCoroutine(ShootCoolTime());
+            Haptic(0.1f);
             Debug.LogFormat("남은 총알 개수가 없다!");
         }
     }
@@ -174,18 +176,18 @@ public class CWeaponController : MonoBehaviour
     /// <summary>
     /// 컨트롤러를 진동시키기 위한 메서드
     /// </summary>
-    public void Haptic()
+    public void Haptic(float duration)
     {
         if (leftController is not null)
         {
             Debug.Log("왼쪽 손 진동 발생!");
-            leftController.SendHapticImpulse(0.8f, 0.5f);
+            leftController.SendHapticImpulse(0.8f, duration);
         }
 
         if (rightController is not null)
         {
             Debug.Log("오른쪽 손 진동 발생!");
-            rightController.SendHapticImpulse(0.8f, 0.5f);
+            rightController.SendHapticImpulse(0.8f, duration);
         }
     }
 
@@ -215,6 +217,8 @@ public class CWeaponController : MonoBehaviour
     {
         if (nowEquipAmmo is not null)
         {
+            playerSoundManager.PlaySoundOneShot(weapon.SoundReload);
+
             weapon.Reload(nowEquipAmmo.BulletNowCount);
 
             weaponUI.ChangeBulletCount(nowEquipAmmo.BulletNowCount);

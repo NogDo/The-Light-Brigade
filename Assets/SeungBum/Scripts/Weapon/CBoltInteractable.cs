@@ -17,6 +17,8 @@ public class CBoltInteractable : XRGrabInteractable
     XRRayInteractor leftRayController;
     CHandAnimationController leftControllerAnimation;
 
+    CPlayerSoundManager playerSoundManager;
+
     Rigidbody rb;
     ConfigurableJoint joint;
     #endregion
@@ -27,6 +29,8 @@ public class CBoltInteractable : XRGrabInteractable
 
         leftDirectController = inputModalityManager.leftController.GetComponentInChildren<XRDirectInteractor>();
         leftRayController = inputModalityManager.leftController.GetComponentInChildren<XRRayInteractor>();
+
+        playerSoundManager = FindObjectOfType<CPlayerSoundManager>();
 
         rb = GetComponent<Rigidbody>();
         joint = GetComponent<ConfigurableJoint>();
@@ -51,6 +55,7 @@ public class CBoltInteractable : XRGrabInteractable
         {
             animataedLeftHand.gameObject.SetActive(true);
             animataedLeftHand.ActionAnimation(weaponNumber + (int)EGrabPoint.BOLT);
+            playerSoundManager.PlaySoundOneShot(weapon.SoundBoltGrab);
 
             if (leftControllerAnimation is null)
             {
