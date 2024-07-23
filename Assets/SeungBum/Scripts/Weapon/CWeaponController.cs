@@ -191,7 +191,6 @@ public class CWeaponController : MonoBehaviour
     {
         nowEquipAmmo = args.interactableObject.transform.GetComponent<CAmmo>();
         nowEquipAmmo.GetComponent<Rigidbody>().isKinematic = false;
-        Debug.LogFormat("≈∫√¢ ¿Â¬¯ : {0}", nowEquipAmmo.name);
     }
 
     /// <summary>
@@ -201,7 +200,6 @@ public class CWeaponController : MonoBehaviour
     public void RemoveAmmo(SelectExitEventArgs args)
     {
         nowEquipAmmo = null;
-        Debug.Log("≈∫√¢ «ÿ¡¶");
     }
 
     /// <summary>

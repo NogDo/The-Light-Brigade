@@ -9,5 +9,8 @@ public class CWeaponGewehr43 : CWeapon
         ActionNumber = 1;
         weaponType = EWeapon.GEWEHR;
         fShootCoolTime = 0.5f;
+        fDamage = 7.5f;
+        nBulletMaxCount = 10;
+        nBulletNowCount = 10;
     }
 }

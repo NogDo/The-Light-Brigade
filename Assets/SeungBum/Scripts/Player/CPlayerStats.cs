@@ -129,8 +129,8 @@ public class CPlayerStats : MonoBehaviour
 
     void Start()
     {
-        nMaxHP = 10;
-        nHP = 10;
+        nMaxHP = 20;
+        nHP = 20;
         nMoney = 0;
         nSoul = 0;
         nMaxLife = 2;
@@ -152,6 +152,19 @@ public class CPlayerStats : MonoBehaviour
             hp = nMaxHP;
         }
 
+        else if (hp < 0)
+        {
+            hp = 0;
+        }
+
         nHP = hp;
+    }
+
+    /// <summary>
+    /// 플레이어 목숨을 하나 없앤다.
+    /// </summary>
+    public void DecreaseLife()
+    {
+        nLife--;
     }
 }

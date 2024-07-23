@@ -10,18 +10,13 @@ public enum EWeapon
 [System.Serializable]
 public class CWeapon : CInteractable
 {
-    #region public 변수
-    public string oWeaponName;
-    public float fDamage;
-    public int nBulletMaxCount;
-    public int nBulletNowCount;
-    public int nWeaponRank;
-    #endregion
-
     #region protected 변수
     protected EWeapon weaponType;
 
     protected float fShootCoolTime;
+    protected float fDamage;
+    protected int nBulletMaxCount;
+    protected int nBulletNowCount;
     #endregion
 
     /// <summary>
@@ -58,7 +53,18 @@ public class CWeapon : CInteractable
     {
         get
         {
-            return fDamage;
+            float randomDamage = 0.0f;
+
+            switch (weaponType)
+            {
+                case EWeapon.GEWEHR:
+                    randomDamage = Random.Range(fDamage - 2.5f, fDamage + 2.5f);
+                    break;
+            }
+
+            randomDamage = Mathf.Floor(randomDamage * 10.0f) / 10.0f;
+
+            return randomDamage;
         }
     }
 
