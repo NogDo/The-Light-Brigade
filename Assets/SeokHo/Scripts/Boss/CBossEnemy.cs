@@ -31,6 +31,7 @@ public class CBossEnemy : MonoBehaviour, IHittable
     public float spearDamage; // 아이스 창 패턴 공격력
     public float snowBallDamage; // 스노우 볼 패턴 공격력
     public float iceShardDamage; // 얼음 조각 패턴 공격력
+    public float iceShardsDamage; // 여러 얼음 조각 패턴 공격력
 
     public float attackRange; // 공격 사거리
     public Transform target; // 추적 대상
@@ -45,14 +46,19 @@ public class CBossEnemy : MonoBehaviour, IHittable
     public GameObject iceSpearPrefab; // 아이스 창 프리팹
     public GameObject snowBallPrefab; // 스노우 볼 프리팹
     public GameObject iceShardPrefab; // 얼음 조각 프리팹
+    public GameObject iceShardsPrefab; // 여러 얼음 조각 프리팹
     public Animation iceSpear;
+    public GameObject onPlayDefeateParticle;
+    public GameObject onPlayDeathParticle;
+    public GameObject onPlayBloodParticle;
+
 
     private enum AttackType
     {
         SpearAttack,
         SnowBallAttack,
         CircleAttack,
-        VerticalAttack,
+        IceShardsAttack,
         HorizontalAttack
     }
     #endregion
@@ -113,10 +119,6 @@ public class CBossEnemy : MonoBehaviour, IHittable
                     break;
             }
         }
-        if (state == State.DIE)
-        {
-            yield return StartCoroutine(DIE());
-        }
     }
 
     public void ChangeState(State newState)
@@ -169,8 +171,8 @@ public class CBossEnemy : MonoBehaviour, IHittable
                             case AttackType.CircleAttack:
                                 AnimatorBoss.SetTrigger("CircleAttack");
                                 break;
-                            case AttackType.VerticalAttack:
-                                AnimatorBoss.SetTrigger("VerticalAttack");
+                            case AttackType.IceShardsAttack:
+                                AnimatorBoss.SetTrigger("IceShardsAttack");
                                 break;
                             case AttackType.HorizontalAttack:
                                 AnimatorBoss.SetTrigger("HorizontalAttack");
@@ -186,20 +188,9 @@ public class CBossEnemy : MonoBehaviour, IHittable
         }
     }
 
-    private IEnumerator DIE()
-    {
-        AnimatorBoss.Play("Death");
-        AnimatorBossWing.Play("Death");
-        AnimatorBossWing.Play("StandingIdle");
-
-        Destroy(hpBarCanvas, 1f);
-
-        Destroy(gameObject, 5f); // 5초 후에 게임 오브젝트 파괴
-        yield return null;
-    }
     #endregion
 
-    
+
 
     public void Hit(float damage)
     {
@@ -222,7 +213,7 @@ public class CBossEnemy : MonoBehaviour, IHittable
 
         if (health <= 0)
         {
-            ChangeState(State.DIE);
+            AnimatorBoss.SetTrigger("Death");
             return; // 체력이 0 이하일 경우 더 이상의 처리를 중단
         }
 
@@ -301,7 +292,7 @@ public class CBossEnemy : MonoBehaviour, IHittable
         // IceSpear 프리팹이 비어있는지 확인
         if (iceSpearPrefab == null)
         {
-            Debug.LogWarning("IceSpearPrefab is not assigned.");
+            Debug.LogWarning("IceSpearPrefab이 할당되지 않았습니다.");
             return;
         }
 
@@ -331,7 +322,7 @@ public class CBossEnemy : MonoBehaviour, IHittable
         // SnowBall 프리팹이 비어있는지 확인
         if (snowBallPrefab == null)
         {
-            Debug.LogWarning("SnowBallPrefab is not assigned.");
+            Debug.LogWarning("SnowBallPrefab이 할당되지 않았습니다.");
             return;
         }
 
@@ -350,7 +341,7 @@ public class CBossEnemy : MonoBehaviour, IHittable
         }
     }
 
-    // 수평으로 날아가는 얼음 투사체를 생성하는 메서드
+    // 수평으로 날아가는 얼음 투사체를 생성
     public void CreateHorizoniceShard()
     {
         // iceShardPrefab이 할당되었는지 확인
@@ -382,6 +373,62 @@ public class CBossEnemy : MonoBehaviour, IHittable
         }
     }
 
+    // 여러 얼음 투사체를 생성
+    public void CreateIceShards()
+    {
+        if (iceShardsPrefab == null)
+        {
+            Debug.LogWarning("iceShardsPrefab이 할당되지 않았습니다.");
+            return;
+        }
+
+        Vector3 spawnPosition = transform.position;
+        spawnPosition.y -= 5f;
+
+
+        // IceShards 프리팹을 현재 위치에서 생성
+        GameObject IceShards = Instantiate(iceShardsPrefab, transform.position, Quaternion.identity);
+
+        // IceShards 에 방향과 타겟 설정
+        CBossIceShards IceShardsScript = IceShards.GetComponent<CBossIceShards>();
+        if (IceShardsScript != null)
+        {
+            IceShardsScript.Initialize(iceShardDamage);
+            IceShardsScript.SetTarget(target);
+        }
+
+    }
+
+    // 죽었을 때 파티클 애니메이션 이벤트
+    public void OnPlayDeathParticles()
+    {
+        Vector3 particlePosition = transform.position;
+        particlePosition.y += 1f; // y축 위치를 조정
+
+        GameObject OnPlayBloodParticle = Instantiate(onPlayBloodParticle, particlePosition, Quaternion.identity);
+        Destroy(OnPlayBloodParticle, 5f); // 파티클 효과의 지속 시간 조정
+        GameObject OnPlayDeathParticle = Instantiate(onPlayDeathParticle, particlePosition, Quaternion.identity);
+        Destroy(OnPlayDeathParticle, 3.5f); // 파티클 효과의 지속 시간 조정
+        GameObject OnPlayDefeateParticle = Instantiate(onPlayDefeateParticle, particlePosition, Quaternion.identity);
+        Destroy(OnPlayDefeateParticle, 5f); // 파티클 효과의 지속 시간 조정
+    }
+
+    // 죽었을 때 애니메이션 이벤트
+    public void DieAnimation()
+    {
+        Destroy(hpBarCanvas, 1f);
+        StartCoroutine(DieTime());
+    }
+
+    // 오브젝트 비활성화까지 시간
+    private IEnumerator DieTime()
+    {
+        // 3초 대기
+        yield return new WaitForSeconds(3.5f);
+        gameObject.SetActive(false);
+
+        Destroy(gameObject, 2.0f); // 몇 초 후에 게임 오브젝트 파괴
+    }
 
     #endregion
 

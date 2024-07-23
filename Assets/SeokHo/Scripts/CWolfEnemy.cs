@@ -293,6 +293,7 @@ public class CWolfEnemy : MonoBehaviour, IHittable
         }
 
         GameObject damageUI = damagePool.GetObject();
+
         health -= damage;
         CheckHp();
         if (damagePool != null)

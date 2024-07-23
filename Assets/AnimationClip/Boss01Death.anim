@@ -89372,20 +89372,6 @@ AnimationClip:
   m_HasGenericRootTransform: 0
   m_HasMotionFloatCurves: 0
   m_Events:
-  - time: 0.13703704
-    functionName: OnScreenFlashA
-    data: 
-    objectReferenceParameter: {fileID: 0}
-    floatParameter: 0
-    intParameter: 0
-    messageOptions: 0
-  - time: 0.21107292
-    functionName: OnScreenFlashB
-    data: 
-    objectReferenceParameter: {fileID: 0}
-    floatParameter: 0
-    intParameter: 0
-    messageOptions: 0
   - time: 0.28333333
     functionName: OnPlayDeathParticles
     data: 
@@ -89393,29 +89379,8 @@ AnimationClip:
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 2.4529374
-    functionName: OnFadeDeathBodyToBlack
-    data: 
-    objectReferenceParameter: {fileID: 0}
-    floatParameter: 0
-    intParameter: 0
-    messageOptions: 0
-  - time: 2.561361
-    functionName: OnSummonDeathSoul
-    data: 
-    objectReferenceParameter: {fileID: 0}
-    floatParameter: 0
-    intParameter: 0
-    messageOptions: 0
-  - time: 2.8563979
-    functionName: OnBossDefeatedText
-    data: 
-    objectReferenceParameter: {fileID: 0}
-    floatParameter: 0
-    intParameter: 0
-    messageOptions: 0
-  - time: 4.099691
-    functionName: OnCompleteSequence
+  - time: 0.3
+    functionName: DieAnimation
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0

@@ -28,7 +28,7 @@ public class CNormalEnemy : MonoBehaviour, IHittable
     public State state; // 현재 상태
     public float startingHealth; // 시작 체력
     private float health; // 현재 체력
-    public float damage; // 공격력
+    private float damage; // 공격력
     public float attackRange; // 공격 사거리
     public float chaseRange; // 추적 거리
     public Transform target; // 추적 대상
@@ -272,7 +272,7 @@ public class CNormalEnemy : MonoBehaviour, IHittable
     }
     #endregion
 
-    public float randomOffset = 0.1f; // ±0.1 단위로 랜덤 오프셋 추가
+    public float randomOffset = 0.05f; // ±0.1 단위로 랜덤 오프셋 추가
     // 발사체 발사 메서드
     public void ShootBullet()
     {
@@ -293,6 +293,7 @@ public class CNormalEnemy : MonoBehaviour, IHittable
         rb.velocity = direction * bulletSpeed;
 
         CBullet bulletScript = bullet.GetComponent<CBullet>();
+        damage = Random.Range(3, 5);
         bulletScript.Initialize(damage, bulletPool);
     }
 
