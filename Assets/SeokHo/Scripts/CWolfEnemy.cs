@@ -391,10 +391,15 @@ public class CWolfEnemy : MonoBehaviour, IHittable
         if (hideHpBarCoroutine != null)
         {
             StopCoroutine(hideHpBarCoroutine);
+            hideHpBarCoroutine = null; // 코루틴 참조를 초기화합니다.
         }
 
-        hpBarCanvas.SetActive(true);
-        hideHpBarCoroutine = StartCoroutine(HideHpBarAfterDelay(3f));
+        // HP 바가 파괴되었는지 확인합니다.
+        if (hpBarCanvas != null)
+        {
+            hpBarCanvas.SetActive(true);
+            hideHpBarCoroutine = StartCoroutine(HideHpBarAfterDelay(3f));
+        }
     }
 
     // 일정 시간 후 HP 바 숨기기 코루틴
@@ -402,7 +407,7 @@ public class CWolfEnemy : MonoBehaviour, IHittable
     {
         yield return new WaitForSeconds(delay);
 
-        // hpBarCanvas가 null이 아니고 파괴되지 않았는지 확인
+        // HP 바가 파괴되었는지 확인합니다.
         if (hpBarCanvas != null)
         {
             hpBarCanvas.SetActive(false);

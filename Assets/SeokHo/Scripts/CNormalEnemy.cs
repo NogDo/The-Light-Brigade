@@ -115,15 +115,15 @@ public class CNormalEnemy : MonoBehaviour, IHittable
         canMove = false;
         canAttack = false;
 
-        // 애니메이터 상태를 WALK로 설정
-        animatorEnemy.SetBool("Walk", false);
+        // Walk 애니메이션 상태를 반복적으로 변경하는 코루틴 시작
+        StartCoroutine(ToggleWalkAnimation());
 
         while (state == State.IDLE)
         {
-            // NavMeshAgent에 경로가 없거나 남은 거리가 작으면
+            // NavMeshAgent가 경로가 없거나 남은 거리가 작으면
             if (!nmAgent.hasPath || nmAgent.remainingDistance < 0.5f)
             {
-                // 랜덤한 방향 선택
+                // 랜덤 방향 선택
                 Vector3 randomDirection = Random.insideUnitSphere * 10f;
                 randomDirection += transform.position;
 
@@ -131,7 +131,6 @@ public class CNormalEnemy : MonoBehaviour, IHittable
                 if (NavMesh.SamplePosition(randomDirection, out navHit, 3f, NavMesh.AllAreas))
                 {
                     Vector3 finalPosition = navHit.position;
-
                     // 목표 위치 설정 및 이동 시작
                     nmAgent.SetDestination(finalPosition);
                     nmAgent.isStopped = false;
@@ -142,23 +141,28 @@ public class CNormalEnemy : MonoBehaviour, IHittable
                         yield return null; // 에이전트가 도착할 때까지 대기
                     }
 
-                    // 도착 후 이동 멈추기 및 IDLE 애니메이션 재생
+                    // 도착 후 이동 중지 및 IDLE 애니메이션 재생
                     nmAgent.isStopped = true;
-                    nmAgent.SetDestination(transform.position); // 현재 위치로 목표 설정하여 정지
+                    nmAgent.SetDestination(transform.position); // 현재 위치로 목표 설정 및 중지
 
-                    // 50% 확률로 애니메이션 상태를 결정
-                    float randomChance = Random.value; // 0.0f ~ 1.0f 범위의 랜덤 값
+                    // 50% 확률로 애니메이션 상태 결정
+                    float randomChance = Random.value; // 0.0f에서 1.0f 사이의 랜덤 값
                     if (randomChance < 0.5f)
                     {
-                        // IDLE 상태에서 5초 동안 대기
-                        animatorEnemy.SetTrigger("KickFoot");
-                        yield return new WaitForSeconds(1f);
-                    }
-                    else
-                    {
-                        // IDLE 상태에서 5초 동안 대기
-                        animatorEnemy.Play("Idle");
-                        yield return new WaitForSeconds(1f);
+                        // Walk 애니메이션을 true로 설정하고 5초 동안 걷기
+                        animatorEnemy.SetBool("Walk", true);
+                        nmAgent.isStopped = false;
+                        Vector3 walkDirection = Random.insideUnitSphere * 5f;
+                        walkDirection += transform.position;
+
+                        if (NavMesh.SamplePosition(walkDirection, out navHit, 3f, NavMesh.AllAreas))
+                        {
+                            nmAgent.SetDestination(navHit.position);
+                        }
+
+                        yield return new WaitForSeconds(5f);
+                        animatorEnemy.SetBool("Walk", false);
+                        nmAgent.isStopped = true;
                     }
                 }
             }
@@ -166,10 +170,27 @@ public class CNormalEnemy : MonoBehaviour, IHittable
             yield return null; // 매 프레임 상태를 확인
         }
 
-        // IDLE 상태를 벗어날 때, 에이전트를 멈추고 목표를 초기화
+        // IDLE 상태를 떠날 때 에이전트를 멈추고 목표를 초기화
         nmAgent.isStopped = true;
         nmAgent.SetDestination(transform.position);
+    }
 
+    private IEnumerator ToggleWalkAnimation()
+    {
+        while (true)
+        {
+            // Walk 애니메이션 상태를 반전
+            bool currentState = animatorEnemy.GetBool("Walk");
+            animatorEnemy.SetBool("Walk", !currentState);
+            if (Random.value < 0.5f)
+            {
+                // KickFoot 애니메이션 트리거
+                animatorEnemy.SetTrigger("KickFoot");
+                yield return new WaitForSeconds(1f);
+            }
+            // 5초 대기
+            yield return new WaitForSeconds(5f);
+        }
     }
 
 
@@ -251,8 +272,7 @@ public class CNormalEnemy : MonoBehaviour, IHittable
     }
     #endregion
 
-
-
+    public float randomOffset = 0.1f; // ±0.1 단위로 랜덤 오프셋 추가
     // 발사체 발사 메서드
     public void ShootBullet()
     {
@@ -260,11 +280,20 @@ public class CNormalEnemy : MonoBehaviour, IHittable
         bullet.transform.position = bulletSpawnPoint.position;
         bullet.transform.rotation = Quaternion.identity;
 
+        // 목표물 위치에 랜덤 오프셋 추가
+        Vector3 randomTargetPosition = target.position;
+        randomTargetPosition.x += Random.Range(-randomOffset, randomOffset);
+        randomTargetPosition.y += Random.Range(-randomOffset, randomOffset);
+        randomTargetPosition.z += Random.Range(-randomOffset, randomOffset);
+
+        // 총알 방향 계산
+        Vector3 direction = (randomTargetPosition - bulletSpawnPoint.position).normalized;
+
         Rigidbody rb = bullet.GetComponent<Rigidbody>();
-        rb.velocity = (target.position - bulletSpawnPoint.position).normalized * bulletSpeed;
+        rb.velocity = direction * bulletSpeed;
 
         CBullet bulletScript = bullet.GetComponent<CBullet>();
-        bulletScript.Initialize(damage, bulletPool); // Initialize with BulletPool
+        bulletScript.Initialize(damage, bulletPool);
     }
 
     // 맞았을 시 메서드
@@ -384,17 +413,27 @@ public class CNormalEnemy : MonoBehaviour, IHittable
         if (hideHpBarCoroutine != null)
         {
             StopCoroutine(hideHpBarCoroutine);
+            hideHpBarCoroutine = null; // 코루틴 참조를 초기화합니다.
         }
 
-        hpBarCanvas.SetActive(true);
-        hideHpBarCoroutine = StartCoroutine(HideHpBarAfterDelay(3f)); 
+        // HP 바가 파괴되었는지 확인합니다.
+        if (hpBarCanvas != null)
+        {
+            hpBarCanvas.SetActive(true);
+            hideHpBarCoroutine = StartCoroutine(HideHpBarAfterDelay(3f));
+        }
     }
 
     // 일정 시간 후 HP 바 숨기기 코루틴
     private IEnumerator HideHpBarAfterDelay(float delay)
     {
         yield return new WaitForSeconds(delay);
-        hpBarCanvas.SetActive(false);
+
+        // HP 바가 파괴되었는지 확인합니다.
+        if (hpBarCanvas != null)
+        {
+            hpBarCanvas.SetActive(false);
+        }
     }
     #endregion
 }
