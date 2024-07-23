@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
 using UnityEngine.XR.Interaction.Toolkit.Inputs;
 
-public class CAmmoInteractable : XRGrabInteractable
+public class CAmmoBoxInteractable : XRGrabInteractable
 {
     #region private º¯¼ö
     [SerializeField]
@@ -23,10 +23,8 @@ public class CAmmoInteractable : XRGrabInteractable
     bool isGrab = false;
     #endregion
 
-    protected override void OnEnable()
+    private void Start()
     {
-        base.OnEnable();
-
         inputModalityManager = FindObjectOfType<XRInputModalityManager>();
 
         leftDirectController = inputModalityManager.leftController.GetComponentInChildren<XRDirectInteractor>();
@@ -37,14 +35,7 @@ public class CAmmoInteractable : XRGrabInteractable
 
     protected override void OnSelectEntering(SelectEnterEventArgs args)
     {
-        int weaponNumber = 0;
-
-        switch (args.interactableObject.transform.GetComponent<CAmmo>().EquipWeaponType)
-        {
-            case EWeapon.GEWEHR:
-                weaponNumber = 1;
-                break;
-        }
+        base.OnSelectEntering(args);
 
         if (args.interactorObject as XRDirectInteractor == leftDirectController || args.interactorObject as XRRayInteractor == leftRayController)
         {
@@ -53,7 +44,7 @@ public class CAmmoInteractable : XRGrabInteractable
                 leftHandAnimationController = inputModalityManager.leftController.GetComponentInChildren<CHandAnimationController>();
             }
 
-            leftHandAnimationController.ActionAnimation(weaponNumber + (int)EGrabPoint.AMMO);
+            leftHandAnimationController.ActionAnimation(args.interactableObject.transform.GetComponent<CAmmoBox>().ActionNumber);
             oNode.SetActive(false);
             isGrab = true;
         }
@@ -65,16 +56,16 @@ public class CAmmoInteractable : XRGrabInteractable
                 rightHandAnimationController = inputModalityManager.rightController.GetComponentInChildren<CHandAnimationController>();
             }
 
-            rightHandAnimationController.ActionAnimation(weaponNumber + (int)EGrabPoint.AMMO);
+            rightHandAnimationController.ActionAnimation(args.interactableObject.transform.GetComponent<CAmmoBox>().ActionNumber);
             oNode.SetActive(false);
             isGrab = true;
         }
-
-        base.OnSelectEntering(args);
     }
 
     protected override void OnSelectExiting(SelectExitEventArgs args)
     {
+        base.OnSelectExiting(args);
+
         if (args.interactorObject as XRDirectInteractor == leftDirectController || args.interactorObject as XRRayInteractor == leftRayController)
         {
             leftHandAnimationController.ActionAnimation(0);
@@ -86,13 +77,12 @@ public class CAmmoInteractable : XRGrabInteractable
             rightHandAnimationController.ActionAnimation(0);
             isGrab = false;
         }
-
-        base.OnSelectExiting(args);
     }
 
     protected override void OnHoverEntered(HoverEnterEventArgs args)
     {
         base.OnHoverEntered(args);
+
 
         if (isGrab)
         {

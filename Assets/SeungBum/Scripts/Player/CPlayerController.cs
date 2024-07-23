@@ -95,6 +95,13 @@ public class CPlayerController : MonoBehaviour
         }
 
 
+        if (playerStats.HP <= 0)
+        {
+            playerStats.DecreaseLife();
+            playerStatsUI.ChangeLifeCount(playerStats.Life, playerStats.MaxLife);
+        }
+
+
         if (weaponUI is null)
         {
             return;
@@ -104,12 +111,6 @@ public class CPlayerController : MonoBehaviour
         {
             weaponUI.ChangeHPCount(playerStats.HP);
             weaponUI.ChangeHPUIColor((playerStats.HP >= 4) ? Color.white : Color.red);
-        }
-
-
-        if (playerStats.HP <= 0)
-        {
-            playerStats.DecreaseLife();
         }
     }
 

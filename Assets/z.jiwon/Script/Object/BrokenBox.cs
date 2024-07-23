@@ -12,7 +12,8 @@ public class BrokenBox : MonoBehaviour
     {
         if (collision.gameObject.tag == "Floor" && isGrab)
         {
-
+            GetComponent<Rigidbody>().useGravity = false;
+            GetComponent<Rigidbody>().isKinematic = true;
             originulVersion.SetActive(false);
             fragmentedVersion.SetActive(true);
         }
