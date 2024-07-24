@@ -17,7 +17,6 @@ public class CWolfEnemy : MonoBehaviour, IHittable
     private GameObject hpBarCanvas; // 개별 HP 바 캔버스
     private Coroutine hideHpBarCoroutine;
 
-
     // 적 오브젝트 관련 변수
     public State state; // 현재 상태
     public float startingHealth; // 시작 체력
@@ -33,6 +32,7 @@ public class CWolfEnemy : MonoBehaviour, IHittable
     private bool canMove; // 추적가능여부
     private bool canWalk; // 걷기가능여부
     public CWolfEnemyAttack wolfEnemyAttack;
+    public GameObject soulPrefab; // 영혼 프리팹
 
     #endregion
 
@@ -196,19 +196,19 @@ public class CWolfEnemy : MonoBehaviour, IHittable
             transform.LookAt(target);
             // 플레이어를 계속 추적
             nmAgent.SetDestination(target.position);
-          
+
             // 남은 거리를 계산하여 공격 범위 내에 있는지 확인
             float distanceToTarget = Vector3.Distance(transform.position, target.position);
-          
+
             // 공격 범위 내에 들어오면 ATTACK 상태로 전환
             if (distanceToTarget <= attackRange)
             {
-                 nmAgent.isStopped = true;
-                 ChangeState(State.ATTACK);
-                 yield break; // ATTACK 상태로 전환 후 CHASE 코루틴 종료
+                nmAgent.isStopped = true;
+                ChangeState(State.ATTACK);
+                yield break; // ATTACK 상태로 전환 후 CHASE 코루틴 종료
             }
 
-             yield return null;
+            yield return null;
         }
     }
 
@@ -217,34 +217,34 @@ public class CWolfEnemy : MonoBehaviour, IHittable
     {
         canWalk = false;
         canMove = false;
-         while (state == State.ATTACK)
-         {
-             if (target == null)
-             {
-                 ChangeState(State.IDLE);
-                 yield break;
-             }
-         
-             // 남은 거리를 계산하여 공격 범위 내에 있는지 확인
-             float distanceToTarget = Vector3.Distance(transform.position, target.position);
-         
-             if (distanceToTarget <= attackRange)
-             {
-                 if (lastAttackTime + attackDelay <= Time.time)
-                 {
-                     animatorEnemy.SetTrigger("Attack");
-                     lastAttackTime = Time.time;
-                     yield return new WaitForSeconds(0.5f); // 공격 애니메이션 시간 대기
-                 }
-             }
-             else
-             {
-                 ChangeState(State.CHASE);
-                 yield break; // CHASE 상태로 전환 후 ATTACK 코루틴 종료
-             }
-         
-             yield return null;
-         }
+        while (state == State.ATTACK)
+        {
+            if (target == null)
+            {
+                ChangeState(State.IDLE);
+                yield break;
+            }
+
+            // 남은 거리를 계산하여 공격 범위 내에 있는지 확인
+            float distanceToTarget = Vector3.Distance(transform.position, target.position);
+
+            if (distanceToTarget <= attackRange)
+            {
+                if (lastAttackTime + attackDelay <= Time.time)
+                {
+                    animatorEnemy.SetTrigger("Attack");
+                    lastAttackTime = Time.time;
+                    yield return new WaitForSeconds(0.5f); // 공격 애니메이션 시간 대기
+                }
+            }
+            else
+            {
+                ChangeState(State.CHASE);
+                yield break; // CHASE 상태로 전환 후 ATTACK 코루틴 종료
+            }
+
+            yield return null;
+        }
     }
 
     // DIE 상태 코루틴
@@ -254,20 +254,24 @@ public class CWolfEnemy : MonoBehaviour, IHittable
         nmAgent.isStopped = true;
         Destroy(hpBarCanvas, 1f);
         HandleDeath();
+
+        // 1초 후에 영혼 생성 및 이동 시작
+        yield return new WaitForSeconds(1f);
+        for (int i = 0; i < 3; i++)
+        {
+            GameObject soul = Instantiate(soulPrefab, transform.position, Quaternion.identity);
+            StartCoroutine(MoveSoulToTarget(soul, target));
+        }
         yield return null;
     }
     #endregion
-
-
 
     void Update()
     {
         // 추적 대상의 존재 여부에 따라 다른 애니메이션 재생
         animatorEnemy.SetBool("CanMove", canMove);
-
         animatorEnemy.SetBool("CanWalk", canWalk);
     }
-
 
     public void Hit(float damage)
     {
@@ -293,7 +297,6 @@ public class CWolfEnemy : MonoBehaviour, IHittable
         }
 
         GameObject damageUI = damagePool.GetObject();
-
         health -= damage;
         CheckHp();
         if (damagePool != null)
@@ -315,7 +318,7 @@ public class CWolfEnemy : MonoBehaviour, IHittable
     {
         wolfEnemyAttack.StartAttack();
     }
-    
+
     public void endJumpAttack()
     {
         wolfEnemyAttack.EndAttack();
@@ -415,4 +418,31 @@ public class CWolfEnemy : MonoBehaviour, IHittable
         }
     }
     #endregion
+
+    // 영혼 이동 코루틴
+    private IEnumerator MoveSoulToTarget(GameObject soul, Transform target)
+    {
+        float fRandX = Random.Range(-2.0f, 2.0f) + transform.position.x;
+        float fRandY = Random.Range(1.5f, 3.0f);
+        float fRandZ = Random.Range(-2.0f, 2.0f) + transform.position.z;
+
+        Vector3 v3StartPosition = soul.transform.position;
+        Vector3 v3MiddlePosition = new Vector3(fRandX, fRandY, fRandZ);
+
+        float fTime = 0.0f;
+        float fDuration = 1f;
+
+        while (fTime <= fDuration)
+        {
+            Vector3 lerpPoint1 = Vector3.Lerp(v3StartPosition, v3MiddlePosition, fTime / fDuration);
+            Vector3 lerpPoint2 = Vector3.Lerp(v3MiddlePosition, target.position, fTime / fDuration);
+            soul.transform.position = Vector3.Lerp(lerpPoint1, lerpPoint2, fTime / fDuration);
+
+            fTime += Time.deltaTime;
+            yield return null;
+        }
+
+        soul.transform.position = target.position;
+        Destroy(soul);
+    }
 }
