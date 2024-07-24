@@ -64,9 +64,11 @@ public class CBossSnowBall : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+
         // 플레이어와 충돌 처리
         if (other.CompareTag("Player"))
         {
+            CEnemySoundManager.Instance.PlayBossSound(10, transform.position);
             if (other.TryGetComponent<CPlayerController>(out CPlayerController playerController))
             {
                 // 플레이어에게 데미지 적용
@@ -88,6 +90,7 @@ public class CBossSnowBall : MonoBehaviour
         // 벽이나 다른 오브젝트와 충돌 처리
         else if (other.CompareTag("Wall"))
         {
+            CEnemySoundManager.Instance.PlayBossSound(10, transform.position);
             // 충돌 시 파티클 효과 생성
             if (hitParticlePrefab != null)
             {

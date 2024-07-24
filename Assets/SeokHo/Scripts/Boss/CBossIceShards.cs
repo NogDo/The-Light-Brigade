@@ -5,7 +5,6 @@ using UnityEngine;
 public class CBossIceShards : MonoBehaviour
 {
     private Transform target;
-    private float damage; // 데미지 변수 추가
     public GameObject hitParticlePrefab; // 충돌 시 재생될 파티클 시스템 프리
 
     private void Start()
@@ -18,12 +17,6 @@ public class CBossIceShards : MonoBehaviour
     public void SetTarget(Transform targetTransform)
     {
         target = targetTransform;
-    }
-
-    // 데미지를 초기화하는 메서드
-    public void Initialize(float damage)
-    {
-        this.damage = damage;
     }
 
     void Update()
