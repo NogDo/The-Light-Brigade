@@ -25,6 +25,8 @@ public class SceneLoadManager : MonoBehaviour
         }
     }
 
+
+
     public GameObject player;
     public Dictionary<int, Transform> spawnPoints = new Dictionary<int, Transform>();
 
