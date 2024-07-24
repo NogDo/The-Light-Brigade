@@ -28,10 +28,10 @@ public class CBossEnemy : MonoBehaviour, IHittable
     public State state;  // 현재 상태
     public float startingHealth; // 시작 체력
     private float health; //  현재 체력
-    public float spearDamage; // 아이스 창 패턴 공격력
-    public float snowBallDamage; // 스노우 볼 패턴 공격력
-    public float iceShardDamage; // 얼음 조각 패턴 공격력
-    public float IceCircleShardsDamage; // 얼음 조각 패턴 공격력
+    private float spearDamage; // 아이스 창 패턴 공격력
+    private float snowBallDamage; // 스노우 볼 패턴 공격력
+    private float iceShardDamage; // 얼음 조각 패턴 공격력
+    private float IceCircleShardsDamage; // 얼음 조각 패턴 공격력
 
     public float attackRange; // 공격 사거리
     public Transform target; // 추적 대상
@@ -309,11 +309,11 @@ public class CBossEnemy : MonoBehaviour, IHittable
         CBossIceSpear iceSpearScript = iceSpear.GetComponent<CBossIceSpear>();
         if (iceSpearScript != null)
         {
+            spearDamage = Random.Range(7.0f, 9.0f);
             iceSpearScript.Initialize(spearDamage);
             iceSpearScript.SetTarget(target);
         }
     }
-
     public void SpearAttack()
     {
         iceSpear.Play("SpearAttack");
@@ -339,8 +339,9 @@ public class CBossEnemy : MonoBehaviour, IHittable
         CBossSnowBall snowBallScript = snowBall.GetComponent<CBossSnowBall>();
         if (snowBallScript != null)
         {
+            snowBallDamage = Random.Range(7.0f, 9.0f);
             snowBallScript.Initialize(snowBallDamage);
-            snowBallScript.SetTarget(target);
+            snowBallScript.SetTarget(target);   
         }
     }
 
@@ -371,10 +372,12 @@ public class CBossEnemy : MonoBehaviour, IHittable
         CBossHorizonIceShard iceShardScript = iceShard.GetComponent<CBossHorizonIceShard>();
         if (iceShardScript != null)
         {
+            iceShardDamage = Random.Range(4.0f, 6.0f);
             iceShardScript.Initialize(iceShardDamage);
             iceShardScript.SetTarget(targetPosition);
         }
     }
+
 
     // 4.공격 패턴 여러 얼음 투사체를 생성
     public void CreateIceShards()
@@ -396,7 +399,6 @@ public class CBossEnemy : MonoBehaviour, IHittable
         CBossIceShards IceShardsScript = IceShards.GetComponent<CBossIceShards>();
         if (IceShardsScript != null)
         {
-            IceShardsScript.Initialize(iceShardDamage);
             IceShardsScript.SetTarget(target);
         }
     }
@@ -424,6 +426,7 @@ public class CBossEnemy : MonoBehaviour, IHittable
         CBossCircleIceShards iceShardScript = iceCircleShardsPrefab.GetComponent<CBossCircleIceShards>();
         if (iceShardScript != null)
         {
+            IceCircleShardsDamage = Random.Range(4.0f, 6.0f);
             iceShardScript.Initialize(IceCircleShardsDamage);
             iceShardScript.SetTarget(targetPosition);
         }
@@ -466,6 +469,35 @@ public class CBossEnemy : MonoBehaviour, IHittable
         gameObject.SetActive(false);
 
         Destroy(gameObject, 2.0f); // 몇 초 후에 게임 오브젝트 파괴
+    }
+
+    #endregion
+
+    #region 사운드 관련
+
+    private void BossDodgeSound()
+    {
+        CEnemySoundManager.Instance.PlayBossSound(0, transform.position);
+    }
+    private void BossThrowShardSound()
+    {
+        CEnemySoundManager.Instance.PlayBossSound(1, transform.position);
+    }
+    private void BossSpearCreateSound()
+    {
+        CEnemySoundManager.Instance.PlayBossSound(4, transform.position);
+    }
+    private void BossSpearThrowSound()
+    {
+        CEnemySoundManager.Instance.PlayBossSound(5, transform.position);
+    }
+    private void BossSnowBallSound()
+    {
+        CEnemySoundManager.Instance.PlayBossSound(9, transform.position);
+    }
+    private void BossDeathSound()
+    {
+        CEnemySoundManager.Instance.PlayBossSound(11, transform.position);
     }
 
     #endregion

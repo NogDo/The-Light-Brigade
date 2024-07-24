@@ -56,6 +56,7 @@ public class CBossHorizonIceShard : MonoBehaviour
         {
             if (other.TryGetComponent<CPlayerController>(out CPlayerController playerController))
             {
+                CEnemySoundManager.Instance.PlayBossSound(2, transform.position);
                 // 플레이어에게 데미지 적용
                 playerController.Hit(damage);
 
@@ -73,6 +74,7 @@ public class CBossHorizonIceShard : MonoBehaviour
         // 벽 또는 다른 객체와의 충돌 처리
         else if (other.CompareTag("Wall"))
         {
+            CEnemySoundManager.Instance.PlayBossSound(3, transform.position);
             // 파티클 이펙트 생성
             if (hitParticlePrefab != null)
             {

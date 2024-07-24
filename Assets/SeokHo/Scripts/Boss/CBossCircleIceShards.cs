@@ -60,6 +60,7 @@ public class CBossCircleIceShards : MonoBehaviour
         // 플레이어와의 충돌 처리
         if (other.CompareTag("Player"))
         {
+            CEnemySoundManager.Instance.PlayBossSound(2, transform.position);
             if (other.TryGetComponent<CPlayerController>(out CPlayerController playerController))
             {
                 // 플레이어에게 데미지 적용
