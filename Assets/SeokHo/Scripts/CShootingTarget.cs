@@ -116,7 +116,7 @@ public class CShootingTarget : MonoBehaviour, IHittable
         animator.SetTrigger("Hit");
         rb.isKinematic = false;
         meshCollider.isTrigger = false;
-        Vector3 randomDirection = new Vector3(Random.Range(-1f, 0f), Random.Range(-1f, 1f), 0).normalized;
+        Vector3 randomDirection = new Vector3(Random.Range(-1.0f, 0.0f), Random.Range(-1.0f, 1.0f), 0.0f).normalized;
         float forceMagnitude = 300f;
         rb.AddForce(randomDirection * forceMagnitude);
 

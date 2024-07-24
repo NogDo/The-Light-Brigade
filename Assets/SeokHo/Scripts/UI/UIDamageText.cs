@@ -48,7 +48,7 @@ public class UIDamageText : MonoBehaviour
         float duration = 1f;
         float elapsedTime = 0f;
         Vector3 startPosition = transform.position;
-        Vector3 endPosition = startPosition + new Vector3(Random.Range(-1, 1f), 1, Random.Range(-1, 1f));
+        Vector3 endPosition = startPosition + new Vector3(Random.Range(-1.0f, 1.0f), 1.0f, Random.Range(-1.0f, 1.0f));
 
         while (elapsedTime < duration)
         {

@@ -8,6 +8,7 @@ public class CBossTriggerRelay : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        CEnemySoundManager.Instance.PlayBossSound(3, transform.position);
         parentScript.OnChildTriggerEnter(other);
     }
 }
