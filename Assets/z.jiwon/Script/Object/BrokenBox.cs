@@ -12,6 +12,8 @@ public class BrokenBox : MonoBehaviour
     {
         if (collision.gameObject.tag == "Floor" && isGrab)
         {
+            CPlayerSoundManager.Instance.PlaySoundOneShot(GetComponent<CAmmoBox>().SoundBreak);
+
             GetComponent<Rigidbody>().useGravity = false;
             GetComponent<Rigidbody>().isKinematic = true;
             originulVersion.SetActive(false);

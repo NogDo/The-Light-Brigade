@@ -37,7 +37,7 @@ public class CWolfEnemyAttack : MonoBehaviour
             // 플레이어 컨트롤러 정보 가져오기
             if (other.TryGetComponent<CPlayerController>(out CPlayerController playerController))
             {
-                wolfEnemy.damage = Random.Range(4, 6);
+                wolfEnemy.damage = Random.Range(4.0f, 6.0f);
                 float damage = wolfEnemy.damage;
                 // 플레이어에 피해를 입힘
                 playerController.Hit(damage);

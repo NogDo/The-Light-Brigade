@@ -10,10 +10,6 @@ public class UIPlayerStats : MonoBehaviour
     [SerializeField]
     TMP_Text tmpLife;
     [SerializeField]
-    TMP_Text tmpMoney;
-    [SerializeField]
-    TMP_Text tmpPray;
-    [SerializeField]
     TMP_Text tmpHP;
     [SerializeField]
     TMP_Text tmpSoul;
@@ -29,24 +25,6 @@ public class UIPlayerStats : MonoBehaviour
     public void ChangeLifeCount(int nowLifeCount, int maxLifeCount)
     {
         tmpLife.text = $"{nowLifeCount}/{maxLifeCount}";
-    }
-
-    /// <summary>
-    /// Player Stats UI의 Money Text 변경
-    /// </summary>
-    /// <param name="moneyCount">플레이어 소지금</param>
-    public void ChangeMoneyCount(int moneyCount)
-    {
-        tmpMoney.text = moneyCount.ToString();
-    }
-
-    /// <summary>
-    /// Player Stats UI의 Pray Text 변경
-    /// </summary>
-    /// <param name="isCoolTime">현재 Pray행동이 쿨타임인지</param>
-    public void ChangePrayState(bool isCoolTime)
-    {
-        tmpPray.text = isCoolTime ? "<color=red>준비</color>" : "<color=white>준비</color>";
     }
 
     /// <summary>

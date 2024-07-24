@@ -51,6 +51,7 @@ public class CBoltInteractable : XRGrabInteractable
         {
             animataedLeftHand.gameObject.SetActive(true);
             animataedLeftHand.ActionAnimation(weaponNumber + (int)EGrabPoint.BOLT);
+            CPlayerSoundManager.Instance.PlaySoundOneShot(weapon.SoundBoltGrab);
 
             if (leftControllerAnimation is null)
             {

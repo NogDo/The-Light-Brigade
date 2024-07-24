@@ -13,11 +13,12 @@ public class CWeaponController : MonoBehaviour
     ActionBasedController leftController;
     ActionBasedController rightController;
 
+    CHitExplosionParticlePool hitExplosionParticlePool;
+
     [SerializeField]
     UIWeapon weaponUI;
-    [SerializeField]
-    GameObject oHitParticlePrefab;
 
+    Vector3 modelStartPosition;
     bool isFireReady;
     #endregion
 
@@ -31,6 +32,7 @@ public class CWeaponController : MonoBehaviour
     void OnEnable()
     {
         grabInteractable = GetComponent<XRGrabInteractable>();
+        hitExplosionParticlePool = FindObjectOfType<CHitExplosionParticlePool>();
         weapon = GetComponent<CWeapon>();
         nowEquipAmmo = null;
 
@@ -40,6 +42,8 @@ public class CWeaponController : MonoBehaviour
         ammoSoketInteractor.selectExited.AddListener(RemoveAmmo);
 
         isFireReady = true;
+
+        modelStartPosition = modelTransform.localPosition;
     }
 
     void OnDisable()
@@ -114,6 +118,7 @@ public class CWeaponController : MonoBehaviour
 
         if (nowEquipAmmo is not null && nowEquipAmmo.BulletNowCount > 0)
         {
+            CPlayerSoundManager.Instance.PlaySoundOneShot(weapon.SoundShot);
             nowEquipAmmo.DecreaseBulltCount();
 
             weaponUI.ChangeBulletCount(nowEquipAmmo.BulletNowCount);
@@ -126,17 +131,20 @@ public class CWeaponController : MonoBehaviour
                 if (ray.transform.TryGetComponent<IHittable>(out IHittable hit))
                 {
                     hit.Hit(weapon.Damage);
+                    hitExplosionParticlePool.ActiveParticle(ray.point);
                 }
             }
 
             Recoil();
-            Haptic();
+            Haptic(0.5f);
             ActiveMuzzleParticle();
             StartCoroutine(ShootCoolTime());
         }
 
         else
         {
+            CPlayerSoundManager.Instance.PlaySoundOneShot(weapon.SoundEmptyShot);
+
             RaycastHit ray;
 
             if (Physics.Raycast(bulletTransform.position, bulletTransform.forward, out ray, float.MaxValue))
@@ -144,14 +152,11 @@ public class CWeaponController : MonoBehaviour
                 if (ray.transform.TryGetComponent<IHittable>(out IHittable hit))
                 {
                     hit.Hit(weapon.Damage);
-                    GameObject particle = Instantiate(oHitParticlePrefab, ray.transform.position, Quaternion.identity);
+                    hitExplosionParticlePool.ActiveParticle(ray.point);
                 }
             }
 
-            Recoil();
-            Haptic();
-            ActiveMuzzleParticle();
-            StartCoroutine(ShootCoolTime());
+            Haptic(0.1f);
             Debug.LogFormat("남은 총알 개수가 없다!");
         }
     }
@@ -172,18 +177,18 @@ public class CWeaponController : MonoBehaviour
     /// <summary>
     /// 컨트롤러를 진동시키기 위한 메서드
     /// </summary>
-    public void Haptic()
+    public void Haptic(float duration)
     {
         if (leftController is not null)
         {
             Debug.Log("왼쪽 손 진동 발생!");
-            leftController.SendHapticImpulse(0.8f, 0.5f);
+            leftController.SendHapticImpulse(0.8f, duration);
         }
 
         if (rightController is not null)
         {
             Debug.Log("오른쪽 손 진동 발생!");
-            rightController.SendHapticImpulse(0.8f, 0.5f);
+            rightController.SendHapticImpulse(0.8f, duration);
         }
     }
 
@@ -213,6 +218,8 @@ public class CWeaponController : MonoBehaviour
     {
         if (nowEquipAmmo is not null)
         {
+            CPlayerSoundManager.Instance.PlaySoundOneShot(weapon.SoundReload);
+
             weapon.Reload(nowEquipAmmo.BulletNowCount);
 
             weaponUI.ChangeBulletCount(nowEquipAmmo.BulletNowCount);
@@ -242,7 +249,7 @@ public class CWeaponController : MonoBehaviour
     IEnumerator RecoilStart()
     {
         float fStartTime = 0.0f;
-        while (fStartTime <= 0.05f)
+        while (fStartTime <= weapon.RecoilTime)
         {
             modelTransform.Translate(Vector3.forward * -3.0f * Time.deltaTime);
             modelTransform.Rotate(Vector3.right * -60.0f * Time.deltaTime);
@@ -253,7 +260,7 @@ public class CWeaponController : MonoBehaviour
         }
 
         fStartTime = 0.0f;
-        while (fStartTime <= 0.05f)
+        while (fStartTime <= weapon.RecoilTime)
         {
             modelTransform.Translate(Vector3.forward * 3.0f * Time.deltaTime);
             modelTransform.Rotate(Vector3.right * 60.0f * Time.deltaTime);
@@ -263,7 +270,7 @@ public class CWeaponController : MonoBehaviour
             yield return null;
         }
 
-        modelTransform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
+        modelTransform.SetLocalPositionAndRotation(modelStartPosition, Quaternion.identity);
     }
 
     /// <summary>

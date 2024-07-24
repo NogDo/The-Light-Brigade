@@ -51,6 +51,9 @@ public class CBossIceSpear : MonoBehaviour
         {
             if (other.TryGetComponent<CPlayerController>(out CPlayerController playerController))
             {
+                CEnemySoundManager.Instance.PlayBossSound(6, transform.position);
+                CEnemySoundManager.Instance.PlayBossSound(7, transform.position);
+                CEnemySoundManager.Instance.PlayBossSound(8, transform.position);
                 // 플레이어에게 데미지 적용
                 playerController.Hit(damage);
 
@@ -73,6 +76,8 @@ public class CBossIceSpear : MonoBehaviour
             // 비 플레이어 객체와 충돌 시 파티클 이펙트 재생
             if (hitParticlePrefab != null)
             {
+                CEnemySoundManager.Instance.PlayBossSound(7, transform.position);
+                CEnemySoundManager.Instance.PlayBossSound(8, transform.position);
                 Vector3 particlePosition = transform.position;
                 particlePosition.y -= 1; // y축 위치를 -1로 조정
                 GameObject particleEffect = Instantiate(hitParticlePrefab, particlePosition, Quaternion.identity);

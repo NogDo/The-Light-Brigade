@@ -12,10 +12,14 @@ public enum EWeapon
 public class CWeapon : CInteractable
 {
     #region protected º¯¼ö
+    [SerializeField]
+    protected List<AudioClip> soundEffect;
+
     protected EWeapon weaponType;
 
     protected float fShootCoolTime;
     protected float fDamage;
+    protected float fRecoilTime;
     protected int nBulletMaxCount;
     protected int nBulletNowCount;
     #endregion
@@ -97,6 +101,105 @@ public class CWeapon : CInteractable
         get
         {
             return fShootCoolTime;
+        }
+    }
+
+    /// <summary>
+    /// ÃÑ±âÀÇ ¹Ýµ¿ÀÌ µ¿ÀÛµÇ´Â ½Ã°£
+    /// </summary>
+    public float RecoilTime
+    {
+        get
+        {
+            return fRecoilTime;
+        }
+    }
+
+    /// <summary>
+    /// ÃÑ ½î´Â ¼Ò¸®
+    /// </summary>
+    public AudioClip SoundShot
+    {
+        get
+        {
+            return soundEffect[0];
+        }
+    }
+
+    /// <summary>
+    /// ÃÑ Trigger Grab ¼Ò¸®
+    /// </summary>
+    public AudioClip SoundTriggerGrab
+    {
+        get
+        {
+            return soundEffect[1];
+        }
+    }
+
+    /// <summary>
+    /// ÃÑ Barrel Grab ¼Ò¸®
+    /// </summary>
+    public AudioClip SoundBarrelGrab
+    {
+        get
+        {
+            return soundEffect[2];
+        }
+    }
+
+    /// <summary>
+    /// ÃÑ Bolt Grab ¼Ò¸®
+    /// </summary>
+    public AudioClip SoundBoltGrab
+    {
+        get
+        {
+            return soundEffect[3];
+        }
+    }
+
+    /// <summary>
+    /// ÀåÀü ¼Ò¸®
+    /// </summary>
+    public AudioClip SoundReload
+    {
+        get
+        {
+            return soundEffect[4];
+        }
+    }
+
+    /// <summary>
+    /// ÃÑ¾Ë ¾øÀ» ¶§ ½î´Â ¼Ò¸®
+    /// </summary>
+    public AudioClip SoundEmptyShot
+    {
+        get
+        {
+            return soundEffect[5];
+        }
+    }
+
+    /// <summary>
+    /// ÅºÃ¢ In ¼Ò¸®
+    /// </summary>
+    public AudioClip SoundAmmoInSound
+    {
+        get
+        {
+            return soundEffect[6];
+        }
+    }
+
+    /// <summary>
+    /// ÅºÃ¢ Out ¼Ò¸®
+    /// </summary>
+    public AudioClip SoundAmmoOutSound
+    {
+        get
+        {
+            return soundEffect[7];
         }
     }
 

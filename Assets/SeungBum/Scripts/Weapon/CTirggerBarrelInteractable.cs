@@ -62,6 +62,7 @@ public class CTirggerBarrelInteractable : XRGrabInteractable
         {
             animataedLeftHand.gameObject.SetActive(true);
             animataedLeftHand.ActionAnimation(weaponNumber + (int)EGrabPoint.BARREL);
+            CPlayerSoundManager.Instance.PlaySoundOneShot(args.interactableObject.transform.GetComponent<CWeapon>().SoundBarrelGrab);
 
             if (leftControllerAnimation is null)
             {
@@ -80,6 +81,7 @@ public class CTirggerBarrelInteractable : XRGrabInteractable
         {
             animataedRightHand.gameObject.SetActive(true);
             animataedRightHand.ActionAnimation(weaponNumber + (int)EGrabPoint.TRIGGER);
+            CPlayerSoundManager.Instance.PlaySoundOneShot(args.interactableObject.transform.GetComponent<CWeapon>().SoundTriggerGrab);
 
             if (rightControllerAnimation is null)
             {

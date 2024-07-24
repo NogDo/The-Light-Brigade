@@ -7,14 +7,11 @@ public class CPlayerStats : MonoBehaviour
     #region private 변수
     int nMaxHP;
     int nHP;
-    int nMoney;
     int nSoul;
     int nMaxLife;
     int nLife;
     int nMaxAmmoCount;
     int nAmmoCount;
-    int nLevel;
-    float fExp;
     #endregion
 
     /// <summary>
@@ -36,17 +33,6 @@ public class CPlayerStats : MonoBehaviour
         get
         {
             return nHP;
-        }
-    }
-
-    /// <summary>
-    /// 플레이어 소지금
-    /// </summary>
-    public int Money
-    {
-        get
-        {
-            return nMoney;
         }
     }
 
@@ -84,17 +70,6 @@ public class CPlayerStats : MonoBehaviour
     }
 
     /// <summary>
-    /// 플레이어 레벨
-    /// </summary>
-    public int Level
-    {
-        get
-        {
-            return nLevel;
-        }
-    }
-
-    /// <summary>
     /// 플레이어가 보유할 수 있는 최대 탄창 개수
     /// </summary>
     public int MaxAmmo
@@ -116,29 +91,15 @@ public class CPlayerStats : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// 플레이어 경험치
-    /// </summary>
-    public float EXP
-    {
-        get
-        {
-            return fExp;
-        }
-    }
-
     void Start()
     {
         nMaxHP = 20;
         nHP = 20;
-        nMoney = 0;
         nSoul = 0;
         nMaxLife = 2;
         nLife = 2;
         nMaxAmmoCount = 10;
         nAmmoCount = 0;
-        nLevel = 0;
-        fExp = 0.0f;
     }
 
     /// <summary>
@@ -158,6 +119,24 @@ public class CPlayerStats : MonoBehaviour
         }
 
         nHP = hp;
+    }
+
+    /// <summary>
+    /// 플레이어 최대 체력을 변경한다.
+    /// </summary>
+    /// <param name="maxHp"></param>
+    public void ChangeMaxHP(int maxHp)
+    {
+        nMaxHP = maxHp;
+    }
+
+    /// <summary>
+    /// 플레이어 소울량을 변경한다
+    /// </summary>
+    /// <param name="soul"></param>
+    public void ChangeSoul(int soul)
+    {
+        nSoul = soul;
     }
 
     /// <summary>

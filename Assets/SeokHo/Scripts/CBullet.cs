@@ -83,6 +83,16 @@ public class CBullet : MonoBehaviour
                 bulletPool.ReturnBullet(gameObject);
             }
         }
+        else if(other.gameObject.CompareTag("Wall"))
+        {
+            if (!destroyed)
+            {
+                destroyed = true;
+                GameObject impactP = Instantiate(impactParticle, myTransform.position, Quaternion.identity);
+                Destroy(impactP, 5.0f);
+                bulletPool.ReturnBullet(gameObject);
+            }
+        }
     }
 
     private void OnDisable()
