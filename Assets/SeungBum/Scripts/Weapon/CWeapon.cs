@@ -204,6 +204,17 @@ public class CWeapon : CInteractable
     }
 
     /// <summary>
+    /// 총 놓는 소리(인벤토리 In이랑 똑같을듯?)
+    /// </summary>
+    public AudioClip SoundReleaseWeapon
+    {
+        get
+        {
+            return soundEffect[8];
+        }
+    }
+
+    /// <summary>
     /// 총기 재장전. 현재 BulletCount 수를 Max로 만든다.
     /// </summary>
     public void Reload(int nBulletCount)

@@ -122,6 +122,7 @@ public class CTirggerBarrelInteractable : XRGrabInteractable
         {
             animataedRightHand.ActionAnimation(0);
             animataedRightHand.gameObject.SetActive(false);
+            CPlayerSoundManager.Instance.PlaySoundOneShot(args.interactableObject.transform.GetComponent<CWeapon>().SoundReleaseWeapon);
 
             rightControllerAnimation.tfHandOffsetNode.gameObject.SetActive(true);
 

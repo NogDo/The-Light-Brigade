@@ -11,6 +11,8 @@ namespace UnityEngine.XR.Content.Interaction
         [SerializeField]
         [Tooltip("The required keys to interact with this socket.")]
         Lock m_Lock;
+        [SerializeField]
+        Transform tfWeapon;
 
         /// <summary>
         /// The required keys to interact with this socket.
@@ -39,6 +41,14 @@ namespace UnityEngine.XR.Content.Interaction
 
             var keyChain = interactable.transform.GetComponent<IKeychain>();
             return m_Lock.CanUnlock(keyChain);
+        }
+
+
+        protected override void OnSelectEntered(SelectEnterEventArgs args)
+        {
+            base.OnSelectEntered(args);
+
+            args.interactableObject.transform.SetParent(tfWeapon);
         }
     }
 }

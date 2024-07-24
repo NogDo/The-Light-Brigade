@@ -100,8 +100,7 @@ public class CPlayerController : MonoBehaviour
 
         if (playerStats.HP <= 0)
         {
-            playerStats.DecreaseLife();
-            playerStatsUI.ChangeLifeCount(playerStats.Life, playerStats.MaxLife);
+            PlayerDie();
         }
 
 
@@ -210,5 +209,27 @@ public class CPlayerController : MonoBehaviour
         yield return new WaitForSeconds(10.0f);
 
         Heal(5 - playerStats.HP);
+    }
+
+    /// <summary>
+    /// 플레이어가 죽었을 때 실행되는 메서드
+    /// </summary>
+    void PlayerDie()
+    {
+        playerStats.DecreaseLife();
+        playerStatsUI.ChangeLifeCount(playerStats.Life, playerStats.MaxLife);
+
+        playerStats.ChangeHP(playerStats.MaxHP);
+        PlayerStatsUI.ChangeHPText(playerStats.HP, playerStats.MaxHP);
+
+        if (playerStats.Life > 0)
+        {
+            SceneLoadManager.Instance.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        }
+
+        else
+        {
+            SceneLoadManager.Instance.LoadScene(1);
+        }
     }
 }
