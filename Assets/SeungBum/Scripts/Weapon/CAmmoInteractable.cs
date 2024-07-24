@@ -57,6 +57,7 @@ public class CAmmoInteractable : XRGrabInteractable
                 leftHandAnimationController = inputModalityManager.leftController.GetComponentInChildren<CHandAnimationController>();
             }
 
+            CPlayerSoundManager.Instance.PlaySoundOneShot(GetComponent<CAmmo>().SoundGrab);
             leftHandAnimationController.ActionAnimation(weaponNumber + (int)EGrabPoint.AMMO);
             oNode.SetActive(false);
             isGrab = true;
@@ -69,6 +70,7 @@ public class CAmmoInteractable : XRGrabInteractable
                 rightHandAnimationController = inputModalityManager.rightController.GetComponentInChildren<CHandAnimationController>();
             }
 
+            CPlayerSoundManager.Instance.PlaySoundOneShot(GetComponent<CAmmo>().SoundGrab);
             rightHandAnimationController.ActionAnimation(weaponNumber + (int)EGrabPoint.AMMO);
             oNode.SetActive(false);
             isGrab = true;
@@ -81,12 +83,14 @@ public class CAmmoInteractable : XRGrabInteractable
     {
         if (args.interactorObject as XRDirectInteractor == leftDirectController || args.interactorObject as XRRayInteractor == leftRayController)
         {
+            CPlayerSoundManager.Instance.PlaySoundOneShot(GetComponent<CAmmo>().SoundRelease);
             leftHandAnimationController.ActionAnimation(0);
             isGrab = false;
         }
 
         else if (args.interactorObject as XRDirectInteractor == rightDirectController || args.interactorObject as XRRayInteractor == rightRayController)
         {
+            CPlayerSoundManager.Instance.PlaySoundOneShot(GetComponent<CAmmo>().SoundRelease);
             rightHandAnimationController.ActionAnimation(0);
             isGrab = false;
         }

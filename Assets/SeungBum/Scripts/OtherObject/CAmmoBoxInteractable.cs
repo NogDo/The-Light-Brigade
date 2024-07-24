@@ -44,6 +44,7 @@ public class CAmmoBoxInteractable : XRGrabInteractable
                 leftHandAnimationController = inputModalityManager.leftController.GetComponentInChildren<CHandAnimationController>();
             }
 
+            CPlayerSoundManager.Instance.PlaySoundOneShot(GetComponent<CAmmoBox>().SoundGrab);
             leftHandAnimationController.ActionAnimation(args.interactableObject.transform.GetComponent<CAmmoBox>().ActionNumber);
             oNode.SetActive(false);
             isGrab = true;
@@ -56,6 +57,7 @@ public class CAmmoBoxInteractable : XRGrabInteractable
                 rightHandAnimationController = inputModalityManager.rightController.GetComponentInChildren<CHandAnimationController>();
             }
 
+            CPlayerSoundManager.Instance.PlaySoundOneShot(GetComponent<CAmmoBox>().SoundGrab);
             rightHandAnimationController.ActionAnimation(args.interactableObject.transform.GetComponent<CAmmoBox>().ActionNumber);
             oNode.SetActive(false);
             isGrab = true;

@@ -122,6 +122,24 @@ public class CPlayerStats : MonoBehaviour
     }
 
     /// <summary>
+    /// 플레이어 최대 체력을 변경한다.
+    /// </summary>
+    /// <param name="maxHp"></param>
+    public void ChangeMaxHP(int maxHp)
+    {
+        nMaxHP = maxHp;
+    }
+
+    /// <summary>
+    /// 플레이어 소울량을 변경한다
+    /// </summary>
+    /// <param name="soul"></param>
+    public void ChangeSoul(int soul)
+    {
+        nSoul = soul;
+    }
+
+    /// <summary>
     /// 플레이어 목숨을 하나 없앤다.
     /// </summary>
     public void DecreaseLife()

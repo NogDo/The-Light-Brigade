@@ -14,11 +14,11 @@ public class CWeaponController : MonoBehaviour
     ActionBasedController rightController;
 
     CHitExplosionParticlePool hitExplosionParticlePool;
-    CPlayerSoundManager playerSoundManager;
 
     [SerializeField]
     UIWeapon weaponUI;
 
+    Vector3 modelStartPosition;
     bool isFireReady;
     #endregion
 
@@ -33,7 +33,6 @@ public class CWeaponController : MonoBehaviour
     {
         grabInteractable = GetComponent<XRGrabInteractable>();
         hitExplosionParticlePool = FindObjectOfType<CHitExplosionParticlePool>();
-        playerSoundManager = FindObjectOfType<CPlayerSoundManager>();
         weapon = GetComponent<CWeapon>();
         nowEquipAmmo = null;
 
@@ -43,6 +42,8 @@ public class CWeaponController : MonoBehaviour
         ammoSoketInteractor.selectExited.AddListener(RemoveAmmo);
 
         isFireReady = true;
+
+        modelStartPosition = modelTransform.localPosition;
     }
 
     void OnDisable()
@@ -117,7 +118,7 @@ public class CWeaponController : MonoBehaviour
 
         if (nowEquipAmmo is not null && nowEquipAmmo.BulletNowCount > 0)
         {
-            playerSoundManager.PlaySoundOneShot(weapon.SoundShot);
+            CPlayerSoundManager.Instance.PlaySoundOneShot(weapon.SoundShot);
             nowEquipAmmo.DecreaseBulltCount();
 
             weaponUI.ChangeBulletCount(nowEquipAmmo.BulletNowCount);
@@ -142,7 +143,7 @@ public class CWeaponController : MonoBehaviour
 
         else
         {
-            playerSoundManager.PlaySoundOneShot(weapon.SoundEmptyShot);
+            CPlayerSoundManager.Instance.PlaySoundOneShot(weapon.SoundEmptyShot);
 
             RaycastHit ray;
 
@@ -217,7 +218,7 @@ public class CWeaponController : MonoBehaviour
     {
         if (nowEquipAmmo is not null)
         {
-            playerSoundManager.PlaySoundOneShot(weapon.SoundReload);
+            CPlayerSoundManager.Instance.PlaySoundOneShot(weapon.SoundReload);
 
             weapon.Reload(nowEquipAmmo.BulletNowCount);
 
@@ -269,7 +270,7 @@ public class CWeaponController : MonoBehaviour
             yield return null;
         }
 
-        modelTransform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
+        modelTransform.SetLocalPositionAndRotation(modelStartPosition, Quaternion.identity);
     }
 
     /// <summary>

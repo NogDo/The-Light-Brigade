@@ -7,11 +7,35 @@ public class CAmmo : MonoBehaviour
     #region protected 변수
     [SerializeField]
     protected GameObject[] oBullets;
+    [SerializeField]
+    protected List<AudioClip> soundEffect;
 
     protected EWeapon equipWeaponType;
     protected int nBulletMaxCount;
     protected int nBulletNowCount;
     #endregion
+
+    /// <summary>
+    /// 탄창 잡는 소리
+    /// </summary>
+    public AudioClip SoundGrab
+    {
+        get
+        {
+            return soundEffect[0];
+        }
+    }
+
+    /// <summary>
+    /// 탄창 놓는 소리
+    /// </summary>
+    public AudioClip SoundRelease
+    {
+        get
+        {
+            return soundEffect[1];
+        }
+    }
 
     /// <summary>
     /// 현재 Ammo를 착용할 수 있는 Weapon의 타입

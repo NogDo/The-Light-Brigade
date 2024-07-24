@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.XR.Interaction.Toolkit;
 
 public class CPlayerController : MonoBehaviour
@@ -11,6 +12,8 @@ public class CPlayerController : MonoBehaviour
     ActionBasedController leftController;
     [SerializeField]
     GameObject oTunnelingVignette;
+    [SerializeField]
+    AudioClip hitSound;
 
     CPlayerStats playerStats;
     UIWeapon weaponUI;
@@ -77,6 +80,8 @@ public class CPlayerController : MonoBehaviour
     /// </summary>
     public void Hit(float damage)
     {
+        CPlayerSoundManager.Instance.PlaySoundOneShot(hitSound);
+
         playerStats.ChangeHP(playerStats.HP - (int)damage);
         playerStatsUI.ChangeHPText(playerStats.HP, playerStats.MaxHP);
 
@@ -136,6 +141,38 @@ public class CPlayerController : MonoBehaviour
             weaponUI.ChangeHPCount(playerStats.HP);
             weaponUI.ChangeHPUIColor((playerStats.HP >= 4) ? Color.white : Color.red);
         }
+    }
+
+    /// <summary>
+    /// 플레이어 최대 체력을 증가시킨다.
+    /// </summary>
+    /// <param name="amount">증가시킬 체력량</param>
+    public void IncreaseMaxHP(int amount)
+    {
+        playerStats.ChangeMaxHP(playerStats.MaxHP + amount);
+        playerStats.ChangeHP(playerStats.HP + amount);
+        PlayerStatsUI.ChangeHPText(playerStats.HP, playerStats.MaxHP);
+
+        if (weaponUI is null)
+        {
+            return;
+        }
+
+        else
+        {
+            weaponUI.ChangeHPCount(playerStats.HP);
+            weaponUI.ChangeHPUIColor((playerStats.HP >= 4) ? Color.white : Color.red);
+        }
+    }
+
+    /// <summary>
+    /// 플레이어 소울 소지량을 증가시키고, UI Text를 바꾸는 메서드
+    /// </summary>
+    /// <param name="soul">소울 획득량</param>
+    public void AddSoul(int soul)
+    {
+        playerStats.ChangeSoul(playerStats.Soul + soul);
+        playerStatsUI.ChangeSoulText(playerStats.Soul);
     }
 
     /// <summary>
