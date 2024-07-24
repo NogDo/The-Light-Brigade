@@ -4,8 +4,19 @@ using UnityEngine;
 
 public class ScenePlayer : MonoBehaviour
 {
+    ScenePlayer instance;
+
     void Awake()
     {
-        DontDestroyOnLoad(this.gameObject);
+        if (instance is null)
+        {
+            instance = this;
+            DontDestroyOnLoad(this.gameObject);
+        }
+
+        else
+        {
+            Destroy(this);
+        }
     }
 }

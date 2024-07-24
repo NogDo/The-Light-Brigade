@@ -111,7 +111,14 @@ public class SceneLoadManager : MonoBehaviour
         if (player != null && spawnPoints.ContainsKey(sceneIndex))
         {
             player.transform.position = spawnPoints[sceneIndex].position;
+
+            for (int i = 0; i < player.transform.childCount; i++)
+            {
+                player.transform.GetChild(i).transform.localPosition = Vector3.zero;
+            }
+
         }
+
         else
         {
             Debug.LogError("Player or SpawnPoint for scene " + sceneIndex + " is not set correctly.");
