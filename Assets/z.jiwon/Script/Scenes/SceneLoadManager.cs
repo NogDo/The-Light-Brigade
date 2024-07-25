@@ -39,7 +39,7 @@ public class SceneLoadManager : MonoBehaviour
         {
             return;
         }
-           
+
 
         string spawnPointName = "";
         switch (scene.buildIndex)
@@ -102,7 +102,7 @@ public class SceneLoadManager : MonoBehaviour
         }
         else
         {
-            
+
         }
     }
 

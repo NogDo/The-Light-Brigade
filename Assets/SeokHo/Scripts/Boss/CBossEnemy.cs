@@ -1,7 +1,7 @@
 using System.Collections;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
 
 public enum State
 {
@@ -200,7 +200,6 @@ public class CBossEnemy : MonoBehaviour, IHittable
 
         // 피해 처리
         GameObject damageUI = damagePool.GetObject();
-        damage = Random.Range(5, 10);
         health -= damage;
         CheckHp();
 
@@ -341,7 +340,7 @@ public class CBossEnemy : MonoBehaviour, IHittable
         {
             snowBallDamage = Random.Range(7.0f, 9.0f);
             snowBallScript.Initialize(snowBallDamage);
-            snowBallScript.SetTarget(target);   
+            snowBallScript.SetTarget(target);
         }
     }
 
@@ -510,7 +509,7 @@ public class CBossEnemy : MonoBehaviour, IHittable
             enemyHpbar.value = health;
         }
     }
-    
+
     private void SetHpBar()
     {
         health = startingHealth;
