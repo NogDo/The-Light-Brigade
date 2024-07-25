@@ -69,25 +69,4 @@ public class CEnemySoundManager : MonoBehaviour
         // 사운드 재생 후 오디오 소스 오브젝트를 옵션에 따라 파괴
         Destroy(audioSource.gameObject, audioSource.clip.length);
     }
-
-
-
-
-
-
-    // 배경음악 사운드 클립 배열
-    public AudioClip[] backGroundSounds;
-
-    public void PlaybackGroundSound(int soundIndex)
-    {
-        // 사운드 인덱스가 배열 범위를 벗어나지 않도록 확인
-        if (soundIndex < 0 || soundIndex >= enemySounds.Length)
-        {
-            Debug.LogWarning("사운드 인덱스가 범위를 벗어났습니다");
-            return;
-        }
-
-        audioSourcePrefab.clip = backGroundSounds[soundIndex]; // 사운드 클립 할당
-        audioSourcePrefab.Play(); // 사운드 재생
-    }
 }

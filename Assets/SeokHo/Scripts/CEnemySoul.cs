@@ -18,7 +18,7 @@ public class CEnemySoul : MonoBehaviour
             CEnemySoundManager.Instance.PlayEnemySound(7, transform.position);
             if (other.TryGetComponent<CPlayerController>(out CPlayerController playerController))
             {
-                //playerController.AddSoul(soul);
+                playerController.AddSoul(soul);
             }
         }
     }
