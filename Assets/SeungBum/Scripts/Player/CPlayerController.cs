@@ -212,7 +212,10 @@ public class CPlayerController : MonoBehaviour
     {
         yield return new WaitForSeconds(10.0f);
 
-        Heal(5 - playerStats.HP);
+        if (playerStats.HP < 5)
+        {
+            Heal(5 - playerStats.HP);
+        }
     }
 
     /// <summary>
@@ -234,7 +237,7 @@ public class CPlayerController : MonoBehaviour
 
         else
         {
-            SceneLoadManager.Instance.LoadScene(1);
+            SceneLoadManager.Instance.LoadScene(0);
         }
     }
 }

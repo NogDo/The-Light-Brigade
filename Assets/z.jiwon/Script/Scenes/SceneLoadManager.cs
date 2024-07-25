@@ -36,7 +36,7 @@ public class SceneLoadManager : MonoBehaviour
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        if (scene.buildIndex == 0 || scene.buildIndex == 1)
+        if (scene.buildIndex == 0 || scene.buildIndex == 6)
         {
             return;
         }
@@ -44,19 +44,19 @@ public class SceneLoadManager : MonoBehaviour
         string spawnPointName = "";
         switch (scene.buildIndex)
         {
-            case 2:
+            case 1:
                 spawnPointName = "spawnPointTp";
                 break;
-            case 3:
+            case 2:
                 spawnPointName = "spawnPointM1";
                 break;
-            case 4:
+            case 3:
                 spawnPointName = "spawnPointM2";
                 break;
-            case 5:
+            case 4:
                 spawnPointName = "spawnPointSt";
                 break;
-            case 6:
+            case 5:
                 spawnPointName = "spawnPointBs";
                 break;
         }
