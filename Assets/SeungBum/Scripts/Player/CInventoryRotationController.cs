@@ -12,9 +12,10 @@ public class CInventoryRotationController : MonoBehaviour
 
     void LateUpdate()
     {
-        Quaternion cameraRotation = Quaternion.identity;
-        cameraRotation.y = tfMainCamera.localRotation.y;
+        Quaternion cameraRotation = tfMainCamera.rotation;
+        cameraRotation.x = 0.0f;
+        cameraRotation.z = 0.0f;
 
-        transform.localRotation = cameraRotation;
+        transform.rotation = cameraRotation;
     }
 }

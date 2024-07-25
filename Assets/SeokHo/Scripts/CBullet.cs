@@ -83,7 +83,7 @@ public class CBullet : MonoBehaviour
                 bulletPool.ReturnBullet(gameObject);
             }
         }
-        else if(other.gameObject.CompareTag("Wall"))
+        else if(other.gameObject.CompareTag("Untagged"))
         {
             if (!destroyed)
             {
