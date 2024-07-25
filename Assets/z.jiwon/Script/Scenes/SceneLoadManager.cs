@@ -13,6 +13,7 @@ public class SceneLoadManager : MonoBehaviour
 
     public GameObject player;
     public Dictionary<int, Transform> spawnPoints = new Dictionary<int, Transform>();
+    public Image loadingCircle;
 
     private void Awake()
     {
@@ -35,11 +36,11 @@ public class SceneLoadManager : MonoBehaviour
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
+        // 씬 0과 씬 1은 스폰 포인트가 필요 없으므로 처리하지 않습니다.
         if (scene.buildIndex == 0 || scene.buildIndex == 1)
         {
             return;
         }
-
 
         string spawnPointName = "";
         switch (scene.buildIndex)
@@ -65,11 +66,11 @@ public class SceneLoadManager : MonoBehaviour
         if (spawnPointGO != null)
         {
             spawnPoints[scene.buildIndex] = spawnPointGO.transform;
-            UpdatePlayerPosition(scene.buildIndex); // 위치 업데이트 호출을 여기로 이동
+            UpdatePlayerPosition(scene.buildIndex);
         }
         else
         {
-            Debug.LogError("Spawn point not found for scene " + scene.buildIndex);
+            
         }
     }
 
@@ -83,27 +84,23 @@ public class SceneLoadManager : MonoBehaviour
         AsyncOperation loadLoadingScene = SceneManager.LoadSceneAsync("LoadingScene", LoadSceneMode.Additive);
         yield return new WaitUntil(() => loadLoadingScene.isDone);
 
-        // 로딩 씬이 제대로 로드되었는지 확인
         if (!SceneManager.GetSceneByName("LoadingScene").isLoaded)
         {
             Debug.LogError("Loading scene failed to load");
-            yield break;  // 로딩 씬 로드 실패 시 코루틴 종료
+            yield break;
         }
 
         AsyncOperation sceneLoad = SceneManager.LoadSceneAsync(index);
+        while (!sceneLoad.isDone)
+        {
+            float progress = Mathf.Clamp01(sceneLoad.progress / 0.9f);  // Adjust progress to scale from 0 to 1
+            loadingCircle.fillAmount = progress;  // 원형 프로그래스 바 업데이트
+            yield return null;
+        }
         yield return new WaitUntil(() => sceneLoad.isDone);
 
-        // 로딩 씬 언로드 - 씬이 실제로 로드된 것을 확인한 후 언로드 시도
-        Scene loadedScene = SceneManager.GetSceneByName("LoadingScene");
-        if (loadedScene.isLoaded)
-        {
-            AsyncOperation unloadOperation = SceneManager.UnloadSceneAsync(loadedScene);
-            yield return new WaitUntil(() => unloadOperation.isDone);
-        }
-        else
-        {
-
-        }
+        AsyncOperation unloadOperation = SceneManager.UnloadSceneAsync("LoadingScene");
+        yield return new WaitUntil(() => unloadOperation.isDone);
     }
 
     private void UpdatePlayerPosition(int sceneIndex)
@@ -111,17 +108,10 @@ public class SceneLoadManager : MonoBehaviour
         if (player != null && spawnPoints.ContainsKey(sceneIndex))
         {
             player.transform.position = spawnPoints[sceneIndex].position;
-
-            for (int i = 0; i < player.transform.childCount; i++)
-            {
-                player.transform.GetChild(i).transform.localPosition = Vector3.zero;
-            }
-
         }
-
         else
         {
-            Debug.LogError("Player or SpawnPoint for scene " + sceneIndex + " is not set correctly.");
+            
         }
     }
 }
