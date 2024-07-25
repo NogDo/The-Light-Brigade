@@ -228,7 +228,7 @@ public class CBossEnemy : MonoBehaviour, IHittable
             if (!hasMovedToPosition)
             {
                 // 이동할 목표 위치 설정 (예: 보스의 현재 위치에서 약간 떨어진 위치)
-                moveToPosition = transform.position + new Vector3(0, 3f, -5f); // 예시 위치
+                moveToPosition = transform.position + new Vector3(0, 3f, 7f); // 예시 위치
                 StartCoroutine(MoveToPosition());
             }
             else
