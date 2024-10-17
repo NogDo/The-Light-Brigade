@@ -19,23 +19,4 @@ public class CWeaponActionNumberChangeControl : MonoBehaviour
 
     public EGrabPoint grabPointType;
     #endregion
-
-    void OnTriggerEnter(Collider other)
-    {
-        if (other.CompareTag("Hand"))
-        {
-            if (weapon.GetComponent<CTirggerBarrelInteractable>().interactorsSelecting.Count > 0)
-            {
-                if (grabPointType != EGrabPoint.TRIGGER)
-                {
-                    weapon.ActionNumber = (int)weapon.WeaponType + (int)grabPointType;
-                }
-            }
-
-            else
-            {
-                weapon.ActionNumber = (int)weapon.WeaponType;
-            }
-        }
-    }
 }

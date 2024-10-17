@@ -8,8 +8,7 @@ public enum EWeapon
     STG44 = 5
 }
 
-[System.Serializable]
-public class CWeapon : CInteractable
+public class CWeapon : MonoBehaviour
 {
     #region protected 변수
     [SerializeField]
@@ -20,36 +19,7 @@ public class CWeapon : CInteractable
     protected float fShootCoolTime;
     protected float fDamage;
     protected float fRecoilTime;
-    protected int nBulletMaxCount;
-    protected int nBulletNowCount;
     #endregion
-
-    /// <summary>
-    /// Interaction이 가능한 물체가 가지고 있는 고유 ActionNumber의 값 (Hand Animation을 정의하기 위한것), 현재 사용되지 않음
-    /// </summary>
-    public override int ActionNumber
-    {
-        get
-        {
-            return nActionNumber;
-        }
-
-        set
-        {
-            nActionNumber = value;
-        }
-    }
-
-    /// <summary>
-    /// 현재 남은 총알의 개수
-    /// </summary>
-    public int BulletCount
-    {
-        get
-        {
-            return nBulletNowCount;
-        }
-    }
 
     /// <summary>
     /// 총의 데미지
@@ -212,29 +182,5 @@ public class CWeapon : CInteractable
         {
             return soundEffect[8];
         }
-    }
-
-    /// <summary>
-    /// 총기 재장전. 현재 BulletCount 수를 Max로 만든다.
-    /// </summary>
-    public void Reload(int nBulletCount)
-    {
-        if (nBulletCount >= nBulletMaxCount)
-        {
-            nBulletNowCount = nBulletMaxCount;
-        }
-
-        else
-        {
-            nBulletNowCount = nBulletCount;
-        }
-    }
-
-    /// <summary>
-    /// 현재 총알의 남은 개수를 줄인다. Fire 됐을 때 실행
-    /// </summary>
-    public void DecreaseBulletCount()
-    {
-        nBulletNowCount--;
     }
 }

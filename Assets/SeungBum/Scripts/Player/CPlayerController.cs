@@ -43,7 +43,6 @@ public class CPlayerController : MonoBehaviour
         playerStats = GetComponent<CPlayerStats>();
 
         isInitModel = false;
-        Debug.Log(playerStats.HP);
     }
 
     void LateUpdate()
@@ -83,11 +82,8 @@ public class CPlayerController : MonoBehaviour
     {
         CPlayerSoundManager.Instance.PlaySoundOneShot(hitSound);
 
-        Debug.Log(playerStats.HP);
         playerStats.ChangeHP(playerStats.HP - (int)damage);
         playerStatsUI.ChangeHPText(playerStats.HP, playerStats.MaxHP);
-        Debug.Log(damage);
-        Debug.Log(playerStats.MaxHP);
 
         oTunnelingVignette.SetActive(true);
         if (playerStats.HP > 4)

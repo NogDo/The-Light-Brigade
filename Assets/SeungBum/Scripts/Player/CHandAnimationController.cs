@@ -31,14 +31,6 @@ public class CHandAnimationController : MonoBehaviour
 
     void Start()
     {
-        //rayInteractor = transform.parent.GetComponentInChildren<XRRayInteractor>();
-        //rayInteractor.selectEntered.AddListener(OnSelectEntered);
-        //rayInteractor.selectExited.AddListener(OnSelectExited);
-
-        //directInteractor = transform.parent.GetComponentInChildren<XRDirectInteractor>();
-        //directInteractor.selectEntered.AddListener(OnSelectEntered);
-        //directInteractor.selectExited.AddListener(OnSelectExited);
-
         if (!isAnimatedHand)
         {
             triggerAction = transform.parent.GetComponent<ActionBasedController>().activateAction;
@@ -59,8 +51,6 @@ public class CHandAnimationController : MonoBehaviour
     void OnSelectEntered(SelectEnterEventArgs args)
     {
         ResetPose();
-
-        //animator.SetInteger("Action", args.interactableObject.transform.GetComponent<CInteractable>().ActionNumber);
     }
 
     /// <summary>
@@ -70,8 +60,6 @@ public class CHandAnimationController : MonoBehaviour
     void OnSelectExited(SelectExitEventArgs args)
     {
         InitPose();
-
-        //animator.SetInteger("Action", 0);
     }
 
     /// <summary>

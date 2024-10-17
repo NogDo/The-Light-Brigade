@@ -119,11 +119,11 @@ public class CWeaponController : MonoBehaviour
         if (nowEquipAmmo is not null && nowEquipAmmo.BulletNowCount > 0)
         {
             CPlayerSoundManager.Instance.PlaySoundOneShot(weapon.SoundShot);
+
             nowEquipAmmo.DecreaseBulltCount();
 
             weaponUI.ChangeBulletCount(nowEquipAmmo.BulletNowCount);
             weaponUI.ChangeBulletUIColor((nowEquipAmmo.RemainBulletPercent >= 0.4f) ? Color.white : Color.red);
-            Debug.LogFormat("총알 발사! 남은 총알 개수 : {0}", nowEquipAmmo.BulletNowCount);
 
             RaycastHit ray;
             if (Physics.Raycast(bulletTransform.position, bulletTransform.forward, out ray, float.MaxValue))
@@ -144,20 +144,7 @@ public class CWeaponController : MonoBehaviour
         else
         {
             CPlayerSoundManager.Instance.PlaySoundOneShot(weapon.SoundEmptyShot);
-
-            RaycastHit ray;
-
-            if (Physics.Raycast(bulletTransform.position, bulletTransform.forward, out ray, float.MaxValue))
-            {
-                if (ray.transform.TryGetComponent<IHittable>(out IHittable hit))
-                {
-                    hit.Hit(weapon.Damage);
-                    hitExplosionParticlePool.ActiveParticle(ray.point);
-                }
-            }
-
             Haptic(0.1f);
-            Debug.LogFormat("남은 총알 개수가 없다!");
         }
     }
 
@@ -181,13 +168,11 @@ public class CWeaponController : MonoBehaviour
     {
         if (leftController is not null)
         {
-            Debug.Log("왼쪽 손 진동 발생!");
             leftController.SendHapticImpulse(0.8f, duration);
         }
 
         if (rightController is not null)
         {
-            Debug.Log("오른쪽 손 진동 발생!");
             rightController.SendHapticImpulse(0.8f, duration);
         }
     }
@@ -220,16 +205,8 @@ public class CWeaponController : MonoBehaviour
         {
             CPlayerSoundManager.Instance.PlaySoundOneShot(weapon.SoundReload);
 
-            weapon.Reload(nowEquipAmmo.BulletNowCount);
-
             weaponUI.ChangeBulletCount(nowEquipAmmo.BulletNowCount);
             weaponUI.ChangeBulletUIColor((nowEquipAmmo.RemainBulletPercent >= 0.4f) ? Color.white : Color.red);
-            Debug.LogFormat("장전 완료 : {0}", nowEquipAmmo.BulletNowCount);
-        }
-
-        else
-        {
-            Debug.LogFormat("장전 실패");
         }
     }
 
@@ -238,7 +215,6 @@ public class CWeaponController : MonoBehaviour
     /// </summary>
     public void Recoil()
     {
-        Debug.Log("Recoil Work");
         StartCoroutine(RecoilStart());
     }
 
