@@ -50,6 +50,7 @@ public class CAmmoInteractable : XRGrabInteractable
                 break;
         }
 
+
         if (args.interactorObject as XRDirectInteractor == leftDirectController || args.interactorObject as XRRayInteractor == leftRayController)
         {
             if (leftHandAnimationController is null)
